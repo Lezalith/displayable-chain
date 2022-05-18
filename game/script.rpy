@@ -26,6 +26,9 @@
             self.st = 0
             self.stOffset = 0
 
+            # Chains the images if True.
+            self.chain = True
+
         def idle(self):
 
             self.currentChild = At( self.idleChild, self.idleTrans )
@@ -56,33 +59,38 @@
         def render(self, width, height, st, at):
 
             self.st = st
-            st = st - self.stOffset
 
-            # Check if moving forward
-            if self.state == 1:
+            # Togglable for test purposes
+            if self.chain:
 
-                # TODO: This should be the same int as in self.state 3, but for some reason is not.
-                # Check if trans finished
-                if st > 1.6:
+                st = st - self.stOffset
 
-                    self.attack()
+                # Check if moving forward
+                if self.state == 1:
 
-            elif self.state == 2:
+                    # TODO: This should be the same int as in self.state 3, but for some reason is not.
+                    # TODO: Because of how long I wait after the spawn!
+                    # Check if trans finished
+                    if st > 1.8:
 
-                # Check if trans finished
-                if st > 0.8:
+                        self.attack()
 
-                    self.moveBack()
+                elif self.state == 2:
 
-            elif self.state == 3:
+                    # Check if trans finished
+                    if st > 0.8:
 
-                # Check if trans finished
-                if st > 1.3:
+                        self.moveBack()
 
-                    self.idle()
+                elif self.state == 3:
 
-            if not self.state == 0:
-                renpy.redraw(self, 0)
+                    # Check if trans finished
+                    if st > 1.3:
+
+                        self.idle()
+
+                if not self.state == 0:
+                    renpy.redraw(self, 0)
 
             t = self.currentChild
             render = renpy.Render(width, height)
@@ -130,13 +138,21 @@ transform moveBackTrans():
 
 screen testScreen():
 
-    hbox:
-        spacing 20
+    vbox:
 
-        textbutton "Spawn" action Function(testDisp.idle)
-        textbutton "Move to attack" action Function(testDisp.moveForward)
-        textbutton "Attack" action Function(testDisp.attack)
-        textbutton "Move back" action Function(testDisp.moveBack)
+        hbox:
+            spacing 20
+
+            textbutton "Spawn" action Function(testDisp.idle)
+            textbutton "Move to attack" action Function(testDisp.moveForward)
+            textbutton "Attack" action Function(testDisp.attack)
+            textbutton "Move back" action Function(testDisp.moveBack)
+
+        hbox:
+            spacing 20
+
+            textbutton "Toggle Chain" action ToggleVariable("testDisp.chain", true_value = True, false_value = False)
+            text "Chained: [testDisp.chain]"
 
     add testDisp
 
