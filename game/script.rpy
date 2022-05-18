@@ -23,8 +23,8 @@
             # 0 - idle, 1 - moving forward, 2 - attacking, 3 - moving back
             self.state = None
 
-            # self.st = 0
-            # self.stOffset = 0
+            self.st = 0
+            self.stOffset = 0
 
         def idle(self):
 
@@ -48,36 +48,41 @@
 
         def changeState(self, state):
 
+            self.stOffset = self.st
             self.state = state
 
             renpy.redraw(self, 0)
 
         def render(self, width, height, st, at):
 
-            # self.st = st
-            # st = st - self.stOffset
+            self.st = st
+            st = st - self.stOffset
 
-            # # Check if moving forward
-            # if self.state == 1:
+            # Check if moving forward
+            if self.state == 1:
 
-            #     # Check if trans finished
-            #     if st > 1.0:
+                # TODO: This should be the same int as in self.state 3, but for some reason is not.
+                # Check if trans finished
+                if st > 1.6:
 
-            #         self.attack()
+                    self.attack()
 
-            # elif self.state == 2:
+            elif self.state == 2:
 
-            #     # Check if trans finished
-            #     if st > 0.6:
+                # Check if trans finished
+                if st > 0.8:
 
-            #         self.moveBack()
+                    self.moveBack()
 
-            # elif self.state == 3:
+            elif self.state == 3:
 
-            #     # Check if trans finished
-            #     if st > 1.0:
+                # Check if trans finished
+                if st > 1.3:
 
-            #         self.idle()
+                    self.idle()
+
+            if not self.state == 0:
+                renpy.redraw(self, 0)
 
             t = self.currentChild
             render = renpy.Render(width, height)
