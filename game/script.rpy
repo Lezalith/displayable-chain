@@ -1,4 +1,5 @@
 ﻿init python:
+    from collections import namedtuple
 
     # Ren'Py actually has an Animation displayable, which this overrides,
     # but I really don't think we will miss the original.
@@ -7,13 +8,7 @@
     # image is the image of the state
     # transform is the transform of the state
     # duration is for how long the state sticks around - it has to be calculated manually, and is ignored ignored for idle state 
-    class Animation():
-
-        def __init__(self, image, transform, duration):
-
-            self.image = image
-            self.transform = transform
-            self.duration = duration
+    Animation = namedtuple("Animation", ("image", "transform", "duration"))
 
 
 # Transforms used by the AnimationChain
