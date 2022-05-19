@@ -91,41 +91,34 @@ init python:
             self.chain = True
 
         # Updates the child. Called when the currentAnimation is changed.
-        def updateChild(self):
+        def setAnimation(self, anim):
 
+            self.currentAnimation = anim
             self.currentChild = At( self.currentAnimation.image, self.currentAnimation.transform )
 
         # Sets the state to idle.
         def idle(self):
 
-            self.currentAnimation = self.idleAnimation
+            self.setAnimation( self.idleAnimation )
             self.changeState(0)
-
-            self.updateChild()
 
         # Sets the state to moving forward.
         def moveForward(self):
 
-            self.currentAnimation = self.moveForwardAnimation
+            self.setAnimation( self.moveForwardAnimation )
             self.changeState(1)
-
-            self.updateChild()
 
         # Sets the state to attacking.
         def attack(self):
 
-            self.currentAnimation = self.attackAnimation
+            self.setAnimation( self.attackAnimation )
             self.changeState(2)
-
-            self.updateChild()
 
         # Sets the state to moving back.
         def moveBack(self):
 
-            self.currentAnimation = self.moveBackAnimation
+            self.setAnimation( self.moveBackAnimation )
             self.changeState(3)
-
-            self.updateChild()
 
         # Changes the state and updates stOffset.
         def changeState(self, state):
