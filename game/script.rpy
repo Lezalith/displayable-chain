@@ -41,16 +41,16 @@ transform moveBackTrans():
 # Images definitions
 define stateSize = Transform( xysize = (200, 200) )
 
-define idleState = At( Solid("ff0"), stateSize)
-define moveState = At( Solid("f70"), stateSize)
-define attackState = At( Solid("f00"), stateSize)
+image idleState = At( Solid("ff0"), stateSize)
+image moveState = At( Solid("f70"), stateSize)
+image attackState = At( Solid("f00"), stateSize)
 
 
 # Animation definitions, put together from Transforms and Images defined above.
-define idle = Animation(idleState, idleTrans, 0)
-define moveForward = Animation(moveState, moveForwardTrans, 1.0)
-define attack = Animation(attackState, attackTrans, 0.6)
-define moveBack = Animation(moveState, moveBackTrans, 1.0)
+define idle = Animation("idleState", idleTrans, 0)
+define moveForward = Animation("moveState", moveForwardTrans, 1.0)
+define attack = Animation("attackState", attackTrans, 0.6)
+define moveBack = Animation("moveState", moveBackTrans, 1.0)
 
 
 init python:
