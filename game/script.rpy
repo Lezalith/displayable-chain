@@ -54,7 +54,7 @@
             self.stOffset = self.st
             self.state = state
 
-            renpy.redraw(self, 0)
+            # renpy.redraw(self, 0)
 
         def render(self, width, height, st, at):
 
@@ -68,10 +68,8 @@
                 # Check if moving forward
                 if self.state == 1:
 
-                    # TODO: This should be the same int as in self.state 3, but for some reason is not.
-                    # TODO: Because of how long I wait after the spawn!
                     # Check if trans finished
-                    if st > 1.8:
+                    if st > 1.3:
 
                         self.attack()
 
@@ -89,8 +87,7 @@
 
                         self.idle()
 
-                if not self.state == 0:
-                    renpy.redraw(self, 0)
+            renpy.redraw(self, 0)
 
             t = self.currentChild
             render = renpy.Render(width, height)
@@ -143,7 +140,7 @@ screen testScreen():
         hbox:
             spacing 20
 
-            textbutton "Spawn" action Function(testDisp.idle)
+            textbutton "Idle" action Function(testDisp.idle)
             textbutton "Move to attack" action Function(testDisp.moveForward)
             textbutton "Attack" action Function(testDisp.attack)
             textbutton "Move back" action Function(testDisp.moveBack)
