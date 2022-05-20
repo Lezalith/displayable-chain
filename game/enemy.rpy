@@ -11,17 +11,17 @@ transform idleTransEnemy():
 transform moveForwardTransEnemy():
 
     xalign 0.7 yalign 0.5
-    linear 1.0 xalign 0.3
+    linear 1.0 xalign 0.4
 
 transform attackTransEnemy():
 
-    xalign 0.3 yalign 0.5
+    xalign 0.4 yalign 0.5
     linear 0.3 xoffset -50
     linear 0.3 xoffset 0
 
 transform moveBackTransEnemy():
 
-    xalign 0.3 yalign 0.5
+    xalign 0.4 yalign 0.5
     linear 1.0 xalign 0.7
 
 
@@ -54,4 +54,4 @@ define moveForwardEnemy = Animation("moveStateEnemy", moveForwardTransEnemy, 1.0
 define attackEnemy = Animation("attackStateEnemy", attackTransEnemy, 0.6)
 define moveBackEnemy = Animation("moveStateEnemy", moveBackTransEnemy, 1.0)
 
-default enemyChain = AnimationChain( enterEnemy, idleEnemy, moveForwardEnemy, attackEnemy, moveBackEnemy )
+# default enemyChain = AnimationChain( enterEnemy, idleEnemy, moveForwardEnemy, attackEnemy, moveBackEnemy )

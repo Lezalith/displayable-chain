@@ -160,7 +160,51 @@ init -20 python:
 
 
 # Defines our CDD.
-default ourFancyChain = AnimationChain( enter, idle, moveForward, attack, moveBack )
+# default ourFancyChain = AnimationChain( enter, idle, moveForward, attack, moveBack )
+
+
+init -10 python:
+
+    class Manager(renpy.Displayable):
+
+        def __init__(self, ally, enemy, **kwargs):
+
+            # Pass additional properties on to the renpy.Displayable
+            # constructor.
+            super(Manager, self).__init__(**kwargs)
+
+            self.allyChain = ally
+            self.enemyChain = enemy
+
+        def start(self):
+
+            self.allyChain.spawn()
+            self.enemyChain.spawn()
+
+        def render(self, width, height, st, at):
+
+            render = renpy.Render(config.screen_width, config.screen_height)
+
+            t = Transform(child = self.allyChain)
+            render.place(t)
+            t = Transform(child = self.enemyChain)
+            render.place(t)
+
+            return render
+
+        def event(self, ev, x, y, st):
+
+            # Pass the event to our childen.
+            self.allyChain.event(ev, x, y, st)
+            self.enemyChain.event(ev, x, y, st)
+
+        def visit(self):
+            return [ self.allyChain, self.enemyChain ]
+
+
+# Defines the Manager.
+default m = Manager( ally = AnimationChain( enter, idle, moveForward, attack, moveBack ),
+                    enemy = AnimationChain( enterEnemy, idleEnemy, moveForwardEnemy, attackEnemy, moveBackEnemy ) )
 
 
 # Testing screen.
@@ -172,17 +216,19 @@ screen chainScreen():
         hbox:
             spacing 20
 
-            textbutton "Spawn" action Function(ourFancyChain.spawn)
-            textbutton "Attack" action Function(ourFancyChain.moveForward)
+            textbutton "Spawn" action Function(m.start), Function(m.start)
+            textbutton "Ally Attack" action Function(m.allyChain.moveForward)
+            textbutton "Enemy Attack" action Function(m.enemyChain.moveForward)
 
         # State info
         # Um... Why does this not update correctly?
-        text "Current state: [ourFancyChain.state]"
+        text "Current Ally state: [m.allyChain.state]"
+        text "Current Enemy state: [m.enemyChain.state]"
 
         # Add info on currentAnimation and/or currentChild?
 
     # adding our CDD.
-    add ourFancyChain
+    add m
 
 
 # The game starts here.

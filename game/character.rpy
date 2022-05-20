@@ -11,17 +11,17 @@ transform idleTrans():
 transform moveForwardTrans():
 
     xalign 0.3 yalign 0.5
-    linear 1.0 xalign 0.7
+    linear 1.0 xalign 0.6
 
 transform attackTrans():
 
-    xalign 0.7 yalign 0.5
+    xalign 0.6 yalign 0.5
     linear 0.3 xoffset 50
     linear 0.3 xoffset 0
 
 transform moveBackTrans():
 
-    xalign 0.7 yalign 0.5
+    xalign 0.6 yalign 0.5
     linear 1.0 xalign 0.3
 
 
