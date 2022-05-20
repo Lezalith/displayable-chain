@@ -25,7 +25,7 @@ init -20 python:
     # moveForward() starts the chain. 
     class AnimationChain(renpy.Displayable):
 
-        def __init__(self, enterAnimation, idleAnimation, moveForwardAnimation, attackAnimation, moveBackAnimation, **kwargs):
+        def __init__(self, enterAnimation, idleAnimation, moveForwardAnimation, attackAnimation, moveBackAnimation, hitAnimation, **kwargs):
 
             # Pass additional properties on to the renpy.Displayable
             # constructor.
@@ -33,7 +33,7 @@ init -20 python:
 
             # Current Animation.
             self.currentAnimation = None
-            # -1 - entering, 0 - idle, 1 - moving forward, 2 - attacking, 3 - moving back
+            # -1 - entering, 0 - idle, 1 - moving forward, 2 - attacking, 3 - moving back, 4 - hit
             self.state = None
 
             # Current displayable displayed.
@@ -45,6 +45,7 @@ init -20 python:
             self.moveForwardAnimation = moveForwardAnimation
             self.attackAnimation = attackAnimation
             self.moveBackAnimation = moveBackAnimation
+            self.hitAnimation = hitAnimation
 
             # Modifies st. This is how the chaining works.
             self.st = 0
@@ -84,6 +85,11 @@ init -20 python:
 
             self.setAnimation( self.moveBackAnimation )
             self.changeState(3)
+
+        def gotHit(self):
+
+            self.setAnimation( self.hitAnimation )
+            self.changeState(4)
 
         # Changes the state and updates stOffset.
         def changeState(self, state):
@@ -131,8 +137,8 @@ init -20 python:
                     # Enter the moving back state.
                     self.moveBack()
 
-            # Check if moving back
-            elif self.state == 3:
+            # Check if moving back OR got hit
+            elif self.state == 3 or self.state == 4:
 
                 # If the transform has finished
                 if st > self.currentAnimation.duration:
@@ -206,8 +212,8 @@ init -10 python:
 
 
 # Defines the Manager.
-default m = Manager( ally = AnimationChain( enter, idle, moveForward, attack, moveBack ),
-                    enemy = AnimationChain( enterEnemy, idleEnemy, moveForwardEnemy, attackEnemy, moveBackEnemy ) )
+default m = Manager( ally = AnimationChain( enter, idle, moveForward, attack, moveBack, hit ),
+                    enemy = AnimationChain( enterEnemy, idleEnemy, moveForwardEnemy, attackEnemy, moveBackEnemy, hitEnemy ) )
 
 
 # Testing screen.
@@ -222,6 +228,9 @@ screen chainScreen():
             textbutton "Spawn" action Function(m.start), Function(m.start)
             textbutton "Ally Attack" action Function(m.allyChain.moveForward)
             textbutton "Enemy Attack" action Function(m.enemyChain.moveForward)
+
+            textbutton "Ally Hit" action Function(m.allyChain.gotHit)
+            textbutton "Enemy Hit" action Function(m.enemyChain.gotHit)
 
         # State info
         text "Current Ally state: [m.allyChain.state]"

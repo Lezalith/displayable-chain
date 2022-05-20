@@ -24,6 +24,12 @@ transform moveBackTransEnemy():
     xalign 0.4 yalign 0.5
     linear 1.0 xalign 0.7
 
+transform hitTransEnemy():
+
+    xalign 0.7 yalign 0.5
+    linear 0.3 xoffset 60
+    linear 0.3 xoffset 0
+
 
 # Images definitions
 image enterStateEnemy = Composite(
@@ -46,6 +52,11 @@ image attackStateEnemy = Composite(
     (0, 0), Solid("8FBC8F"),
     (0, 0), Text("attacking", size = 40, color = "f00"))
 
+image hitStateEnemy = Composite(
+    (200, 200),
+    (0, 0), Solid("fc00fa"),
+    (0, 0), Text("hit", size = 40, color = "f00"))
+
 
 # Animation definitions, put together from Transforms and Images defined above.
 define enterEnemy = Animation("enterStateEnemy", enterTransEnemy, 1.0)
@@ -53,5 +64,4 @@ define idleEnemy = Animation("idleStateEnemy", idleTransEnemy, 0)
 define moveForwardEnemy = Animation("moveStateEnemy", moveForwardTransEnemy, 1.0)
 define attackEnemy = Animation("attackStateEnemy", attackTransEnemy, 0.6)
 define moveBackEnemy = Animation("moveStateEnemy", moveBackTransEnemy, 1.0)
-
-# default enemyChain = AnimationChain( enterEnemy, idleEnemy, moveForwardEnemy, attackEnemy, moveBackEnemy )
+define hitEnemy = Animation("hitStateEnemy", hitTransEnemy, 0.6)

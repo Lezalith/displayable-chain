@@ -24,6 +24,12 @@ transform moveBackTrans():
     xalign 0.6 yalign 0.5
     linear 1.0 xalign 0.3
 
+transform hitTrans():
+
+    xalign 0.3 yalign 0.5
+    linear 0.3 xoffset -60
+    linear 0.3 xoffset 0
+
 
 # Images definitions
 image enterState = Composite(
@@ -46,6 +52,11 @@ image attackState = Composite(
     (0, 0), Solid("f00"),
     (0, 0), Text("attacking", size = 40, color = "00f"))
 
+image hitState = Composite(
+    (200, 200),
+    (0, 0), Solid("C70039"),
+    (0, 0), Text("hit", size = 40, color = "00f"))
+
 
 # Animation definitions, put together from Transforms and Images defined above.
 define enter = Animation("enterState", enterTrans, 1.0)
@@ -53,3 +64,4 @@ define idle = Animation("idleState", idleTrans, 0)
 define moveForward = Animation("moveState", moveForwardTrans, 1.0)
 define attack = Animation("attackState", attackTrans, 0.6)
 define moveBack = Animation("moveState", moveBackTrans, 1.0)
+define hit = Animation("hitState", hitTrans, 0.6)
