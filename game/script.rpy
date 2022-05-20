@@ -90,6 +90,9 @@ init -20 python:
 
             self.stOffset = self.st
             self.state = state
+            print("State of {} is now {}.".format(self, self.state))
+
+            renpy.restart_interaction()
 
         # Displayable that is displayed. Called with every renpy.redraw.
         def render(self, width, height, st, at):
@@ -221,7 +224,6 @@ screen chainScreen():
             textbutton "Enemy Attack" action Function(m.enemyChain.moveForward)
 
         # State info
-        # Um... Why does this not update correctly?
         text "Current Ally state: [m.allyChain.state]"
         text "Current Enemy state: [m.enemyChain.state]"
 
