@@ -212,15 +212,16 @@ screen chainScreen():
 
     vbox:
 
-        # Buttons that change states
+        # Buttons
         hbox:
             spacing 20
 
             textbutton "Spawn" action Function(ourFancyChain.spawn)
-            textbutton "Idle" action Function(ourFancyChain.idle)
-            textbutton "Move to attack" action Function(ourFancyChain.moveForward)
-            textbutton "Attack" action Function(ourFancyChain.attack)
-            textbutton "Move back" action Function(ourFancyChain.moveBack)
+            textbutton "Attack" action Function(ourFancyChain.moveForward)
+
+        # State info
+        # Um... Why does this not update correctly?
+        text "Current state: [ourFancyChain.state]"
 
     # adding our CDD.
     add ourFancyChain
