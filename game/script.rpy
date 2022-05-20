@@ -94,10 +94,6 @@ init python:
             self.st = 0
             self.stOffset = 0
 
-            # Chains the images if True.
-            # At least for now, I'm keeping the ability to play out the states manually.
-            self.chain = True
-
         # Updates the child. Called when the currentAnimation is changed.
         def setAnimation(self, anim):
 
@@ -145,48 +141,45 @@ init python:
             # Records the st, for when stOffset needs to be updated.
             self.st = st
 
-            # Keeping the chain process togglable for now.
-            if self.chain:
+            # This makes st ignore time spent with previous states,
+            # making it seem like a changing a state shows a new image.
+            st = st - self.stOffset
 
-                # This makes st ignore time spent with previous states,
-                # making it seem like a changing a state shows a new image.
-                st = st - self.stOffset
+            # Check if entering
+            if self.state == -1:
 
-                # Check if entering
-                if self.state == -1:
+                # If the transform has finished
+                if st > self.currentAnimation.duration:
 
-                    # If the transform has finished
-                    if st > self.currentAnimation.duration:
+                    # Enter the idle state.
+                    self.idle()
 
-                        # Enter the idle state.
-                        self.idle()
+            # Check if moving forward
+            elif self.state == 1:
 
-                # Check if moving forward
-                elif self.state == 1:
+                # If the transform has finished
+                if st > self.currentAnimation.duration:
 
-                    # If the transform has finished
-                    if st > self.currentAnimation.duration:
+                    # Enter the attack state.
+                    self.attack()
 
-                        # Enter the attack state.
-                        self.attack()
+            # Check if attacking
+            elif self.state == 2:
 
-                # Check if attacking
-                elif self.state == 2:
+                # If the transform has finished
+                if st > self.currentAnimation.duration:
 
-                    # If the transform has finished
-                    if st > self.currentAnimation.duration:
+                    # Enter the moving back state.
+                    self.moveBack()
 
-                        # Enter the moving back state.
-                        self.moveBack()
+            # Check if moving back
+            elif self.state == 3:
 
-                # Check if moving back
-                elif self.state == 3:
+                # If the transform has finished
+                if st > self.currentAnimation.duration:
 
-                    # If the transform has finished
-                    if st > self.currentAnimation.duration:
-
-                        # Return back to the idle state.
-                        self.idle()
+                    # Return back to the idle state.
+                    self.idle()
 
             # Trigger this function again.
             # This could be under an "if not self.state == 0",
@@ -223,18 +216,11 @@ screen chainScreen():
         hbox:
             spacing 20
 
+            textbutton "Spawn" action Function(ourFancyChain.spawn)
             textbutton "Idle" action Function(ourFancyChain.idle)
             textbutton "Move to attack" action Function(ourFancyChain.moveForward)
             textbutton "Attack" action Function(ourFancyChain.attack)
             textbutton "Move back" action Function(ourFancyChain.moveBack)
-
-        # Button that toggles chaining on and off.
-        hbox:
-            spacing 20
-
-            textbutton "Spawn" action Function(ourFancyChain.spawn)
-            textbutton "Toggle Chain" action ToggleVariable("ourFancyChain.chain", true_value = True, false_value = False)
-            text "Chained: [ourFancyChain.chain]"
 
     # adding our CDD.
     add ourFancyChain
