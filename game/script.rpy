@@ -46,10 +46,25 @@ transform moveBackTrans():
 # Images definitions
 define stateSize = Transform( xysize = (200, 200) )
 
-image enterState = At( Solid("ffff7e"), stateSize)
-image idleState = At( Solid("ff0"), stateSize)
-image moveState = At( Solid("f70"), stateSize)
-image attackState = At( Solid("f00"), stateSize)
+image enterState = Composite(
+    (200, 200),
+    (0, 0), Solid("ffff7e"),
+    (0, 0), Text("entering", size = 40, color = "00f"))
+
+image idleState = Composite(
+    (200, 200),
+    (0, 0), Solid("ff0"),
+    (0, 0), Text("idle", size = 40, color = "00f"))
+
+image moveState = Composite(
+    (200, 200),
+    (0, 0), Solid("f70"),
+    (0, 0), Text("moving", size = 40, color = "00f"))
+
+image attackState = Composite(
+    (200, 200),
+    (0, 0), Solid("f00"),
+    (0, 0), Text("attacking", size = 40, color = "00f"))
 
 
 # Animation definitions, put together from Transforms and Images defined above.
