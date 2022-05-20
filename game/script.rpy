@@ -17,6 +17,11 @@
 
 
 # Transforms used by the AnimationChain
+transform enterTrans():
+
+    xalign 0.3 yalign 0.5 xoffset -600 alpha 0.0
+    linear 1.0 xoffset 0 alpha 1.0
+
 transform idleTrans():
 
     xalign 0.3 yalign 0.5
@@ -41,12 +46,14 @@ transform moveBackTrans():
 # Images definitions
 define stateSize = Transform( xysize = (200, 200) )
 
+image enterState = At( Solid("ffff7e"), stateSize)
 image idleState = At( Solid("ff0"), stateSize)
 image moveState = At( Solid("f70"), stateSize)
 image attackState = At( Solid("f00"), stateSize)
 
 
 # Animation definitions, put together from Transforms and Images defined above.
+define enter = Animation("enterState", enterTrans, 1.0)
 define idle = Animation("idleState", idleTrans, 0)
 define moveForward = Animation("moveState", moveForwardTrans, 1.0)
 define attack = Animation("attackState", attackTrans, 0.6)
@@ -62,7 +69,7 @@ init python:
     # moveForward() starts the chain. 
     class AnimationChain(renpy.Displayable):
 
-        def __init__(self, idleAnimation, moveForwardAnimation, attackAnimation, moveBackAnimation, **kwargs):
+        def __init__(self, enterAnimation, idleAnimation, moveForwardAnimation, attackAnimation, moveBackAnimation, **kwargs):
 
             # Pass additional properties on to the renpy.Displayable
             # constructor.
@@ -70,13 +77,14 @@ init python:
 
             # Current Animation.
             self.currentAnimation = None
-            # 0 - idle, 1 - moving forward, 2 - attacking, 3 - moving back
+            # -1 - entering, 0 - idle, 1 - moving forward, 2 - attacking, 3 - moving back
             self.state = None
 
             # Current displayable displayed.
             self.currentChild = Null()
 
             # All possible animations.
+            self.enterAnimation = enterAnimation
             self.idleAnimation = idleAnimation
             self.moveForwardAnimation = moveForwardAnimation
             self.attackAnimation = attackAnimation
@@ -95,6 +103,11 @@ init python:
 
             self.currentAnimation = anim
             self.currentChild = At( self.currentAnimation.image, self.currentAnimation.transform )
+
+        def spawn(self):
+
+            self.setAnimation( self.enterAnimation )
+            self.changeState(-1)
 
         # Sets the state to idle.
         def idle(self):
@@ -139,8 +152,17 @@ init python:
                 # making it seem like a changing a state shows a new image.
                 st = st - self.stOffset
 
+                # Check if entering
+                if self.state == -1:
+
+                    # If the transform has finished
+                    if st > self.currentAnimation.duration:
+
+                        # Enter the idle state.
+                        self.idle()
+
                 # Check if moving forward
-                if self.state == 1:
+                elif self.state == 1:
 
                     # If the transform has finished
                     if st > self.currentAnimation.duration:
@@ -189,7 +211,7 @@ init python:
 
 
 # Defines our CDD.
-default ourFancyChain = AnimationChain( idle, moveForward, attack, moveBack )
+default ourFancyChain = AnimationChain( enter, idle, moveForward, attack, moveBack )
 
 
 # Testing screen.
@@ -210,6 +232,7 @@ screen chainScreen():
         hbox:
             spacing 20
 
+            textbutton "Spawn" action Function(ourFancyChain.spawn)
             textbutton "Toggle Chain" action ToggleVariable("ourFancyChain.chain", true_value = True, false_value = False)
             text "Chained: [ourFancyChain.chain]"
 
