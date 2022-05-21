@@ -49,7 +49,7 @@ image moveStateEnemy = Composite(
 
 image attackStateEnemy = Composite(
     (200, 200),
-    (0, 0), Solid("8FBC8F"),
+    (0, 0), Solid("426f59"),
     (0, 0), Text("attacking", size = 40, color = "f00"))
 
 image hitStateEnemy = Composite(
