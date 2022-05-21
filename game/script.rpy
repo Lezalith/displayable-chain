@@ -47,6 +47,10 @@ init -20 python:
             self.moveBackAnimation = moveBackAnimation
             self.hitAnimation = hitAnimation
 
+            # Setting this to True starts the process of getting hit,
+            # and it is reset to False when the process ends.
+            self.hitReset = False
+
             # Modifies st. This is how the chaining works.
             self.st = 0
             self.stOffset = 0
@@ -100,6 +104,14 @@ init -20 python:
 
             renpy.restart_interaction()
 
+        def triggerHit(self):
+
+            # So that this doesn't keep on triggering.
+            self.hitReset = True
+
+            self.gotHit()
+
+
         # Displayable that is displayed. Called with every renpy.redraw.
         def render(self, width, height, st, at):
 
@@ -142,6 +154,9 @@ init -20 python:
 
                 # If the transform has finished
                 if st > self.currentAnimation.duration:
+
+                    # Reset the blocking var.
+                    self.hitReset = False
 
                     # Return back to the idle state.
                     self.idle()
@@ -190,7 +205,25 @@ init -10 python:
             self.allyChain.spawn()
             self.enemyChain.spawn()
 
+        def checkForCollision(self):
+
+            # Ally attacking
+            if self.allyChain.state == 2:
+
+                # So that the hit is only triggered once.
+                if not self.enemyChain.hitReset:
+                    self.enemyChain.triggerHit()
+
+            # Enemy attacking
+            elif self.enemyChain.state == 2:
+
+                # So that the hit is only triggered once.
+                if not self.allyChain.hitReset:
+                    self.allyChain.triggerHit()
+
         def render(self, width, height, st, at):
+
+            self.checkForCollision()
 
             render = renpy.Render(config.screen_width, config.screen_height)
 
@@ -221,16 +254,19 @@ screen chainScreen():
 
     vbox:
 
+        first_spacing 20
+
         # Buttons
         hbox:
+            first_spacing 100
             spacing 20
 
             textbutton "Spawn" action Function(m.start), Function(m.start)
             textbutton "Ally Attack" action Function(m.allyChain.moveForward)
             textbutton "Enemy Attack" action Function(m.enemyChain.moveForward)
 
-            textbutton "Ally Hit" action Function(m.allyChain.gotHit)
-            textbutton "Enemy Hit" action Function(m.enemyChain.gotHit)
+            # textbutton "Ally Hit" action Function(m.allyChain.gotHit)
+            # textbutton "Enemy Hit" action Function(m.enemyChain.gotHit)
 
         # State info
         text "Current Ally state: [m.allyChain.state]"
