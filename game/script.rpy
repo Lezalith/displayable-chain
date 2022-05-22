@@ -15,6 +15,10 @@
             self.transform = transform
             self.duration = duration
 
+        def getChild(self):
+
+            return At( self.image, self.transform )
+
 
 init -20 python:
 
@@ -59,7 +63,7 @@ init -20 python:
         def setAnimation(self, anim):
 
             self.currentAnimation = anim
-            self.currentChild = At( self.currentAnimation.image, self.currentAnimation.transform )
+            self.currentChild = self.currentAnimation.getChild()
 
         def spawn(self):
 
