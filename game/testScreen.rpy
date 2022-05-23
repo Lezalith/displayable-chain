@@ -10,13 +10,13 @@ screen chainScreen():
             first_spacing 100
             spacing 20
 
-            # textbutton "Spawn" action Function(m.start), Function(m.start)
-            # textbutton "Ally Attack" action Function(m.allyChain.moveForward)
-            # textbutton "Enemy Attack" action Function(m.enemyChain.moveForward)
+            textbutton "Spawn" action Function(m.start)
+            textbutton "Ally Attack" action Function(m.attack, "ally")
+            textbutton "Enemy Attack" action Function(m.attack, "enemy")
 
-            textbutton "Begin Spawn Chain" action Function(allySpawnChain.beginChain)
-            textbutton "Begin Attack Chain" action Function(allyAttackChain.beginChain)
-            textbutton "Begin Hit Chain" action Function(allyHitChain.beginChain)
+            # textbutton "Begin Spawn Chain" action Function(allySpawnChain.beginChain)
+            # textbutton "Begin Attack Chain" action Function(allyAttackChain.beginChain)
+            # textbutton "Begin Hit Chain" action Function(allyHitChain.beginChain)
 
             # textbutton "Ally Hit" action Function(m.allyChain.gotHit)
             # textbutton "Enemy Hit" action Function(m.enemyChain.gotHit)
@@ -27,7 +27,9 @@ screen chainScreen():
 
         # Add info on currentAnimation and/or currentChild?
 
+    add m
+
     # adding our CDD.
-    add allySpawnChain
-    add allyAttackChain
-    add allyHitChain
+    # add allySpawnChain
+    # add allyAttackChain
+    # add allyHitChain

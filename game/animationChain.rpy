@@ -84,10 +84,13 @@ init -20 python:
             self.setToBegin = False
 
             # When chain finishes, True makes it stay on the last animation, and False puts it back on self.defaultChild.
+            # TODO: How does return None in render function fit into this? 
             self.endOnLast = True
 
         # Makes chain begin on next render call.
         def beginChain(self):
+
+            print("Chain about to begin.")
 
             self.setToBegin = True
 
@@ -146,6 +149,8 @@ init -20 python:
 
         # Returns a displayable that is to be displayed. Called with every renpy.redraw.
         def render(self, width, height, st, at):
+
+            print("render. Current pointer: {}".format(self.pointer))
 
             # Render where we place stuff to show.
             render = renpy.Render(width, height)

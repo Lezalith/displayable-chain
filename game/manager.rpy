@@ -9,53 +9,75 @@ init -10 python:
             # constructor.
             super(Manager, self).__init__(**kwargs)
 
-            self.allyChain = ally
-            self.enemyChain = enemy
+            self.allyCharacter = ally
+            self.enemyCharacter = enemy
 
         def start(self):
 
-            self.allyChain.spawn()
-            self.enemyChain.spawn()
+            self.allyCharacter.enter()
+            self.enemyCharacter.enter()
 
-        def checkForCollision(self):
+            renpy.redraw(self, 0)
 
-            # Ally attacking
-            if self.allyChain.state == 2:
+        def getChildrenChains(self):
 
-                # So that the hit is only triggered once.
-                if not self.enemyChain.hitReset:
-                    self.enemyChain.triggerHit()
+            return [self.allyCharacter.getChain(), self.enemyCharacter.getChain()]
 
-            # Enemy attacking
-            elif self.enemyChain.state == 2:
+        # def checkForCollision(self):
 
-                # So that the hit is only triggered once.
-                if not self.allyChain.hitReset:
-                    self.allyChain.triggerHit()
+        #     # Ally attacking
+        #     if self.allyChain.state == 2:
+
+        #         # So that the hit is only triggered once.
+        #         if not self.enemyChain.hitReset:
+        #             self.enemyChain.triggerHit()
+
+        #     # Enemy attacking
+        #     elif self.enemyChain.state == 2:
+
+        #         # So that the hit is only triggered once.
+        #         if not self.allyChain.hitReset:
+        #             self.allyChain.triggerHit()
+
+        def attack(self, type):
+
+            # ally attacking
+            if type == "ally":
+                self.allyCharacter.attack()
+
+            # enemy attacking
+            elif type == "enemy":
+                self.enemyCharacter.attack()
 
         def render(self, width, height, st, at):
 
-            self.checkForCollision()
+            # self.checkForCollision()
 
             render = renpy.Render(config.screen_width, config.screen_height)
 
-            t = Transform(child = self.allyChain)
-            render.place(t)
-            t = Transform(child = self.enemyChain)
-            render.place(t)
+            for chain in self.getChildrenChains():
+
+                print("placing {}".format(chain))
+
+                t = Transform(child = chain)
+                render.place(t)
 
             return render
 
         def event(self, ev, x, y, st):
 
+            # self.allyChain.event(ev, x, y, st)
+            # self.enemyChain.event(ev, x, y, st)
+
             # Pass the event to our childen.
-            self.allyChain.event(ev, x, y, st)
-            self.enemyChain.event(ev, x, y, st)
+            for disp in self.getChildrenChains():
+
+                if disp is not None:
+                    disp.event(ev, x, y, st)
 
         def visit(self):
-            return [ self.allyChain, self.enemyChain ]
+            return self.getChildrenChains()
 
 
 # # Defines the Manager.
-# default m = Manager( ally = AnimationChain( enter, idle, moveForward, attack, moveBack, hit ),
-#                     enemy = AnimationChain( enterEnemy, idleEnemy, moveForwardEnemy, attackEnemy, moveBackEnemy, hitEnemy ) )
+default m = Manager( ally = allyCharacter, enemy = enemyCharacter )
