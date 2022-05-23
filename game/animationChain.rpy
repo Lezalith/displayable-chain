@@ -9,17 +9,18 @@ init -30 python:
     # duration is for how long the state sticks around - it has to be calculated manually, and is ignored ignored for idle state 
     class Animation():
 
-        def __init__(self, image, transform, duration):
+        def __init__(self, image, transform, duration, triggers = False):
 
             self.image = image
             self.transform = transform
             self.duration = duration
 
+            # Whether it triggers an animation.
+            self.triggers = triggers
+
             ##### TODO: NOT GONNA WORRY ABOUT THIS RIGHT NOW #####
             # Delay before this animation starts.
             self.delay = None
-            # What other animations this triggers, if any.
-            self.triggers = None
             # Delay before the animations this one triggers start.
             self.delays = None
             ######################################################
@@ -35,7 +36,7 @@ init -20 python:
     enter2 = Animation("enterState", enterTrans, 1.0)
     idle = Animation("idleState", idleTrans, 0)
     moveForward = Animation("moveState", moveForwardTrans, 1.0)
-    attack = Animation("attackState", attackTrans, 0.6)
+    attack = Animation("attackState", attackTrans, 0.6, triggers = True)
     moveBack = Animation("moveState", moveBackTrans, 1.0)
     hit = Animation("hitState", hitTrans, 0.6)
 
@@ -43,7 +44,7 @@ init -20 python:
     enterEnemy = Animation("enterStateEnemy", enterTransEnemy, 1.0)
     idleEnemy = Animation("idleStateEnemy", idleTransEnemy, 0)
     moveForwardEnemy = Animation("moveStateEnemy", moveForwardTransEnemy, 1.0)
-    attackEnemy = Animation("attackStateEnemy", attackTransEnemy, 0.6)
+    attackEnemy = Animation("attackStateEnemy", attackTransEnemy, 0.6, triggers = True)
     moveBackEnemy = Animation("moveStateEnemy", moveBackTransEnemy, 1.0)
     hitEnemy = Animation("hitStateEnemy", hitTransEnemy, 0.6)
 
@@ -146,6 +147,13 @@ init -20 python:
                     print("reseting")
                     self.reset()
 
+        def checkTrigger(self):
+
+            if self.currentAnimation is not None:
+
+                return self.currentAnimation.triggers
+
+            return False
 
         # Returns a displayable that is to be displayed. Called with every renpy.redraw.
         def render(self, width, height, st, at):

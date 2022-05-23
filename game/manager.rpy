@@ -12,6 +12,11 @@ init -10 python:
             self.allyCharacter = ally
             self.enemyCharacter = enemy
 
+            # currently attacking and attacked Character
+            # TODO: Make it a list, for example for AoE attacks
+            self.attacking = None
+            self.attacked = None
+
         def start(self):
 
             self.allyCharacter.enter()
@@ -44,14 +49,30 @@ init -10 python:
             # ally attacking
             if type == "ally":
                 self.allyCharacter.attack()
+                self.attacking = self.allyCharacter
+                self.attacked = self.enemyCharacter
 
             # enemy attacking
             elif type == "enemy":
                 self.enemyCharacter.attack()
+                self.attacking = self.enemyCharacter
+                self.attacked = self.allyCharacter
+
+        def checkHit(self):
+
+            if self.attacking.getChain().checkTrigger():
+
+                self.attacked.hit()
+
+                self.attacking = None
+                self.attacked = None
 
         def render(self, width, height, st, at):
 
             # self.checkForCollision()
+
+            if self.attacking is not None:
+                self.checkHit()
 
             render = renpy.Render(config.screen_width, config.screen_height)
 
