@@ -9,7 +9,7 @@ init -30 python:
     # duration is for how long the state sticks around - it has to be calculated manually, and is ignored ignored for idle state 
     class Animation():
 
-        def __init__(self, image, transform, duration, triggers = False):
+        def __init__(self, image, transform, duration, triggers = False, triggersDelay = 0.0):
 
             self.image = image
             self.transform = transform
@@ -17,12 +17,12 @@ init -30 python:
 
             # Whether it triggers an animation.
             self.triggers = triggers
+            # Delay before the animations this one triggers start.
+            self.triggersDelay = triggersDelay
 
             ##### TODO: NOT GONNA WORRY ABOUT THIS RIGHT NOW #####
             # Delay before this animation starts.
             self.delay = None
-            # Delay before the animations this one triggers start.
-            self.delays = None
             ######################################################
 
         def getChild(self):
@@ -36,7 +36,7 @@ init -20 python:
     enter2 = Animation("enterState", enterTrans, 1.0)
     idle = Animation("idleState", idleTrans, 0)
     moveForward = Animation("moveState", moveForwardTrans, 1.0)
-    attack = Animation("attackState", attackTrans, 0.6, triggers = True)
+    attack = Animation("attackState", attackTrans, 0.6, triggers = True, triggersDelay = 0.3)
     moveBack = Animation("moveState", moveBackTrans, 1.0)
     hit = Animation("hitState", hitTrans, 0.6)
 
@@ -151,7 +151,11 @@ init -20 python:
 
             if self.currentAnimation is not None:
 
-                return self.currentAnimation.triggers
+                if self.currentAnimation.triggers:
+
+                    if self.st - self.stOffset > self.currentAnimation.triggersDelay:
+
+                        return True
 
             return False
 

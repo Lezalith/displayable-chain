@@ -28,22 +28,6 @@ init -10 python:
 
             return [self.allyCharacter.getChain(), self.enemyCharacter.getChain()]
 
-        # def checkForCollision(self):
-
-        #     # Ally attacking
-        #     if self.allyChain.state == 2:
-
-        #         # So that the hit is only triggered once.
-        #         if not self.enemyChain.hitReset:
-        #             self.enemyChain.triggerHit()
-
-        #     # Enemy attacking
-        #     elif self.enemyChain.state == 2:
-
-        #         # So that the hit is only triggered once.
-        #         if not self.allyChain.hitReset:
-        #             self.allyChain.triggerHit()
-
         def attack(self, type):
 
             # ally attacking
@@ -69,8 +53,6 @@ init -10 python:
 
         def render(self, width, height, st, at):
 
-            # self.checkForCollision()
-
             if self.attacking is not None:
                 self.checkHit()
 
@@ -86,9 +68,6 @@ init -10 python:
             return render
 
         def event(self, ev, x, y, st):
-
-            # self.allyChain.event(ev, x, y, st)
-            # self.enemyChain.event(ev, x, y, st)
 
             # Pass the event to our childen.
             for disp in self.getChildrenChains():
