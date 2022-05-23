@@ -6,6 +6,17 @@ init -50:
         xalign 0.7 yalign 0.5 xoffset 600 alpha 0.0
         linear 1.0 xoffset 0 alpha 1.0
 
+    transform enterFancyTransEnemy():
+
+        xalign 0.7 yalign 0.5 yoffset -1000 alpha 0.0
+
+        parallel:
+            ease 1.2 yoffset 0
+
+        parallel:
+            pause 0.85
+            ease 0.35 alpha 1.0
+
     transform idleTransEnemy():
 
         xalign 0.7 yalign 0.5
@@ -69,3 +80,5 @@ init -25 python:
     attackEnemy = Animation("attackStateEnemy", attackTransEnemy, 0.6, trigger = True)
     moveBackEnemy = Animation("moveStateEnemy", moveBackTransEnemy, 1.0)
     hitEnemy = Animation("hitStateEnemy", hitTransEnemy, 0.6)
+
+    enterFancyEnemy = Animation("enterStateEnemy", enterFancyTransEnemy, 1.2)

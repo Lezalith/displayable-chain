@@ -192,6 +192,6 @@ default allyAttackHeavyChain = AnimationChain( moveForward, attackHeavy, moveBac
 
 
 # Chains used by Enemy Character.
-default enemySpawnChain = AnimationChain( enterEnemy, idleEnemy )
+default enemySpawnChain = AnimationChain( enterFancyEnemy, idleEnemy )
 default enemyAttackChain = AnimationChain( moveForwardEnemy, attackEnemy, moveBackEnemy, idleEnemy )
 default enemyHitChain = AnimationChain( hitEnemy, idleEnemy)
