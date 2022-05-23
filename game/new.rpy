@@ -9,7 +9,6 @@ init -30 python:
     # duration is for how long the state sticks around - it has to be calculated manually, and is ignored ignored for idle state 
     class Animation():
 
-        # triggers are one of "hit" or "attack", and trigger the corresponding animation in enemy hit.
         def __init__(self, image, transform, duration):
 
             self.image = image
@@ -28,6 +27,7 @@ init -30 python:
         def getChild(self):
 
             return At( self.image, self.transform )
+
 
 init -20 python:
 
@@ -48,14 +48,9 @@ init -20 python:
     hitEnemy = Animation("hitStateEnemy", hitTransEnemy, 0.6)
 
 
-
 init -20 python:
 
     # A chain of animations.
-    #
-    # It currently has four states - idle, moving forward, attacking and moving back.
-    # 
-    # moveForward() starts the chain. 
     class AnimationChain(renpy.Displayable):
 
         def __init__(self, *args, **kwargs):
@@ -66,9 +61,10 @@ init -20 python:
 
             self.animations = args
 
-            self.defaultChild = Null()
-
             # print(self.animations)
+
+            # Default displayable.
+            self.defaultChild = Null()
             
             # Index of current animation in self.animations.
             # -1 shows self.defaultChild
@@ -90,10 +86,12 @@ init -20 python:
             # When chain finishes, True makes it stay on the last animation, and False puts it back on self.defaultChild.
             self.endOnLast = True
 
+        # Makes chain begin on next render call.
         def beginChain(self):
 
             self.setToBegin = True
 
+        # Actual start of the chain.
         def firstAnimation(self):
 
             self.stOffset = self.st
@@ -103,13 +101,14 @@ init -20 python:
             self.pointer = 0
             self.updateAnimation()
 
+        # Resets the chain back to self.defaultChild
         def reset(self):
 
             self.pointer = -1
             self.st = 0.0
             self.stOffset = 0.0
 
-        # Updates the child. Called when the currentAnimation is changed.
+        # Updates currentChild and currentAnimation.
         def updateAnimation(self):
 
             print("Updating animation. Pointer: {}".format(self.pointer))
@@ -139,21 +138,22 @@ init -20 python:
                 # This was the last animation.
 
 
-                # If this chain was given endOnLast = False...
+                # If this chain was given endOnLast = False, reset the chain.
                 if not self.endOnLast :
                     print("reseting")
                     self.reset()
 
 
-        # Displayable that is displayed. Called with every renpy.redraw.
+        # Returns a displayable that is to be displayed. Called with every renpy.redraw.
         def render(self, width, height, st, at):
 
+            # Render where we place stuff to show.
             render = renpy.Render(width, height)
 
             # Records the st, for when stOffset needs to be updated.
             self.st = st
 
-            # Trigger this function again.
+            # This triggers this function again after it finishes.
             # This could be under an "if not self.pointer == -1",
             # but that causes self.st to update one interaction too late.
             renpy.redraw(self, 0)
@@ -164,6 +164,7 @@ init -20 python:
                 self.setToBegin = False
                 self.firstAnimation()
 
+            # Using self.defaultChild when the chain has not started (or was reset).
             if self.pointer == -1:
 
                 # print("placing def child")
@@ -177,7 +178,7 @@ init -20 python:
             # print("st: {}, offset: {}, result: {}, duration: {}".format(st, self.stOffset, self.st - self.stOffset, self.currentAnimation.duration))
 
             # This makes st ignore time spent with previous states,
-            # making it seem like a changing a state shows a new image.
+            # making it seem like changing a state shows a new image.
             st = self.st - self.stOffset
 
             # If animation's duration has elapsed...

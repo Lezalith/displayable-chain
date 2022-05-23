@@ -1,6 +1,5 @@
-
 init -30:
-    
+
     # Transforms used by the AnimationChain
     transform enterTrans():
 
@@ -59,12 +58,3 @@ init -30:
         (200, 200),
         (0, 0), Solid("C70039"),
         (0, 0), Text("hit", size = 40, color = "00f"))
-
-
-# # Animation definitions, put together from Transforms and Images defined above.
-# define enter = Animation("enterState", enterTrans, 1.0)
-# define idle = Animation("idleState", idleTrans, 0)
-# define moveForward = Animation("moveState", moveForwardTrans, 1.0)
-# define attack = Animation("attackState", attackTrans, 0.6)
-# define moveBack = Animation("moveState", moveBackTrans, 1.0)
-# define hit = Animation("hitState", hitTrans, 0.6)

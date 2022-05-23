@@ -1,6 +1,5 @@
+init -50:
 
-init -30:
-    
     # Transforms used by the AnimationChain
     transform enterTransEnemy():
 
@@ -59,12 +58,3 @@ init -30:
         (200, 200),
         (0, 0), Solid("fc00fa"),
         (0, 0), Text("hit", size = 40, color = "f00"))
-
-
-    # # Animation definitions, put together from Transforms and Images defined above.
-    # define enterEnemy = Animation("enterStateEnemy", enterTransEnemy, 1.0)
-    # define idleEnemy = Animation("idleStateEnemy", idleTransEnemy, 0)
-    # define moveForwardEnemy = Animation("moveStateEnemy", moveForwardTransEnemy, 1.0)
-    # define attackEnemy = Animation("attackStateEnemy", attackTransEnemy, 0.6)
-    # define moveBackEnemy = Animation("moveStateEnemy", moveBackTransEnemy, 1.0)
-    # define hitEnemy = Animation("hitStateEnemy", hitTransEnemy, 0.6)
