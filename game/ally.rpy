@@ -29,6 +29,14 @@ init -30:
         pause 0.3
         linear 0.3 xoffset 0
 
+    transform attackFastTrans():
+
+        xalign 0.6 yalign 0.5
+        easeout 0.3 xoffset -150
+        linear 0.4 xoffset 1000
+        pause 0.1 xoffset -1000
+        easein 0.4 xoffset 0
+
     transform moveBackTrans():
 
         xalign 0.6 yalign 0.5
@@ -80,3 +88,4 @@ init -25 python:
     hit = Animation("hitState", hitTrans, 0.6)
 
     attackHeavy = Animation("attackState", attackHeavyTrans, 1.6, trigger = True, triggerDelay = 1.0)
+    attackFast = Animation("attackState", attackFastTrans, 1.8, trigger = True, triggerDelay = 0.4)

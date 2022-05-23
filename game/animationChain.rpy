@@ -189,6 +189,7 @@ default allyAttackChain = AnimationChain( moveForward, attack, moveBack, idle )
 default allyHitChain = AnimationChain( hit, idle )
 
 default allyAttackHeavyChain = AnimationChain( moveForward, attackHeavy, moveBack, idle )
+default allyAttackFastChain = AnimationChain( moveForward, attackFast, moveBack, idle )
 
 
 # Chains used by Enemy Character.
