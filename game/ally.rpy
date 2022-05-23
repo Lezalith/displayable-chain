@@ -21,6 +21,14 @@ init -30:
         linear 0.3 xoffset 50
         linear 0.3 xoffset 0
 
+    transform attackHeavyTrans():
+
+        xalign 0.6 yalign 0.5
+        easein 0.6 xoffset -100
+        linear 0.4 xoffset 50
+        pause 0.3
+        linear 0.3 xoffset 0
+
     transform moveBackTrans():
 
         xalign 0.6 yalign 0.5
@@ -59,7 +67,7 @@ init -30:
         (0, 0), Solid("C70039"),
         (0, 0), Text("hit", size = 40, color = "00f"))
 
-    
+
 # Animations of Ally Character
 init -25 python:
 
@@ -70,3 +78,5 @@ init -25 python:
     attack = Animation("attackState", attackTrans, 0.6, trigger = True, triggerDelay = 0.3)
     moveBack = Animation("moveState", moveBackTrans, 1.0)
     hit = Animation("hitState", hitTrans, 0.6)
+
+    attackHeavy = Animation("attackState", attackHeavyTrans, 1.6, trigger = True, triggerDelay = 1.0)

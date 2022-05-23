@@ -49,5 +49,5 @@ init -15 python:
             return self.currentChain
 
 # Characters defined.
-default allyCharacter = BattleCharacter( "Ally Character", allySpawnChain, allyAttackChain, allyHitChain )
+default allyCharacter = BattleCharacter( "Ally Character", allySpawnChain, allyAttackHeavyChain, allyHitChain )
 default enemyCharacter = BattleCharacter( "Enemy Character", enemySpawnChain, enemyAttackChain, enemyHitChain )
