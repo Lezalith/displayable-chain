@@ -58,3 +58,14 @@ init -50:
         (200, 200),
         (0, 0), Solid("fc00fa"),
         (0, 0), Text("hit", size = 40, color = "f00"))
+
+
+# Animations of Enemy Character
+init -25 python:
+
+    enterEnemy = Animation("enterStateEnemy", enterTransEnemy, 1.0)
+    idleEnemy = Animation("idleStateEnemy", idleTransEnemy, 0)
+    moveForwardEnemy = Animation("moveStateEnemy", moveForwardTransEnemy, 1.0)
+    attackEnemy = Animation("attackStateEnemy", attackTransEnemy, 0.6, trigger = True)
+    moveBackEnemy = Animation("moveStateEnemy", moveBackTransEnemy, 1.0)
+    hitEnemy = Animation("hitStateEnemy", hitTransEnemy, 0.6)

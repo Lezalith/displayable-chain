@@ -58,3 +58,15 @@ init -30:
         (200, 200),
         (0, 0), Solid("C70039"),
         (0, 0), Text("hit", size = 40, color = "00f"))
+
+    
+# Animations of Ally Character
+init -25 python:
+
+    enter = Animation("enterState", enterTrans, 1.0)
+    enter2 = Animation("enterState", enterTrans, 1.0)
+    idle = Animation("idleState", idleTrans, 0)
+    moveForward = Animation("moveState", moveForwardTrans, 1.0)
+    attack = Animation("attackState", attackTrans, 0.6, trigger = True, triggerDelay = 0.3)
+    moveBack = Animation("moveState", moveBackTrans, 1.0)
+    hit = Animation("hitState", hitTrans, 0.6)
