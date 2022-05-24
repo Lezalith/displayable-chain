@@ -7,12 +7,13 @@ screen chainScreen():
 
         # Buttons
         hbox:
-            first_spacing 100
             spacing 20
 
             textbutton "Spawn" action Function(m.start)
-            textbutton "Ally Attack" action Function(m.attack, "ally")
-            textbutton "Enemy Attack" action Function(m.attack, "enemy")
+            textbutton "Ally Regular Attack" action Function(m.attack, "ally", allyRegular)
+            textbutton "Ally Heavy Attack" action Function(m.attack, "ally", allyHeavy)
+            textbutton "Ally Fast Attack" action Function(m.attack, "ally", allyFast)
+            textbutton "Enemy Regular Attack" action Function(m.attack, "enemy", enemyRegular)
 
             # textbutton "Begin Spawn Chain" action Function(allySpawnChain.beginChain)
             # textbutton "Begin Attack Chain" action Function(allyAttackChain.beginChain)
