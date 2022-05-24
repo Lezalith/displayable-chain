@@ -41,13 +41,13 @@ init -10 python:
 
         # Begins an attack.
         # type can be "ally" for when ally character is attacking, and "enemy" for when enemy character is. 
-        def attack(self, type):
+        def attack(self, type, attack):
 
             # Ally attacking
             if type == "ally":
 
                 # Trigger an AnimationChain of the attack.
-                self.allyCharacter.attack()
+                self.allyCharacter.attack( attack )
 
                 # Set attacking character and attacked character.
                 self.attacking = self.allyCharacter
@@ -57,7 +57,7 @@ init -10 python:
             elif type == "enemy":
 
                 # Trigger an AnimationChain of the attack.
-                self.enemyCharacter.attack()
+                self.enemyCharacter.attack( attack )
 
                 # Set attacking character and attacked character.
                 self.attacking = self.enemyCharacter

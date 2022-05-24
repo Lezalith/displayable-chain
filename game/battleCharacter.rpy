@@ -11,14 +11,13 @@ init -15 python:
     # hitChain is the chain used when getting hit
     class BattleCharacter():
 
-        def __init__(self, name, enterChain, attackChain, hitChain):
+        def __init__(self, name, enterChain, hitChain):
 
             # Name of the Character.
             self.name = name
 
             # Relevant Chains.
             self.enterChain = enterChain
-            self.attackChain = attackChain
             self.hitChain = hitChain
 
             # Current Chain used.
@@ -32,9 +31,9 @@ init -15 python:
             self.currentChain.beginChain()
 
         # Trigger a chain representing attacking.
-        def attack(self):
+        def attack(self, attack):
 
-            self.currentChain = self.attackChain
+            self.currentChain = attack.animationChain
             self.currentChain.beginChain()
 
         # Trigger a chain representing getting hit.
@@ -49,5 +48,5 @@ init -15 python:
             return self.currentChain
 
 # Characters defined.
-default allyCharacter = BattleCharacter( "Ally Character", allySpawnChain, allyAttackFastChain, allyHitChain )
-default enemyCharacter = BattleCharacter( "Enemy Character", enemySpawnChain, enemyAttackChain, enemyHitChain )
+default allyCharacter = BattleCharacter( "Ally Character", allySpawnChain, allyHitChain )
+default enemyCharacter = BattleCharacter( "Enemy Character", enemySpawnChain, enemyHitChain )
