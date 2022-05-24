@@ -3,7 +3,7 @@ screen chainScreen():
 
     vbox:
 
-        first_spacing 20
+        spacing 20
 
         # Buttons
         hbox:
@@ -14,6 +14,12 @@ screen chainScreen():
             textbutton "Ally Heavy Attack" action Function(m.attack, "ally", allyHeavy)
             textbutton "Ally Fast Attack" action Function(m.attack, "ally", allyFast)
             textbutton "Enemy Regular Attack" action Function(m.attack, "enemy", enemyRegular)
+
+        vbox:
+            spacing -8
+
+            textbutton "Enemy has regular dodge" action SetField(m.enemyCharacter, "hitChain", enemyHitChain)
+            textbutton "Enemy has fancy dodge" action SetField(m.enemyCharacter, "hitChain", enemyHitFancyChain)
 
             # textbutton "Begin Spawn Chain" action Function(allySpawnChain.beginChain)
             # textbutton "Begin Attack Chain" action Function(allyAttackChain.beginChain)

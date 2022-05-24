@@ -43,6 +43,12 @@ init -50:
         linear 0.3 xoffset 60
         linear 0.3 xoffset 0
 
+    transform hitFancyTransEnemy():
+
+        xalign 0.7 yalign 0.5
+        linear 0.5 xoffset 100 alpha 0.0
+        easein 0.8 xoffset 0 alpha 1.0        
+
 
     # Images definitions
     image enterStateEnemy = Composite(
@@ -82,3 +88,4 @@ init -25 python:
     hitEnemy = Animation("hitStateEnemy", hitTransEnemy, 0.6)
 
     enterFancyEnemy = Animation("enterStateEnemy", enterFancyTransEnemy, 1.2)
+    hitFancyEnemy = Animation("hitStateEnemy", hitFancyTransEnemy, 1.3)

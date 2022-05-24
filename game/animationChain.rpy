@@ -196,3 +196,4 @@ default allyAttackFastChain = AnimationChain( moveForward, attackFast, moveBack,
 default enemySpawnChain = AnimationChain( enterFancyEnemy, idleEnemy )
 default enemyAttackChain = AnimationChain( moveForwardEnemy, attackEnemy, moveBackEnemy, idleEnemy )
 default enemyHitChain = AnimationChain( hitEnemy, idleEnemy)
+default enemyHitFancyChain = AnimationChain( hitFancyEnemy, idleEnemy)
