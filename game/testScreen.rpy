@@ -1,4 +1,7 @@
 # Testing screen.
+init python:
+    config.per_frame_screens.append("chainScreen")
+
 screen chainScreen():
 
     vbox:
@@ -6,20 +9,20 @@ screen chainScreen():
         spacing 20
 
         # Buttons
-        hbox:
-            spacing 20
+        vbox:
+            spacing -8
 
             textbutton "Spawn" action Function(m.start)
-            textbutton "Ally Regular Attack" action Function(m.attack, "ally", allyRegular)
-            textbutton "Ally Heavy Attack" action Function(m.attack, "ally", allyHeavy)
-            textbutton "Ally Fast Attack" action Function(m.attack, "ally", allyFast)
+            textbutton "Ally Regular Attack (5 - 10 damage)" action Function(m.attack, "ally", allyRegular)
+            textbutton "Ally Fast Attack (5 - 20 damage) (Costs 15 AP)" action Function(m.attack, "ally", allyFast)
+            textbutton "Ally Heavy Attack (20 - 30 damage) (Costs 35 AP)" action Function(m.attack, "ally", allyHeavy)
             textbutton "Enemy Regular Attack" action Function(m.attack, "enemy", enemyRegular)
 
         vbox:
             spacing -8
 
-            textbutton "Enemy has regular dodge" action SetField(m.enemyCharacter, "hitChain", enemyHitChain)
             textbutton "Enemy has fancy dodge" action SetField(m.enemyCharacter, "hitChain", enemyHitFancyChain)
+            textbutton "Enemy has regular dodge" action SetField(m.enemyCharacter, "hitChain", enemyHitChain)
 
             # textbutton "Begin Spawn Chain" action Function(allySpawnChain.beginChain)
             # textbutton "Begin Attack Chain" action Function(allyAttackChain.beginChain)
@@ -28,9 +31,18 @@ screen chainScreen():
             # textbutton "Ally Hit" action Function(m.allyChain.gotHit)
             # textbutton "Enemy Hit" action Function(m.enemyChain.gotHit)
 
-        # # State info
-        # text "Current Ally state: [m.allyChain.state]"
-        # text "Current Enemy state: [m.enemyChain.state]"
+        # Characte stats
+    vbox:
+        align (0.0, 0.8)
+
+        text "Ally HP: [m.allyCharacter.hp]"
+        text "Ally AP: [m.allyCharacter.ap]"
+
+    vbox:
+        align (1.0, 0.8)
+
+        text "Enemy HP: [m.enemyCharacter.hp]"
+        text "Enemy AP: [m.enemyCharacter.ap]"
 
         # Add info on currentAnimation and/or currentChild?
 
