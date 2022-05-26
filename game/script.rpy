@@ -3,11 +3,11 @@ label start:
 
     python:
 
-        allyRegular = Attack("Regular Attack", allyAttackChain)
-        allyHeavy = Attack("Heavy Attack", allyAttackHeavyChain)
-        allyFast = Attack("Fast Attack", allyAttackFastChain)
+        allyRegular = Attack("Regular Attack", allyAttackChain, (5, 10))
+        allyHeavy = Attack("Heavy Attack", allyAttackHeavyChain, (20, 30), apCost = 35.0)
+        allyFast = Attack("Fast Attack", allyAttackFastChain, (5, 20), apCost = 15.0)
 
-        enemyRegular = Attack("Regular Attack", enemyAttackChain)
+        enemyRegular = Attack("Regular Attack", enemyAttackChain, (5, 10))
 
     # Jump right to the testing screen.
     call screen chainScreen

@@ -11,7 +11,7 @@ init -15 python:
     # hitChain is the chain used when getting hit
     class BattleCharacter():
 
-        def __init__(self, name, enterChain, hitChain):
+        def __init__(self, name, enterChain, hitChain, hp):
 
             # Name of the Character.
             self.name = name
@@ -19,6 +19,11 @@ init -15 python:
             # Relevant Chains.
             self.enterChain = enterChain
             self.hitChain = hitChain
+
+            # Stats
+            self.hp = hp
+            self.mp = 100.0
+            self.ap = 100.0
 
             # Current Chain used.
             # This is basically the Displayable of this character.
@@ -33,11 +38,20 @@ init -15 python:
         # Trigger a chain representing attacking.
         def attack(self, attack):
 
+
+            if self.ap < attack.apCost:
+
+                return renpy.notify("Not enough AP!")
+
+            self.ap -= attack.apCost
+
             self.currentChain = attack.animationChain
             self.currentChain.beginChain()
 
         # Trigger a chain representing getting hit.
-        def hit(self):
+        def hit(self, attack):
+
+            self.hp -= attack.getDamage()
 
             self.currentChain = self.hitChain
             self.currentChain.beginChain()
@@ -48,5 +62,5 @@ init -15 python:
             return self.currentChain
 
 # Characters defined.
-default allyCharacter = BattleCharacter( "Ally Character", allySpawnChain, allyHitChain )
-default enemyCharacter = BattleCharacter( "Enemy Character", enemySpawnChain, enemyHitChain )
+default allyCharacter = BattleCharacter( "Ally Character", allySpawnChain, allyHitChain, 100.0 )
+default enemyCharacter = BattleCharacter( "Enemy Character", enemySpawnChain, enemyHitFancyChain, 46.0 )

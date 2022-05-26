@@ -24,6 +24,8 @@ init -10 python:
             self.attacking = None
             self.attacked = None
 
+            self.currentAttack = None
+
         # Begins the battle.
         # Currently only spawns the participants.
         def start(self):
@@ -63,6 +65,8 @@ init -10 python:
                 self.attacking = self.enemyCharacter
                 self.attacked = self.allyCharacter
 
+            self.currentAttack = attack
+
         # Triggers the hit AnimationChain of the attacked character.
         def checkHit(self):
 
@@ -70,12 +74,13 @@ init -10 python:
             if self.attacking.getChain().checkTrigger():
 
                 # Trigger hit AnimationChain of attacked.
-                self.attacked.hit()
+                self.attacked.hit( self.currentAttack )
 
                 # Reset attacking and attacked characters.
                 # TODO: This will probably be done elsewhere, once the Battle has been split into phases.
                 self.attacking = None
                 self.attacked = None
+                self.currentAttack = None
 
         # Renders all displayables held. Called with every renpy.redraw.
         def render(self, width, height, st, at):
