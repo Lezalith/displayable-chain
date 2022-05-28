@@ -1,0 +1,20 @@
+"results/run/run0.png"
+pause 0.2
+"results/run/run1.png"
+pause 0.2
+"results/run/run2.png"
+pause 0.2
+"results/run/run3.png"
+pause 0.2
+"results/run/run4.png"
+pause 0.2
+"results/run/run5.png"
+pause 0.2
+"results/run/run6.png"
+pause 0.2
+"results/run/run7.png"
+pause 0.2
+"results/run/run8.png"
+pause 0.2
+"results/run/run9.png"
+pause 0.2

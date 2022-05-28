@@ -1,0 +1,20 @@
+"results/idle/idle0.png"
+pause 0.2
+"results/idle/idle1.png"
+pause 0.2
+"results/idle/idle2.png"
+pause 0.2
+"results/idle/idle3.png"
+pause 0.2
+"results/idle/idle4.png"
+pause 0.2
+"results/idle/idle5.png"
+pause 0.2
+"results/idle/idle6.png"
+pause 0.2
+"results/idle/idle7.png"
+pause 0.2
+"results/idle/idle8.png"
+pause 0.2
+"results/idle/idle9.png"
+pause 0.2
