@@ -29,3 +29,14 @@ init -30 python:
         def getChild(self):
 
             return At( self.image, self.transform )
+
+image attackGif:
+    xysize (200, 200) align (0.5, 0.5)
+    "images/attack/attack1.png"
+    pause 0.1
+    "images/attack/attack2.png"
+    pause 0.1
+    "images/attack/attack3.png"
+    pause 0.1
+    "images/attack/attack4.png"
+    pause 0.1

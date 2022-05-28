@@ -83,7 +83,9 @@ init -25 python:
     enter2 = Animation("enterState", enterTrans, 1.0)
     idle = Animation("idleState", idleTrans, 0)
     moveForward = Animation("moveState", moveForwardTrans, 1.0)
-    attack = Animation("attackState", attackTrans, 0.6, trigger = True, triggerDelay = 0.3)
+    # attack = Animation("attackState", attackTrans, 0.6, trigger = True, triggerDelay = 0.3)
+    attack = Animation("attackGif", attackTrans, 0.4, trigger = True, triggerDelay = 0.3)
+
     moveBack = Animation("moveState", moveBackTrans, 1.0)
     hit = Animation("hitState", hitTrans, 0.6)
 
