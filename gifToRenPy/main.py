@@ -76,16 +76,21 @@ pauseInterval = 0.2
 # Whether "repeat" should be added at the end.
 repeat = False
 
+
+atlFile = resultPath + filename + "/" + "image_statement.txt"
+
 # Create a file for the image statement inside Ren'Py.
-with open(resultPath + filename + "/" + "image_statement.txt", "w+") as f:
+with open(atlFile, "w+") as f:
 
     # Write an image path, followed by a pause.
     for framePath in framePaths:
 
-        f.write( framePath + "\n" )
+        f.write( "\"" + framePath + "\"\n" )
         f.write( "pause " + str(pauseInterval) + "\n" )
 
     # Optionally finish with a repeat.
     if repeat:
 
         f.write("repeat")
+
+print("Successfully saved frames into \"{}\"".format(resultPath + filename))
