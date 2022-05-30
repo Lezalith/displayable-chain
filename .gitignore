@@ -7,3 +7,7 @@ game/cache/
 game/saves/
 .rpymc
 .rpyb
+
+gifToRenPy/easygui/__pycache__/
+gifToRenPy/easygui/boxes/__pycache__/
+gifToRenPy/main.spec

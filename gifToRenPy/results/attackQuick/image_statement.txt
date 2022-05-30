@@ -1,8 +1,0 @@
-"results/attackQuick/attackQuick0.png"
-pause 0.2
-"results/attackQuick/attackQuick1.png"
-pause 0.2
-"results/attackQuick/attackQuick2.png"
-pause 0.2
-"results/attackQuick/attackQuick3.png"
-pause 0.2

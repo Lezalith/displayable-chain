@@ -1,5 +1,5 @@
 # Path 
-resultPath = "results/"
+resultPath = "images/"
 
 # Lets you pick a file and returns it.
 import easygui
@@ -77,16 +77,18 @@ pauseInterval = 0.2
 repeat = False
 
 
-atlFile = resultPath + filename + "/" + "image_statement.txt"
+atlFile = resultPath + filename + "/" + "image_statement.rpy"
 
 # Create a file for the image statement inside Ren'Py.
 with open(atlFile, "w+") as f:
+    
+    f.write( "image {}:\n".format(filename) )
 
     # Write an image path, followed by a pause.
     for framePath in framePaths:
 
-        f.write( "\"" + framePath + "\"\n" )
-        f.write( "pause " + str(pauseInterval) + "\n" )
+        f.write( "    " + "\"" + framePath + "\"\n" )
+        f.write( "    " + "pause " + str(pauseInterval) + "\n" )
 
     # Optionally finish with a repeat.
     if repeat:
