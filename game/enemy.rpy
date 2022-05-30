@@ -30,8 +30,8 @@ init -50:
     transform attackTransEnemy():
 
         xalign 0.4 yalign 0.5
-        linear 0.3 xoffset -50
-        linear 0.3 xoffset 0
+        linear 0.1 xoffset -5
+        linear 0.1 xoffset 0
 
     transform moveBackTransEnemy():
 
@@ -86,7 +86,7 @@ init -25 python:
     enterEnemy = Animation("enterStateEnemy", enterTransEnemy, 1.0)
     idleEnemy = Animation("idleStateEnemy", idleTransEnemy, 0)
     moveForwardEnemy = Animation("moveStateEnemy", moveForwardTransEnemy, 1.0)
-    attackEnemy = Animation("attackStateEnemy", attackTransEnemy, 0.6, trigger = True)
+    attackEnemy = Animation("attackStateEnemy", attackTransEnemy, 0.2, trigger = True)
     moveBackEnemy = Animation("moveStateEnemy", moveBackTransEnemy, 1.0)
     hitEnemy = Animation("hitStateEnemy", hitTransEnemy, 0.6)
 

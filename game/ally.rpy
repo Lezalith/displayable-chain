@@ -79,15 +79,29 @@ init -30:
 # Animations of Ally Character
 init -25 python:
 
-    enter = Animation("enterState", enterTrans, 1.0)
-    enter2 = Animation("enterState", enterTrans, 1.0)
-    idle = Animation("idleState", idleTrans, 0)
-    moveForward = Animation("moveState", moveForwardTrans, 1.0)
-    # attack = Animation("attackState", attackTrans, 0.6, trigger = True, triggerDelay = 0.3)
-    attack = Animation("attackGif", attackTrans, 0.4, trigger = True, triggerDelay = 0.3)
+    enter = Animation("allyRun", enterTrans, 1.0)
+    # enter = Animation("moveState", enterTrans, 1.0)
 
-    moveBack = Animation("moveState", moveBackTrans, 1.0)
-    hit = Animation("hitState", hitTrans, 0.6)
+    # To be deleted.
+    enter2 = Animation("enterState", enterTrans, 1.0)
+    # enter2 = Animation("enterState", enterTrans, 1.0)
+
+
+    moveForward = Animation("allyRun", moveForwardTrans, 1.0)
+    moveBack = Animation("allyRun", moveBackTrans, 1.0)
+    # moveForward = Animation("moveState", moveForwardTrans, 1.0)
+    # moveBack = Animation("moveState", moveBackTrans, 1.0)
+
+    idle = Animation("allyIdle", idleTrans, 0)
+    # idle = Animation("idleState", idleTrans, 0)
+
+    # TODO: There needs to be a Transform solely with the position where movein ends, moveback begins and attack takes place.
+    # TODO: Right now bypassed with the align = (0.6, 0.5)
+    attack = Animation("allyAttackMedium", Transform(align = (0.6, 0.5)), 0.6, trigger = True, triggerDelay = 0.2)
+    # attack = Animation("attackState", attackTrans, 0.6, trigger = True, triggerDelay = 0.3)
+
+    hit = Animation("allyHit", Transform(align = (0.3, 0.5)), 0.1)
+    # hit = Animation("hitState", hitTrans, 0.6)
 
     attackHeavy = Animation("attackState", attackHeavyTrans, 1.6, trigger = True, triggerDelay = 1.0)
     attackFast = Animation("attackState", attackFastTrans, 1.8, trigger = True, triggerDelay = 0.4)
