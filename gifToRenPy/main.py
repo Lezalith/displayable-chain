@@ -70,19 +70,25 @@ for frameIndex in range( im.n_frames ):
     # Add frame path to the list.
     framePaths.append( pathToFrame )
 
+# width and height of frames
+xysize = input("Width and height? ((width, height) or None): ")
 
 # Interval of pause statements
-pauseInterval = 0.2
+pauseInterval = float( input("Pause interval (float): ") )
+
 # Whether "repeat" should be added at the end.
-repeat = False
+repeat = bool( input("Repeat? (0/1): ") )
 
 
-atlFile = resultPath + filename + "/" + "image_statement.rpy"
+atlFile = resultPath + filename + "/" + filename + ".rpy"
 
 # Create a file for the image statement inside Ren'Py.
 with open(atlFile, "w+") as f:
-    
+
     f.write( "image {}:\n".format(filename) )
+
+    if xysize != "None":
+        f.write( "    xysize {}\n".format(xysize) )
 
     # Write an image path, followed by a pause.
     for framePath in framePaths:
@@ -93,6 +99,6 @@ with open(atlFile, "w+") as f:
     # Optionally finish with a repeat.
     if repeat:
 
-        f.write("repeat")
+        f.write("    repeat")
 
 print("Successfully saved frames into \"{}\"".format(resultPath + filename))
