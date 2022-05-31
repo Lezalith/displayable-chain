@@ -103,5 +103,7 @@ init -25 python:
     hit = Animation("allyHit", Transform(align = (0.3, 0.5)), 0.1)
     # hit = Animation("hitState", hitTrans, 0.6)
 
-    attackHeavy = Animation("attackState", attackHeavyTrans, 1.6, trigger = True, triggerDelay = 1.0)
-    attackFast = Animation("attackState", attackFastTrans, 1.8, trigger = True, triggerDelay = 0.4)
+    attackHeavy = Animation("allyAttackHeavy", Transform(align = (0.6, 0.5)), 1.0, trigger = True, triggerDelay = 0.3)
+    attackFast = Animation("allyAttackQuick", Transform(align = (0.6, 0.5)), 0.4, trigger = True, triggerDelay = 0.1)
+    # attackHeavy = Animation("attackState", attackHeavyTrans, 1.6, trigger = True, triggerDelay = 1.0)
+    # attackFast = Animation("attackState", attackFastTrans, 1.8, trigger = True, triggerDelay = 0.4)

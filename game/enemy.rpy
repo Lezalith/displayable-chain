@@ -19,7 +19,6 @@ init -50:
 
     transform idleTransEnemy():
 
-        alpha 0.1
         xalign 0.7 yalign 0.5
 
     transform moveForwardTransEnemy():
@@ -40,14 +39,12 @@ init -50:
 
     transform hitTransEnemy():
 
-        alpha 0.1
         xalign 0.7 yalign 0.5
         linear 0.3 xoffset 60
         linear 0.3 xoffset 0
 
     transform hitFancyTransEnemy():
 
-        alpha 0.1
         xalign 0.7 yalign 0.5
         linear 0.5 xoffset 100 alpha 0.0
         easein 0.8 xoffset 0 alpha 1.0        
