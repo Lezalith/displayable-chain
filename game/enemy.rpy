@@ -47,7 +47,12 @@ init -50:
 
         xalign 0.7 yalign 0.5
         linear 0.15 xoffset 200 yoffset 200 alpha 0.0
-        easein 0.2 xoffset 0 yoffset 0 alpha 1.0        
+        easein 0.2 xoffset 0 yoffset 0 alpha 1.0      
+
+    transform deathEnemy():
+
+        xalign 0.7 yalign 0.5 yoffset 0 alpha 1.0
+        easeout 1.0 yoffset 100 alpha 0.0
 
 
     # Images definitions
@@ -76,6 +81,11 @@ init -50:
         (0, 0), Solid("fc00fa"),
         (0, 0), Text("hit", size = 40, color = "f00"))
 
+    image deathStateEnemy = Composite(
+        (200, 200),
+        (0, 0), Solid("00FF7F"),
+        (0, 0), Text("dying", size = 40, color = "f00"))
+
 
 # Animations of Enemy Character
 init -25 python:
@@ -89,3 +99,5 @@ init -25 python:
 
     enterFancyEnemy = Animation("enterStateEnemy", enterFancyTransEnemy, 1.2)
     hitFancyEnemy = Animation("hitStateEnemy", hitFancyTransEnemy, 0.35)
+
+    deathEnemy = Animation("deathStateEnemy", deathEnemy, 2.0 )

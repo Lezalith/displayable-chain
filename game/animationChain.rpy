@@ -193,9 +193,12 @@ default allyHitChain = AnimationChain( hit, idle )
 default allyAttackHeavyChain = AnimationChain( moveForward, attackHeavy, attackHeavy, moveBack, idle )
 default allyAttackFastChain = AnimationChain( moveForward, attackFast, moveBack, idle )
 
+default allyDeathChain = AnimationChain( death )
+
 
 # Chains used by Enemy Character.
 default enemySpawnChain = AnimationChain( enterFancyEnemy, idleEnemy )
 default enemyAttackChain = AnimationChain( moveForwardEnemy, attackEnemy, moveBackEnemy, idleEnemy )
 default enemyHitChain = AnimationChain( hitEnemy, idleEnemy)
 default enemyHitFancyChain = AnimationChain( hitFancyEnemy, idleEnemy)
+default enemyDeathChain = AnimationChain( deathEnemy )

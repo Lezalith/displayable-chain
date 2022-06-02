@@ -1,4 +1,4 @@
-image allyRun:
+image allyRunForward:
     xysize (200, 200)
     "images/allyRun/allyRun0.png"
     pause 0.1

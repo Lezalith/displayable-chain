@@ -39,7 +39,7 @@ init -30:
 
     transform moveBackTrans():
 
-        xzoom -1.0 xalign 0.6 yalign 0.5
+        xalign 0.6 yalign 0.5
         linear 1.0 xalign 0.3
 
     transform hitTrans():
@@ -47,6 +47,11 @@ init -30:
         xalign 0.3 yalign 0.5
         linear 0.3 xoffset -60
         linear 0.3 xoffset 0
+
+    transform deathTrans():
+
+        xoffset 0 align (0.3, 0.5)
+        linear 1.5 xoffset - 1000
 
 
     # Images definitions
@@ -79,7 +84,7 @@ init -30:
 # Animations of Ally Character
 init -25 python:
 
-    enter = Animation("allyRun", enterTrans, 1.0)
+    enter = Animation("allyRunForward", enterTrans, 1.0)
     # enter = Animation("moveState", enterTrans, 1.0)
 
     # To be deleted.
@@ -87,8 +92,8 @@ init -25 python:
     # enter2 = Animation("enterState", enterTrans, 1.0)
 
 
-    moveForward = Animation("allyRun", moveForwardTrans, 1.0)
-    moveBack = Animation("allyRun", moveBackTrans, 1.0)
+    moveForward = Animation("allyRunForward", moveForwardTrans, 1.0)
+    moveBack = Animation("allyRunBack", moveBackTrans, 1.0)
     # moveForward = Animation("moveState", moveForwardTrans, 1.0)
     # moveBack = Animation("moveState", moveBackTrans, 1.0)
 
@@ -107,3 +112,5 @@ init -25 python:
     attackFast = Animation("allyAttackQuick", Transform(align = (0.6, 0.5)), 0.4, trigger = True, triggerDelays = [0.1])
     # attackHeavy = Animation("attackState", attackHeavyTrans, 1.6, trigger = True, triggerDelay = 1.0)
     # attackFast = Animation("attackState", attackFastTrans, 1.8, trigger = True, triggerDelay = 0.4)
+
+    death = Animation("allyRunBack", deathTrans, 1.5)

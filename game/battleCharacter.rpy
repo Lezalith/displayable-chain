@@ -11,7 +11,7 @@ init -15 python:
     # hitChain is the chain used when getting hit
     class BattleCharacter():
 
-        def __init__(self, name, enterChain, hitChain, hp):
+        def __init__(self, name, enterChain, hitChain, deathChain, hp):
 
             # Name of the Character.
             self.name = name
@@ -19,6 +19,7 @@ init -15 python:
             # Relevant Chains.
             self.enterChain = enterChain
             self.hitChain = hitChain
+            self.deathChain = deathChain
 
             # Stats
             self.hp = hp
@@ -64,11 +65,16 @@ init -15 python:
             self.currentChain = self.hitChain
             self.currentChain.beginChain()
 
+        def died(self):
+
+            self.currentChain = self.deathChain
+            self.currentChain.beginChain()
+
         # Get self.currentChain.
         def getChain(self):
 
             return self.currentChain
 
 # Characters defined.
-default allyCharacter = BattleCharacter( "Ally Character", allySpawnChain, allyHitChain, 100.0 )
-default enemyCharacter = BattleCharacter( "Enemy Character", enemySpawnChain, enemyHitFancyChain, 46.0 )
+default allyCharacter = BattleCharacter( "Ally Character", allySpawnChain, allyHitChain, allyDeathChain, 100.0 )
+default enemyCharacter = BattleCharacter( "Enemy Character", enemySpawnChain, enemyHitFancyChain, enemyDeathChain, 46.0 )
