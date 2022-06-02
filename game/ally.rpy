@@ -39,7 +39,7 @@ init -30:
 
     transform moveBackTrans():
 
-        xalign 0.6 yalign 0.5
+        xzoom -1.0 xalign 0.6 yalign 0.5
         linear 1.0 xalign 0.3
 
     transform hitTrans():
