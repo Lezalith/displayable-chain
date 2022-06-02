@@ -36,14 +36,18 @@ init -15 python:
             self.currentChain.beginChain()
 
         # Trigger a chain representing attacking.
-        def attack(self, attack):
+        def attack(self, attack, noticeManager):
 
 
-            if self.ap < attack.apCost:
+            if attack.apCost:
 
-                return renpy.notify("Not enough AP!")
+                if self.ap < attack.apCost:
 
-            self.ap -= attack.apCost
+                    return renpy.notify("Not enough AP!")
+
+                self.ap -= attack.apCost
+
+                noticeManager.addNotice("{} spent {} Ability Points to use {}!".format(self.name, attack.apCost, attack.name))
 
             self.currentChain = attack.animationChain
             self.currentChain.beginChain()

@@ -13,9 +13,8 @@ init -30 python:
             self.animationChain = animationChain
 
             # Attack stats
-            self.damage = damage
-            self.apCost = apCost
             self.damage = [ int(damage[0]), int(damage[1]) ]
+            self.apCost = int(apCost)
 
             # Prepared for the future.
             self.hitChance = 0.0
