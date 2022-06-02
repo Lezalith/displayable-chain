@@ -83,7 +83,7 @@ init -25 python:
     enterEnemy = Animation("enterStateEnemy", enterTransEnemy, 1.0)
     idleEnemy = Animation("idleStateEnemy", idleTransEnemy, 0)
     moveForwardEnemy = Animation("moveStateEnemy", moveForwardTransEnemy, 1.0)
-    attackEnemy = Animation("attackStateEnemy", attackTransEnemy, 0.2, trigger = True)
+    attackEnemy = Animation("attackStateEnemy", attackTransEnemy, 0.2, trigger = True, triggerDelays = [0.1])
     moveBackEnemy = Animation("moveStateEnemy", moveBackTransEnemy, 1.0)
     hitEnemy = Animation("hitStateEnemy", hitTransEnemy, 0.6)
 

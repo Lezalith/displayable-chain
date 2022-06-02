@@ -97,13 +97,13 @@ init -25 python:
 
     # TODO: There needs to be a Transform solely with the position where movein ends, moveback begins and attack takes place.
     # TODO: Right now bypassed with the align = (0.6, 0.5)
-    attack = Animation("allyAttackMedium", Transform(align = (0.6, 0.5)), 0.6, trigger = True, triggerDelay = 0.2)
+    attack = Animation("allyAttackMedium", Transform(align = (0.6, 0.5)), 0.6, trigger = True, triggerDelays = [0.2])
     # attack = Animation("attackState", attackTrans, 0.6, trigger = True, triggerDelay = 0.3)
 
     hit = Animation("allyHit", Transform(align = (0.3, 0.5)), 0.1)
     # hit = Animation("hitState", hitTrans, 0.6)
 
-    attackHeavy = Animation("allyAttackHeavy", Transform(align = (0.6, 0.5)), 1.0, trigger = True, triggerDelay = 0.3)
-    attackFast = Animation("allyAttackQuick", Transform(align = (0.6, 0.5)), 0.4, trigger = True, triggerDelay = 0.1)
+    attackHeavy = Animation("allyAttackHeavy", Transform(align = (0.6, 0.5)), 1.0, trigger = True, triggerDelays = [0.2, 0.6])
+    attackFast = Animation("allyAttackQuick", Transform(align = (0.6, 0.5)), 0.4, trigger = True, triggerDelays = [0.1])
     # attackHeavy = Animation("attackState", attackHeavyTrans, 1.6, trigger = True, triggerDelay = 1.0)
     # attackFast = Animation("attackState", attackFastTrans, 1.8, trigger = True, triggerDelay = 0.4)
