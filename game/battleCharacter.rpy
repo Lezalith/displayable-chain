@@ -49,9 +49,13 @@ init -15 python:
             self.currentChain.beginChain()
 
         # Trigger a chain representing getting hit.
-        def hit(self, attack):
+        def hit(self, attack, noticeManager, attackerName):
 
-            self.hp -= attack.getDamage()
+            damageDealt = attack.getDamage()
+
+            self.hp -= damageDealt
+
+            noticeManager.addNotice( "{} hit {} for {} damage!".format(attackerName, self.name, damageDealt) )
 
             self.currentChain = self.hitChain
             self.currentChain.beginChain()

@@ -4,6 +4,12 @@ init python:
 
 screen chainScreen():
 
+
+    default noticeManager = NoticeManager()
+
+    default m = BattleManager( ally = allyCharacter, enemy = enemyCharacter, noticeManager = noticeManager )
+
+
     vbox:
 
         spacing 20
@@ -45,21 +51,13 @@ screen chainScreen():
         text "Enemy AP: [m.enemyCharacter.ap]"
 
 
-    add NoticeManager
-
     vbox:
 
         align (1.0, 1.0)
 
-        textbutton "Notice 1" action Function(NoticeManager.addNotice, text = "First notice.")
-        textbutton "Notice 2" action Function(NoticeManager.addNotice, text = "Slightly longer second notice.")
-        
+        textbutton "Notice 1" action Function(noticeManager.addNotice, text = "First notice.")
+        textbutton "Notice 2" action Function(noticeManager.addNotice, text = "Slightly longer second notice.")
 
-        # Add info on currentAnimation and/or currentChild?
+    add noticeManager
 
     add m
-
-    # adding our CDD.
-    # add allySpawnChain
-    # add allyAttackChain
-    # add allyHitChain

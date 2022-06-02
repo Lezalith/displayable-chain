@@ -15,6 +15,7 @@ init -30 python:
             # Attack stats
             self.damage = damage
             self.apCost = apCost
+            self.damage = [ int(damage[0]), int(damage[1]) ]
 
             # Prepared for the future.
             self.hitChance = 0.0

@@ -8,7 +8,7 @@ init -10 python:
     # TODO: Make these into lists for multiple participants in a battle!
     class BattleManager(renpy.Displayable):
 
-        def __init__(self, ally, enemy, **kwargs):
+        def __init__(self, ally, enemy, noticeManager, **kwargs):
 
             # Pass additional properties on to the renpy.Displayable
             # constructor.
@@ -25,6 +25,8 @@ init -10 python:
             self.attacked = None
 
             self.currentAttack = None
+
+            self.noticeManager = noticeManager
 
         # Begins the battle.
         # Currently only spawns the participants.
@@ -49,7 +51,7 @@ init -10 python:
             if type == "ally":
 
                 # Trigger an AnimationChain of the attack.
-                self.allyCharacter.attack( attack )
+                self.allyCharacter.attack( attack, self.noticeManager )
 
                 # Set attacking character and attacked character.
                 self.attacking = self.allyCharacter
@@ -59,7 +61,7 @@ init -10 python:
             elif type == "enemy":
 
                 # Trigger an AnimationChain of the attack.
-                self.enemyCharacter.attack( attack )
+                self.enemyCharacter.attack( attack, self.noticeManager )
 
                 # Set attacking character and attacked character.
                 self.attacking = self.enemyCharacter
@@ -74,7 +76,7 @@ init -10 python:
             if self.attacking.getChain().checkTrigger():
 
                 # Trigger hit AnimationChain of attacked.
-                self.attacked.hit( self.currentAttack )
+                self.attacked.hit( self.currentAttack, self.noticeManager, self.attacking.name )
 
                 # Reset info about an attack.
                 # TODO: This will be done elsewhere, once the Battle has been split into phases.
@@ -120,5 +122,4 @@ init -10 python:
             return self.getChildrenChains()
 
 
-# # Defines the BattleManager.
-default m = BattleManager( ally = allyCharacter, enemy = enemyCharacter )
+# BattleManager is defined inside the battle screen.
