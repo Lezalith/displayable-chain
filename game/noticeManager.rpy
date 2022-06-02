@@ -22,7 +22,7 @@ init -15 python:
 
         def addNotice(self, text):
 
-            self.currentChildren.append( At(Text(text), noticeDisappear) )
+            self.currentChildren.append( At(Text(text, color = "000"), noticeDisappear) )
 
         def render(self, width, height, st, at):
 

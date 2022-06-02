@@ -8,14 +8,15 @@ init -50:
 
     transform enterFancyTransEnemy():
 
-        xalign 0.7 yalign 0.5 yoffset -1000 alpha 0.0
+        xalign 0.7 yalign 0.5 xoffset 1000 yoffset -1000 alpha 0.0
 
-        parallel:
-            ease 1.2 yoffset 0
+        block:
+            parallel:
+                ease 1.5 xoffset 0 yoffset 0
 
-        parallel:
-            pause 0.85
-            ease 0.35 alpha 1.0
+            parallel:
+                pause 0.7
+                ease 0.8 alpha 1.0
 
     transform idleTransEnemy():
 
@@ -29,8 +30,18 @@ init -50:
     transform attackTransEnemy():
 
         xalign 0.4 yalign 0.5
-        linear 0.1 xoffset -5
-        linear 0.1 xoffset 0
+
+        block:
+            parallel:
+                linear 0.4 xoffset -50
+                pause 0.46
+                linear 0.1 xoffset 0
+
+            parallel:
+                linear 0.24 xzoom -1.0
+                linear 0.24 xzoom 1.0
+                linear 0.24 xzoom -1.0
+                linear 0.24 xzoom 1.0
 
     transform moveBackTransEnemy():
 
@@ -46,8 +57,21 @@ init -50:
     transform hitFancyTransEnemy():
 
         xalign 0.7 yalign 0.5
-        linear 0.15 xoffset 200 yoffset 200 alpha 0.0
-        easein 0.2 xoffset 0 yoffset 0 alpha 1.0      
+
+        block:
+
+            parallel:
+                linear 0.1 xoffset 20 yoffset 0
+                linear 0.1 xoffset 30 yoffset -20
+                linear 0.1 xoffset 45 yoffset -50
+                linear 0.1 xoffset 65 yoffset -75
+
+            parallel:
+                alpha 1.0
+                easein 0.2 alpha 0.0 
+                easein 0.1 alpha 0.5
+
+        easein 0.4 xoffset 0 yoffset 0 alpha 1.0
 
     transform deathEnemy():
 
@@ -90,14 +114,14 @@ init -50:
 # Animations of Enemy Character
 init -25 python:
 
-    enterEnemy = Animation("enterStateEnemy", enterTransEnemy, 1.0)
-    idleEnemy = Animation("idleStateEnemy", idleTransEnemy, 0)
-    moveForwardEnemy = Animation("moveStateEnemy", moveForwardTransEnemy, 1.0)
-    attackEnemy = Animation("attackStateEnemy", attackTransEnemy, 0.2, trigger = True, triggerDelays = [0.1])
-    moveBackEnemy = Animation("moveStateEnemy", moveBackTransEnemy, 1.0)
-    hitEnemy = Animation("hitStateEnemy", hitTransEnemy, 0.6)
+    enterEnemy = Animation("wind dervish", enterTransEnemy, 1.0)
+    idleEnemy = Animation("wind dervish", idleTransEnemy, 0)
+    moveForwardEnemy = Animation("wind dervish", moveForwardTransEnemy, 1.0)
+    attackEnemy = Animation("wind dervish", attackTransEnemy, 1.1, trigger = True, triggerDelays = [0.1, 0.3, 0.5, 0.7])
+    moveBackEnemy = Animation("wind dervish", moveBackTransEnemy, 1.0)
+    hitEnemy = Animation("wind dervish", hitTransEnemy, 0.6)
 
-    enterFancyEnemy = Animation("enterStateEnemy", enterFancyTransEnemy, 1.2)
-    hitFancyEnemy = Animation("hitStateEnemy", hitFancyTransEnemy, 0.35)
+    enterFancyEnemy = Animation("wind dervish", enterFancyTransEnemy, 1.5)
+    hitFancyEnemy = Animation("wind dervish", hitFancyTransEnemy, 1.1)
 
-    deathEnemy = Animation("deathStateEnemy", deathEnemy, 2.0 )
+    deathEnemy = Animation("wind dervish", deathEnemy, 2.0 )

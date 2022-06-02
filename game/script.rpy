@@ -7,7 +7,7 @@ label start:
         allyHeavy = Attack("Heavy Attack", allyAttackHeavyChain, (20, 30), apCost = 35.0)
         allyFast = Attack("Fast Attack", allyAttackFastChain, (5, 20), apCost = 15.0)
 
-        enemyRegular = Attack("Regular Attack", enemyAttackChain, (5, 10))
+        enemyRegular = Attack("Regular Attack", enemyAttackChain, (3, 6))
 
     # Jump right to the testing screen.
     call screen chainScreen
