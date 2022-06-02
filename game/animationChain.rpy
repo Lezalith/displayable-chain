@@ -53,6 +53,8 @@ init -20 python:
         # Actually starts the chain.
         def triggerChain(self):
 
+            self.getChainDuration()
+
             # Simulates st starting from 0.
             self.stOffset = self.st
 
@@ -74,6 +76,17 @@ init -20 python:
 
             # Could be used to update stats on screen.
             # renpy.restart_interaction()
+
+        def getChainDuration(self):
+
+            duration = sum([animation.duration for animation in self.animations])
+
+            print("Duration of current chain: {}".format(duration))
+
+            return duration
+
+
+
 
         # Advances the Chain to the next Animation on the self.animations list.
         def advance(self):

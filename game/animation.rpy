@@ -19,7 +19,7 @@ init -30 python:
             # Info about the Animation
             self.image = image
             self.transform = transform
-            self.duration = duration
+            self.duration = float(duration)
 
             # Info about triggers - marks for Manager to do stuff.
             self.trigger = trigger
