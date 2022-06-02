@@ -62,20 +62,14 @@ init -20 python:
             self.pointer = 0
             self.updateAnimation()
 
-        # Resets the Chain. 
-        # Transforms are stopped and self.currentChild returned to self.defaultChild.
-        def reset(self):
-
-            self.pointer = -1
-            self.st = 0.0
-            self.stOffset = 0.0
-
         # Updates currentAnimation and currentChild.
         def updateAnimation(self):
 
             # print("Updating animation. Pointer: {}".format(self.pointer))
 
             self.currentAnimation = self.animations[ self.pointer ]
+            self.currentAnimation.reset()
+            
             self.currentChild = self.currentAnimation.getChild()
 
             # Could be used to update stats on screen.
@@ -100,12 +94,7 @@ init -20 python:
 
             # This was the last Animation in the list.
             else:
-
-                # If desired, reset the chain once it has ended.
-                # By default, this is not triggered, making the Chain stay on the last Animation.
-                if not self.endOnLast :
-                    print("reseting")
-                    self.reset()
+                pass
 
         # Checks for a trigger inside of self.currentAnimation.
         def checkTrigger(self):
@@ -113,14 +102,27 @@ init -20 python:
             # If there is a currentAnimation (None if the Chain is not active):
             if self.currentAnimation is not None:
 
+                print("Animation is not None")
+
                 # If that Animation has a trigger:
                 if self.currentAnimation.trigger:
 
-                    # If our st has gone past the delay of the trigger:
-                    if self.st - self.stOffset > self.currentAnimation.triggerDelay:
+                    print("Animation has a trigger.")
 
-                        # Triggers the thing.
-                        return True
+                    # If the Animation has any more triggers remaining:
+                    if self.currentAnimation.canAdvance():
+
+                        print("The animation can advance.")
+
+                        # If our st has gone past the delay of the current trigger:
+                        if self.st - self.stOffset > self.currentAnimation.getCurrentDelay():
+
+                            print("Triggering a hit at {}.".format(self.st))
+
+                            self.currentAnimation.advancePointer()
+
+                            # Triggers the thing.
+                            return True
 
             # Nothing triggers.
             return False
@@ -128,7 +130,7 @@ init -20 python:
         # Returns a displayable that is to be displayed. Called with every renpy.redraw.
         def render(self, width, height, st, at):
 
-            # print("render. Current pointer: {}".format(self.pointer))
+            # print("render of {}. Current pointer: {}".format(self, self.pointer))
 
             # Render where we place stuff to show.
             render = renpy.Render(width, height)
@@ -188,7 +190,7 @@ default allySpawnChain = AnimationChain( enter, idle )
 default allyAttackChain = AnimationChain( moveForward, attack, moveBack, idle )
 default allyHitChain = AnimationChain( hit, idle )
 
-default allyAttackHeavyChain = AnimationChain( moveForward, attackHeavy, moveBack, idle )
+default allyAttackHeavyChain = AnimationChain( moveForward, attackHeavy, attackHeavy, moveBack, idle )
 default allyAttackFastChain = AnimationChain( moveForward, attackFast, moveBack, idle )
 
 

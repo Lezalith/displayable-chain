@@ -76,11 +76,12 @@ init -10 python:
                 # Trigger hit AnimationChain of attacked.
                 self.attacked.hit( self.currentAttack )
 
-                # Reset attacking and attacked characters.
-                # TODO: This will probably be done elsewhere, once the Battle has been split into phases.
-                self.attacking = None
-                self.attacked = None
-                self.currentAttack = None
+                # Reset info about an attack.
+                # TODO: This will be done elsewhere, once the Battle has been split into phases.
+                # TODO: Currently only gets overwritten by a new attack, but that's not a problem. Not reseting it here allows for attacks that hit multiple times.
+                # self.attacking = None
+                # self.attacked = None
+                # self.currentAttack = None
 
         # Renders all displayables held. Called with every renpy.redraw.
         def render(self, width, height, st, at):
