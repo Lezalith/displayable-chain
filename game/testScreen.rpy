@@ -2,8 +2,16 @@
 init python:
     config.per_frame_screens.append("chainScreen")
 
+style chainScreenStyles_button_text:
+    color "000"
+style chainScreenStyles_text:
+    color "000"
+
 screen chainScreen():
 
+    style_prefix "chainScreenStyles"
+
+    add Solid("fff")
 
     default noticeManager = NoticeManager()
 
