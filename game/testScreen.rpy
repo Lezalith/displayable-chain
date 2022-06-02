@@ -44,6 +44,17 @@ screen chainScreen():
         text "Enemy HP: [m.enemyCharacter.hp]"
         text "Enemy AP: [m.enemyCharacter.ap]"
 
+
+    add NoticeManager
+
+    vbox:
+
+        align (1.0, 1.0)
+
+        textbutton "Notice 1" action Function(NoticeManager.addNotice, text = "First notice.")
+        textbutton "Notice 2" action Function(NoticeManager.addNotice, text = "Slightly longer second notice.")
+        
+
         # Add info on currentAnimation and/or currentChild?
 
     add m
