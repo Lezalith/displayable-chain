@@ -50,7 +50,7 @@ init -30:
 
     transform deathTrans():
 
-        xoffset 0 align (0.3, 0.5) xzoom -1.0
+        xoffset 0 align (0.3, 0.5)
         linear 1.5 xoffset - 1000
 
     transform spellTransform():
