@@ -48,6 +48,8 @@ init -20 python:
 
             self.setToBegin = True
 
+            self.finished = False
+
             # print("Chain about to begin.")
 
         # Actually starts the chain.

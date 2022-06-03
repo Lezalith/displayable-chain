@@ -122,7 +122,7 @@ init -10 python:
 
         def setState(self, state):
 
-            if self.state is not None:
+            if state == "idle":
 
                 # What the original state was
                 if self.state == "attack":
@@ -132,7 +132,6 @@ init -10 python:
                 elif self.state == "started":
 
                     self.noticeManager.addNotice("Characters have entered the battle!")
-
 
             self.state = state
 

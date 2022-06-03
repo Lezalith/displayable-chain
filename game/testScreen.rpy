@@ -66,6 +66,7 @@ screen chainScreen():
 
         align (1.0, 1.0)
 
+        text "Manager State: {}".format(m.state)
         textbutton "Notice 1" action Function(noticeManager.addNotice, text = "First notice.")
         textbutton "Notice 2" action Function(noticeManager.addNotice, text = "Slightly longer second notice.")
 
