@@ -20,30 +20,33 @@ screen chainScreen():
 
     vbox:
 
+        textbutton "Spawn" action Function(m.start)
+
         spacing 20
 
-        # Buttons
-        vbox:
-            spacing -8
+        showif m.controlsShown:
 
-            textbutton "Spawn" action Function(m.start)
-            textbutton "Ally Regular Attack (5 - 10 damage)" action Function(m.attack, "ally", allyRegular)
-            textbutton "Ally Fast Attack (5 - 20 damage) (Costs 15 AP)" action Function(m.attack, "ally", allyFast)
-            textbutton "Ally Heavy Attack (20 - 30 damage) (Costs 35 AP)" action Function(m.attack, "ally", allyHeavy)
-            textbutton "Enemy Regular Attack" action Function(m.attack, "enemy", enemyRegular)
+            # Buttons
+            vbox:
+                spacing -8
 
-        vbox:
-            spacing -8
+                textbutton "Ally Regular Attack (5 - 10 damage)" action Function(m.attack, "ally", allyRegular)
+                textbutton "Ally Fast Attack (5 - 20 damage) (Costs 15 AP)" action Function(m.attack, "ally", allyFast)
+                textbutton "Ally Heavy Attack (20 - 30 damage) (Costs 35 AP)" action Function(m.attack, "ally", allyHeavy)
+                textbutton "Enemy Regular Attack" action Function(m.attack, "enemy", enemyRegular)
 
-            textbutton "Enemy has fancy dodge" action SetField(m.enemyCharacter, "hitChain", enemyHitFancyChain)
-            textbutton "Enemy has regular dodge" action SetField(m.enemyCharacter, "hitChain", enemyHitChain)
+            vbox:
+                spacing -8
 
-            # textbutton "Begin Spawn Chain" action Function(allySpawnChain.beginChain)
-            # textbutton "Begin Attack Chain" action Function(allyAttackChain.beginChain)
-            # textbutton "Begin Hit Chain" action Function(allyHitChain.beginChain)
+                textbutton "Enemy has fancy dodge" action SetField(m.enemyCharacter, "hitChain", enemyHitFancyChain)
+                textbutton "Enemy has regular dodge" action SetField(m.enemyCharacter, "hitChain", enemyHitChain)
 
-            # textbutton "Ally Hit" action Function(m.allyChain.gotHit)
-            # textbutton "Enemy Hit" action Function(m.enemyChain.gotHit)
+                # textbutton "Begin Spawn Chain" action Function(allySpawnChain.beginChain)
+                # textbutton "Begin Attack Chain" action Function(allyAttackChain.beginChain)
+                # textbutton "Begin Hit Chain" action Function(allyHitChain.beginChain)
+
+                # textbutton "Ally Hit" action Function(m.allyChain.gotHit)
+                # textbutton "Enemy Hit" action Function(m.enemyChain.gotHit)
 
         # Characte stats
     vbox:

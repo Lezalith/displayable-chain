@@ -28,9 +28,16 @@ init -10 python:
 
             self.noticeManager = noticeManager
 
+            self.state = "notStarted"
+            self.statePauseDuration = 1.0
+
+            self.controlsShown = False
+
         # Begins the battle.
         # Currently only spawns the participants.
         def start(self):
+
+            self.setState("started")
 
             self.allyCharacter.enter()
             self.enemyCharacter.enter()
@@ -46,6 +53,8 @@ init -10 python:
         # Begins an attack.
         # type can be "ally" for when ally character is attacking, and "enemy" for when enemy character is. 
         def attack(self, type, attack):
+
+            self.state = "attack"
 
             # Ally attacking
             if type == "ally":
@@ -88,6 +97,9 @@ init -10 python:
         # Renders all displayables held. Called with every renpy.redraw.
         def render(self, width, height, st, at):
 
+            if not self.state == "idle":
+                self.controlsShown = False
+
             # Check if someone is attacking. If so, check if they should trigger a hit.
             if self.attacking is not None:
                 self.checkHit()
@@ -108,6 +120,30 @@ init -10 python:
             # Returns the render.
             return render
 
+        def setState(self, state):
+
+            if self.state is not None:
+
+                # What the original state was
+                if self.state == "attack":
+
+                    self.noticeManager.addNotice("An attack of {} has finished!".format(self.attacking.name))
+
+                elif self.state == "started":
+
+                    self.noticeManager.addNotice("Characters have entered the battle!")
+
+
+            self.state = state
+
+            if state == "idle":
+                self.currentAttack = None
+                self.attacking = None
+                self.attacked = None
+
+                self.controlsShown = True
+
+        # TODO: Bugged - Triggers when the same Chain is repeated.
         def checkFinishedChains(self):
 
             if self.allyCharacter.getChain() is not None:
@@ -118,11 +154,13 @@ init -10 python:
 
                         if self.enemyCharacter.getChain().finished:
 
-                            # if self.state = "enter" or "allyAttack" or "enemyAttack":
+                            if self.state == "started":
 
-                                # self.state = "idle" 
+                                self.setState("idle" )
 
-                            self.noticeManager.addNotice("Both chains are finished!")
+                            elif self.state == "attack":
+
+                                self.setState("idle" )
 
         # Triggered when an event happens - mouse movement, key press...
         def event(self, ev, x, y, st):
