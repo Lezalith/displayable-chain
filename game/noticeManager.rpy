@@ -1,8 +1,8 @@
 transform noticeDisappear():
 
-    align (0.5, 0.15) alpha 1.0
+    align (0.5, 0.25) alpha 1.0
 
-    linear 3.0 yoffset -200 alpha 0.0
+    linear 4.0 yoffset -400 alpha 0.0
 
 # Calculated from the transform.
 define noticeDuration = 3.0
