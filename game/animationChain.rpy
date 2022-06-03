@@ -212,6 +212,8 @@ default allyAttackFastChain = AnimationChain( moveForward, attackFast, moveBack,
 
 default allyDeathChain = AnimationChain( death )
 
+default allySpellChain = AnimationChain( death, spellAnimation, enter, idle )
+
 
 # Chains used by Enemy Character.
 default enemySpawnChain = AnimationChain( enterFancyEnemy, idleEnemy )

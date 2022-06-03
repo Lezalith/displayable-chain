@@ -26,6 +26,8 @@ init -10 python:
 
             self.currentAttack = None
 
+            self.spellChildren = []
+
             self.noticeManager = noticeManager
 
             self.state = "notStarted"
@@ -78,6 +80,36 @@ init -10 python:
 
             self.currentAttack = attack
 
+
+        def spell(self, type, spell):
+
+            self.state = "attack"
+
+            # Ally attacking
+            if type == "ally":
+
+                # Trigger an AnimationChain of the attack.
+                self.allyCharacter.spellCast( spell, self.noticeManager )
+                self.spellChildren = [spell]
+
+                # Set attacking character and attacked character.
+                self.attacking = self.allyCharacter
+                self.attacked = self.enemyCharacter
+
+            # # Enemy attacking
+            # elif type == "enemy":
+
+            #     # Trigger an AnimationChain of the attack.
+            #     self.enemyCharacter.spellCast( spell, self.noticeManager )
+
+            #     # Set attacking character and attacked character.
+            #     self.attacking = self.enemyCharacter
+            #     self.attacked = self.allyCharacter
+
+            self.currentAttack = spell
+
+
+
         # Triggers the hit AnimationChain of the attacked character.
         def checkHit(self):
 
@@ -122,6 +154,7 @@ init -10 python:
 
             if not self.state == "idle":
                 self.controlsShown = False
+                self.spellChildren = []
 
             # Check if someone is attacking. If so, check if they should trigger a hit.
             if self.attacking is not None:
@@ -136,6 +169,11 @@ init -10 python:
             for chain in self.getChildrenChains():
 
                 # print("placing {}".format(chain))
+
+                t = Transform(child = chain)
+                render.place(t)
+
+            for spellChild in self.spellChildren:
 
                 t = Transform(child = chain)
                 render.place(t)

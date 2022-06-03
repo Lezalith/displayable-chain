@@ -50,8 +50,17 @@ init -30:
 
     transform deathTrans():
 
-        xoffset 0 align (0.3, 0.5)
+        xoffset 0 align (0.3, 0.5) xzoom -1.0
         linear 1.5 xoffset - 1000
+
+    transform spellTransform():
+
+        yalign 0.5 xoffset -510
+        ease 0.8 xoffset 300
+        ease 0.8 xoffset 600
+        ease 0.8 xoffset 900
+        ease 0.8 xoffset 1200
+        ease 0.8 xoffset 1500
 
 
     # Images definitions
@@ -80,9 +89,13 @@ init -30:
         (0, 0), Solid("C70039"),
         (0, 0), Text("hit", size = 40, color = "00f"))
 
+    image spellImage = At(Solid("4287f5"), Transform(xysize = (200, 500)))
+
 
 # Animations of Ally Character
 init -25 python:
+
+    spellAnimation = Animation("spellImage", spellTransform, 4.0, trigger = True, triggerDelays = [1.4, 1.7, 2.0, 2.3])
 
     enter = Animation("allyRunForward", enterTrans, 1.0)
     # enter = Animation("moveState", enterTrans, 1.0)

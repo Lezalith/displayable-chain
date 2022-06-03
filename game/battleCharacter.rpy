@@ -26,9 +26,16 @@ init -15 python:
             self.mp = 100.0
             self.ap = 100.0
 
+            self.spell = None
+
             # Current Chain used.
             # This is basically the Displayable of this character.
             self.currentChain = None
+
+        # TODO: Will be changed to work with list
+        def setSpell(self, spell):
+
+            self.spell = spell
 
         # Trigger a chain representing the entrance to the battle.
         def enter(self):
@@ -52,6 +59,19 @@ init -15 python:
 
             self.currentChain = attack.animationChain
             self.currentChain.beginChain()
+
+        def spellCast(self, spell, noticeManager):
+
+            # Implement like in attack.
+            # if attack.mpCost:
+
+            noticeManager.addNotice("{} cast {}!".format(self.name, spell.name))
+
+
+            # TODO: currentChain will need to be a list, currentChains
+            self.currentChain = spell.animationChain
+            self.currentChain.beginChain()
+
 
         # Trigger a chain representing getting hit.
         def hit(self, attack, noticeManager, attackerName):
