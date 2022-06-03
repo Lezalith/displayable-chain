@@ -94,6 +94,29 @@ init -10 python:
                 # self.attacked = None
                 # self.currentAttack = None
 
+        def checkDeaths(self):
+
+            whoDied = None
+
+            if self.allyCharacter.hp <= 0:
+
+                whoDied = (self.enemyCharacter, self.allyCharacter)
+
+                self.allyCharacter.died()
+
+            elif self.enemyCharacter.hp <= 0:
+
+                whoDied = (self.allyCharacter, self.enemyCharacter)
+
+                self.enemyCharacter.died()
+
+            if whoDied is not None:
+
+                self.noticeManager.addNotice("An attack of {} has killed {}!".format(whoDied[0].name, whoDied[1].name))
+
+                # TODO: Not working, the state stays idle.
+                self.setState("finished")
+
         # Renders all displayables held. Called with every renpy.redraw.
         def render(self, width, height, st, at):
 
@@ -122,20 +145,23 @@ init -10 python:
 
         def setState(self, state):
 
-            if state == "idle":
+            if not state == "finished":
 
-                # What the original state was
-                if self.state == "attack":
 
-                    self.noticeManager.addNotice("An attack of {} has finished!".format(self.attacking.name))
+                if state == "idle":
 
-                elif self.state == "started":
+                    # What the original state was
+                    if self.state == "attack":
 
-                    self.noticeManager.addNotice("Characters have entered the battle!")
+                        self.checkDeaths()
 
-            self.state = state
+                    elif self.state == "started":
 
-            if state == "idle":
+                        self.noticeManager.addNotice("Characters have entered the battle!")
+
+                self.state = state
+
+            if state == "idle" or state == "finished":
                 self.currentAttack = None
                 self.attacking = None
                 self.attacked = None
