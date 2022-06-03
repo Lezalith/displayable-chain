@@ -40,7 +40,7 @@ init -20 python:
 
             # When chain finishes, True makes it stay on the last animation, and False puts it back on self.defaultChild.
             # TODO: How does return None in render function fit into this? 
-            self.endOnLast = True
+            self.finished = False
 
         # Makes chain start on next render call.
         # If we were to trigger it right away (run triggerChain instead), self.stOffset would not update correctly.
@@ -59,6 +59,8 @@ init -20 python:
             self.stOffset = self.st
 
             # print("chain reset at st of {}".format(self.st))
+
+            self.finished = False
 
             # Point at the first Animation in self.animations and updates self.currentChild.
             self.pointer = 0
@@ -107,7 +109,7 @@ init -20 python:
 
             # This was the last Animation in the list.
             else:
-                pass
+                self.finished = True
 
         # Checks for a trigger inside of self.currentAnimation.
         def checkTrigger(self):

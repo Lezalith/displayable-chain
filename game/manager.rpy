@@ -92,6 +92,8 @@ init -10 python:
             if self.attacking is not None:
                 self.checkHit()
 
+            self.checkFinishedChains()
+
             # Prepare a render. It is the size of the whole screen.
             render = renpy.Render(config.screen_width, config.screen_height)
 
@@ -105,6 +107,22 @@ init -10 python:
 
             # Returns the render.
             return render
+
+        def checkFinishedChains(self):
+
+            if self.allyCharacter.getChain() is not None:
+
+                if self.allyCharacter.getChain().finished:
+
+                    if self.enemyCharacter.getChain() is not None:
+
+                        if self.enemyCharacter.getChain().finished:
+
+                            # if self.state = "enter" or "allyAttack" or "enemyAttack":
+
+                                # self.state = "idle" 
+
+                            self.noticeManager.addNotice("Both chains are finished!")
 
         # Triggered when an event happens - mouse movement, key press...
         def event(self, ev, x, y, st):
