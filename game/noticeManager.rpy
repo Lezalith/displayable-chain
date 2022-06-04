@@ -10,23 +10,23 @@ transform noticeDisappear():
     # Going up and disappearing
     linear 4.0 yoffset -400 alpha 0.0
 
-# Has to be manually given.
-# It should be the duration of noticeDisappear, or whatever transform used for the notices.
-define noticeDuration = 4.0
-
 init -15 python:
 
     # Displayable.
     class NoticeManager(renpy.Displayable):
 
         # When defined.
-        def __init__(self, **kwargs):
+        # noticeDuration is a float number, for how long the notices stay on screen.
+        def __init__(self, noticeDuration, **kwargs):
 
             # Pass additional properties on to the renpy.Displayable constructor.
             super(NoticeManager, self).__init__(**kwargs)
 
             # Children (notices) currently registered.
             self.currentChildren = []
+
+            # Records the st 
+            self.noticesTimes = {}
 
         # Adds a new notice.
         # Kwargs given are passed to Text.

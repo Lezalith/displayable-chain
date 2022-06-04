@@ -13,7 +13,7 @@ screen chainScreen():
 
     add Solid("fff")
 
-    default noticeManager = NoticeManager()
+    default noticeManager = NoticeManager(4.0)
 
     default m = BattleManager( ally = allyCharacter, enemy = enemyCharacter, noticeManager = noticeManager )
 
