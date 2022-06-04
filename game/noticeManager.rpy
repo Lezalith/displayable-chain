@@ -52,15 +52,14 @@ init -15 python:
         # Triggered with every interaction and renpy.redraw.
         def render(self, width, height, st, at):
 
+            # Run this function again once possible, so that everything can continuously update.
+            renpy.redraw(self, 0)
+
             # Update the st variable.
             self.st = st
 
-            # Checks for notices that should be removes.
+            # Checks for notices that should be removed.
             self.checkForRemovals()
-
-            # Run this function again once possible.
-            # This is so that Transforms can update (move).
-            renpy.redraw(self, 0)
 
             # Create a render (canvas).
             render = renpy.Render(width, height)
@@ -77,11 +76,12 @@ init -15 python:
         # Checks whether any notices have gone past noticeDuration, and remove them if so.
         def checkForRemovals(self):
 
-            # List of items to remove once the for loop is done.
-            # We shouldn't remove/append stuff while iterating over it.
+            # List of keys to remove from self.noticsTimes once the for loop is done.
+            # We shouldn't remove/append stuff to/from a data structure while iterating over it.*
             removedKeys = []
 
             # Checking all the notices...
+            # *This is also why self.noticedTimes.keys() are used, as opposed to the obvious self.currentChildren.
             for notice in self.noticesTimes.keys():
 
                 # If the current time >= time when this was shown + noticeDuration: 
