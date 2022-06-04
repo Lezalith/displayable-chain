@@ -35,7 +35,7 @@ init -15 python:
             # Adds a new Text object to the current children.
             # Text creates a text displayable.
             # At makes it use the noticeDisappear transform.
-            self.currentChildren.append( At( Text(text, color = "000"), noticeDisappear) )
+            self.currentChildren.append( At( Text(text, **kwargs), noticeDisappear) )
 
         # Triggered with every interaction and renpy.redraw.
         def render(self, width, height, st, at):
