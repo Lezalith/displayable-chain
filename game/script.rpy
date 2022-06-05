@@ -13,6 +13,9 @@ label start:
 
         allyCharacter.setSpell(allySpell)
 
+    # Black background.
+    scene expression Solid("000")
+
     # Jump right to the testing screen.
     call screen chainScreen
 

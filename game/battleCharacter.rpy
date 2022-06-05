@@ -55,7 +55,7 @@ init -15 python:
 
                 self.ap -= attack.apCost
 
-                noticeManager.addNotice("{} spent {} Ability Points to use {}!".format(self.name, attack.apCost, attack.name))
+                noticeManager.addNotice("{} spent {} Ability Points to use {}!".format(self.name, attack.apCost, attack.name), color = "000")
 
             self.currentChain = attack.animationChain
             self.currentChain.beginChain()
@@ -65,7 +65,7 @@ init -15 python:
             # Implement like in attack.
             # if attack.mpCost:
 
-            noticeManager.addNotice("{} cast {}!".format(self.name, spell.name))
+            noticeManager.addNotice("{} cast {}!".format(self.name, spell.name), color = "000")
 
 
             # TODO: currentChain will need to be a list, currentChains
@@ -80,7 +80,7 @@ init -15 python:
 
             self.hp -= damageDealt
 
-            noticeManager.addNotice( "{} hit {} for {} damage!".format(attackerName, self.name, damageDealt) )
+            noticeManager.addNotice( "{} hit {} for {} damage!".format(attackerName, self.name, damageDealt), color = "000" )
 
             self.currentChain = self.hitChain
             self.currentChain.beginChain()

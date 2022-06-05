@@ -144,7 +144,7 @@ init -10 python:
 
             if whoDied is not None:
 
-                self.noticeManager.addNotice("An attack of {} has killed {}!".format(whoDied[0].name, whoDied[1].name))
+                self.noticeManager.addNotice("An attack of {} has killed {}!".format(whoDied[0].name, whoDied[1].name), color = "000")
 
                 # TODO: Not working, the state stays idle.
                 self.setState("finished")
@@ -195,7 +195,7 @@ init -10 python:
 
                     elif self.state == "started":
 
-                        self.noticeManager.addNotice("Characters have entered the battle!")
+                        self.noticeManager.addNotice("Characters have entered the battle!", color = "000")
 
                 self.state = state
 
