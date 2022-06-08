@@ -1,5 +1,5 @@
 # Animations of Enemy Character.
-init -25 python:
+init -45 python:
 
     enterEnemy = Animation("wind dervish", enterTransEnemy, 1.5)
 

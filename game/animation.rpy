@@ -1,4 +1,4 @@
-init -30 python:
+init -50 python:
 
     # Ren'Py actually has an Animation displayable, which this overrides,
     # but I don't really think anybody would miss the original - It's outdated and not even documented anymore.

@@ -1,4 +1,4 @@
-init -50:
+init -46:
 
     # Transforms used by the AnimationChains
     transform enterTransEnemy():

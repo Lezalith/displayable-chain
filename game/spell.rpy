@@ -1,5 +1,4 @@
-# After AnimationChain
-init -99 python:
+init -30 python:
 
     from random import randrange
 

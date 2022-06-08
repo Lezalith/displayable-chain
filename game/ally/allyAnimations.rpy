@@ -3,7 +3,7 @@ image spellImage = At(Solid("4287f5"), Transform(xysize = (200, 500)))
 
 
 # Animations of Ally Character.
-init -25 python:
+init -45 python:
 
     spellAnimation = Animation("spellImage", spellTransform, 4.0, trigger = True, triggerDelays = [1.4, 1.7, 2.0, 2.3])
 

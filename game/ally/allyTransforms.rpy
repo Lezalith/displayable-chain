@@ -1,5 +1,5 @@
 # Transforms used by the Animations in allyAnimations.rpy.
-init -30:
+init -46:
     transform enterTrans():
 
         xalign 0.3 yalign 0.5 xoffset -600 alpha 0.0
