@@ -1,122 +1,158 @@
 init -10 python:
 
-    # Controls the Battle.
-    #
-    # Arguments:
-    # ally is the player
-    # enemy is the opponent
-    # TODO: Make these into lists for multiple participants in a battle!
+    # Controls the entire Battle.
     class BattleManager(renpy.Displayable):
 
+        # ally is BattleCharacter, the player
+        # enemy is BattleCharacter, the opponent
+        # TODO: Make these into lists for multiple participants in a battle!
+        # noticeManager is an injection for displaying messages.
         def __init__(self, ally, enemy, noticeManager, **kwargs):
 
-            # Pass additional properties on to the renpy.Displayable
-            # constructor.
+            # Pass additional properties on to the renpy.Displayable constructor.
             super(BattleManager, self).__init__(**kwargs)
 
             # Participants of the battle.
             self.allyCharacter = ally
             self.enemyCharacter = enemy
 
-            # attacking is a character currently attacking.
-            # attacked is a character currently *being* attacked.
+            # attacking is the BattleCharacter currently attacking.
+            # attacked is the BattleCharacter currently *being* attacked.
             # TODO: Make these into lists, for AoE attacks!
             self.attacking = None
             self.attacked = None
 
+            # Attack that's currently in play.
             self.currentAttack = None
 
+            # List of Spells currently in play.
+            # TODO: Remake this.
             self.spellChildren = []
 
+            # NoticeManager for displaying messages.
             self.noticeManager = noticeManager
 
+            # Current state of the BattleManager. Current states include:
+            # - notStarted -- Before the battle begins.
+            # - started ----- Battle started, characters entering.
+            # - attack ------ In the middle of an Attack or Spell.
+            # - idle -------- Inbetween turns.
+            # - finished ---- When one Character is defeated.
+            # TODO: Currently, finished state is not working.
             self.state = "notStarted"
+
+            # Time pause after a state is changed.
+            # TODO: Currently not working.
             self.statePauseDuration = 1.0
 
+            # Whether controls are shown on screen.
+            # Currently True only for "idle" state.
+            # TODO: Make a list of states when controls are shown, and determine it from that.
             self.controlsShown = False
 
         # Begins the battle.
-        # Currently only spawns the participants.
         def start(self):
 
+            # Update state.
             self.setState("started")
 
+            # Make both Characters enter.
             self.allyCharacter.enter()
             self.enemyCharacter.enter()
 
-            # Trigger render of this object, triggering the first render of participants.
+            # Trigger self.render, setting the battle into motion.
             renpy.redraw(self, 0)
 
         # Returns a list of all displayables held by the BattleManager.
+        # Currently, it's only the two BattleCharacters.
+        # TODO: Probably should include spellChildren, too.
         def getChildrenChains(self):
 
             return [self.allyCharacter.getChain(), self.enemyCharacter.getChain()]
 
         # Begins an attack.
-        # type can be "ally" for when ally character is attacking, and "enemy" for when enemy character is. 
+        # type can be "ally" for when ally character is attacking, and "enemy" for when enemy character is.
+        # TODO: This is a pretty dumb way.
+        # attack is the Attack object of the attack used.
         def attack(self, type, attack):
 
+            # Update the state.
+            # TODO: Shouldn't this be self.setState("attack") ??
             self.state = "attack"
 
-            # Ally attacking
+            # Ally is attacking:
             if type == "ally":
 
-                # Trigger an AnimationChain of the attack.
+                # Instigate allyCharacter to attack. 
                 self.allyCharacter.attack( attack, self.noticeManager )
 
                 # Set attacking character and attacked character.
                 self.attacking = self.allyCharacter
                 self.attacked = self.enemyCharacter
 
-            # Enemy attacking
+            # Enemy is attacking:
             elif type == "enemy":
 
-                # Trigger an AnimationChain of the attack.
+                # Instigate enemyCharacter to attack. 
                 self.enemyCharacter.attack( attack, self.noticeManager )
 
                 # Set attacking character and attacked character.
                 self.attacking = self.enemyCharacter
                 self.attacked = self.allyCharacter
 
+            # Set the current attack in play.
             self.currentAttack = attack
 
-
+        # Casts a spell.
+        # type can be "ally" for when ally character is casting the spell, and "enemy" for when enemy character is.
+        # TODO: This is a pretty dumb way.
+        # spell is the Spell object of the spell cast.
         def spell(self, type, spell):
 
+            # Update the state.
+            # TODO: Shouldn't this be self.setState("attack") ??
+            # I don't think it differs enough from the attack to warrant a separate state at this point.
             self.state = "attack"
 
-            # Ally attacking
+            # Ally is casting the spell:
             if type == "ally":
 
-                # Trigger an AnimationChain of the attack.
+                # Instigate allyCharacter to cast the spell.
                 self.allyCharacter.spellCast( spell, self.noticeManager )
+
+                # Adds the Spell object to a list remembered spells in play.
+                # TODO: This is currently a stupid makeshift way of testing a single spell.
                 self.spellChildren = [spell]
 
                 # Set attacking character and attacked character.
                 self.attacking = self.allyCharacter
                 self.attacked = self.enemyCharacter
 
-            # # Enemy attacking
-            # elif type == "enemy":
+            # Ally is casting the spell. Currently, there are no enemy spells.
+            elif type == "enemy":
 
-            #     # Trigger an AnimationChain of the attack.
-            #     self.enemyCharacter.spellCast( spell, self.noticeManager )
+                # Instigate enemyCharacter to cast the spell.
+                self.enemyCharacter.spellCast( spell, self.noticeManager )
 
-            #     # Set attacking character and attacked character.
-            #     self.attacking = self.enemyCharacter
-            #     self.attacked = self.allyCharacter
+                # Adds the Spell object to a list remembered spells in play.
+                # TODO: This is currently a stupid makeshift way of testing a single spell.
+                self.spellChildren = [spell]
 
+                # Set attacking character and attacked character.
+                self.attacking = self.enemyCharacter
+                self.attacked = self.allyCharacter
+
+            # Set the current spell in play.
+            # TODO: Wait, does it actually make sense to have spellChildren if only one spell is in play..?
             self.currentAttack = spell
 
-
-
-        # Triggers the hit AnimationChain of the attacked character.
+        # Checks whether someone should get hit.
         def checkHit(self):
 
             # Check whether the current Animation of attacking Character has a trigger and whether it's gone off.
             if self.attacking.getChain().checkTrigger():
 
-                # Trigger hit AnimationChain of attacked.
+                # Instigate the attacked Character to get hit.
                 self.attacked.hit( self.currentAttack, self.noticeManager, self.attacking.name )
 
                 # Reset info about an attack.
@@ -126,24 +162,34 @@ init -10 python:
                 # self.attacked = None
                 # self.currentAttack = None
 
+        # Check whether someone has died, i.e. someone has HP below 0.
         def checkDeaths(self):
 
+            # None if nobody died.
+            # Tuple if someone died, of (the killer, the killed)
+            # TODO: Should probably derive from self.attacking and self.attacked, but I had Thornmail effects in mind when writing this part.
             whoDied = None
 
+            # If it's the Ally with HP below 0.
             if self.allyCharacter.hp <= 0:
 
                 whoDied = (self.enemyCharacter, self.allyCharacter)
 
+                # Tell the Ally Character to die.
                 self.allyCharacter.died()
 
+            # If it's the Enemy with HP below 0.
             elif self.enemyCharacter.hp <= 0:
 
                 whoDied = (self.allyCharacter, self.enemyCharacter)
 
+                # Tell the Enemy Character to die.
                 self.enemyCharacter.died()
 
+            # If someone died...
             if whoDied is not None:
 
+                # Display a message about an attack of one Character killed the other.
                 self.noticeManager.addNotice("An attack of {} has killed {}!".format(whoDied[0].name, whoDied[1].name), color = "000")
 
                 # TODO: Not working, the state stays idle.
@@ -152,20 +198,27 @@ init -10 python:
         # Renders all displayables held. Called with every renpy.redraw.
         def render(self, width, height, st, at):
 
-            if not self.state == "idle":
-                self.controlsShown = False
+            # If the state is "idle":
+            if  self.state == "idle":
+
+                # Show the controls on the screen.
+                self.controlsShown = True
+
+                # TODO: What is this doing here, and why the hell did changing this make the enemy character darker on spell casts??? 
                 self.spellChildren = []
 
-            # Check if someone is attacking. If so, check if they should trigger a hit.
+            # Check if someone is attacking. If so, check if someone got hit.
             if self.attacking is not None:
                 self.checkHit()
 
+            # Checks if AnimationChains of both Characters have finished. This is used to determine whether the state should be set to "idle".
+            # Currently used to pass between states.
             self.checkFinishedChains()
 
             # Prepare a render. It is the size of the whole screen.
             render = renpy.Render(config.screen_width, config.screen_height)
 
-            # Places every displayable held into the render.
+            # Place every displayable held onto the render.
             for chain in self.getChildrenChains():
 
                 # print("placing {}".format(chain))
@@ -173,6 +226,7 @@ init -10 python:
                 t = Transform(child = chain)
                 render.place(t)
 
+            # Place all Spell children onto the render.
             for spellChild in self.spellChildren:
 
                 t = Transform(child = chain)
@@ -181,48 +235,62 @@ init -10 python:
             # Returns the render.
             return render
 
+        # Sets the state of BattleManager.
         def setState(self, state):
 
+            # If we're setting to anything but "finished":
             if not state == "finished":
 
-
+                # If we're setting it to "idle":
                 if state == "idle":
 
-                    # What the original state was
+                    # Next if branch checks what the original state was.
+
+                    # It was "attack":
                     if self.state == "attack":
 
+                        # Check whether one of the Characters died.
                         self.checkDeaths()
 
+                    # "It was started":
                     elif self.state == "started":
 
+                        # Message about battle starting.
                         self.noticeManager.addNotice("Characters have entered the battle!", color = "000")
 
+                        # TODO: Likely more stuff here once I code more on states.
+
+                # Set the new state.
                 self.state = state
 
-            if state == "idle" or state == "finished":
+            # If we're setting the state to "finished":
+            if state == "finished":
+
+                # Reset all the info related to attacking.
                 self.currentAttack = None
                 self.attacking = None
                 self.attacked = None
 
-                self.controlsShown = True
-
-        # TODO: Bugged - Triggers when the same Chain is repeated.
+        # Checks if AnimationChains of both Characters have finished.
+        # This is used to determine whether the state should be set to "idle".
         def checkFinishedChains(self):
 
+            # If the allyCharacter has a chain:
             if self.allyCharacter.getChain() is not None:
 
+                # If it has finished:
                 if self.allyCharacter.getChain().finished:
 
+                    # If the enemyCharacter has a chain:
                     if self.enemyCharacter.getChain() is not None:
 
+                        # If it has finished:
                         if self.enemyCharacter.getChain().finished:
 
-                            if self.state == "started":
+                            # If the current state is "started", i.e. characters were entering, or "attack", i.e. attack was happening:
+                            if self.state == "started" or self.state == "attack":
 
-                                self.setState("idle" )
-
-                            elif self.state == "attack":
-
+                                # Set the state to "idle".
                                 self.setState("idle" )
 
         # Triggered when an event happens - mouse movement, key press...
@@ -236,9 +304,11 @@ init -10 python:
 
                     disp.event(ev, x, y, st)
 
+            # TODO: spellChildren??
+
         # Honestly not sure what this does, but it needs to return all displayables rendered.
+        # TODO: spellChildren??
         def visit(self):
             return self.getChildrenChains()
-
 
 # BattleManager is defined inside the battle screen.
