@@ -13,7 +13,7 @@ image snowflakeStorm = Composite( (250, 250),
 # Animations of Ally Character.
 init -45 python:
 
-    spellAnimation = Animation("snowflakeStorm", snowflakeTransform, 4.0, trigger = True, triggerDelays = [0.25])
+    spellAnimation = Animation("snowflakeStorm", snowflakeTransform, 1.4, trigger = True, triggerDelays = [0.25])
 
     enter = Animation("allyRunForward", enterTrans, 1.0)
 

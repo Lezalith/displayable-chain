@@ -78,7 +78,7 @@ init -47 python:
         trans.yoffset = - ((1 / (st + 1.5)) * 950)
 
         # Total duration.
-        if st / 5.5 <= 1.5:
+        if st / 5.5 <= 1.4:
             return 0
 
         return None
