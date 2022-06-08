@@ -74,6 +74,9 @@ init -15 python:
             # Message about casting this Spell.
             noticeManager.addNotice("{} cast {}!".format(self.name, spell.name), color = "000")
 
+            self.currentChain = spell.castAnimationChain
+            self.currentChain.beginChain()
+
             # TODO: Create a chain for casting the spell.
 
         # Trigger AnimationChain representing getting hit.

@@ -10,10 +10,13 @@ init -30 python:
         # animationChain is AnimationChain object.
         # damage is a tuple of two ints representing the damage range: (min damage, max damage)
         # mpCost is the cost of MP to use this spell.
-        def __init__(self, name, animationChain, damage, mpCost = 0):
+        def __init__(self, name, animationChain, castChain, damage, mpCost = 0):
 
             # Name of the Spell.
             self.name = name
+
+            # Chain used by the Character to cast the spell.
+            self.castAnimationChain = castChain
 
             # AnimationChain of the Spell.
             self.animationChain = animationChain
