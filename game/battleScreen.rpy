@@ -52,18 +52,20 @@ screen battleScreen():
     vbox:
         align (0.0, 0.8)
 
-        text "Ally HP: [m.allyCharacter.hp]"
-        text "Ally AP: [m.allyCharacter.ap]"
+        text "Ally HP: [m.allyCharacter.hp]" color "000"
+        text "Ally AP: [m.allyCharacter.ap]" color "000"
 
     # Enemy Character stats
     vbox:
         align (1.0, 0.8)
 
-        text "Enemy HP: [m.enemyCharacter.hp]"
-        text "Enemy AP: [m.enemyCharacter.ap]"
+        text "Enemy HP: [m.enemyCharacter.hp]" color "000"
+        text "Enemy AP: [m.enemyCharacter.ap]" color "000"
 
     # Add NoticeManager.
     add noticeManager
+
+    text "[m.state]" align (1.0, 1.0) color "000"
 
     # Add BattleManager.
     add m

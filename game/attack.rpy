@@ -28,9 +28,24 @@ init -30 python:
             self.element = None
             self.type = None
 
+            # Instance info - Info of an attack when it is used.
+            # The Character that began the attack.
+            self.attacker = None 
+            # The Character that is under attack.
+            self.defender = None
+
         # Returns damage dealt, calculated from this attack's stats.
         def getDamage(self):
 
             return randrange( self.damage[0], self.damage[1] )
+
+        def setInstanceInfo(self, attacker, defender):
+
+            self.attacker = attacker
+            self.defender = defender
+
+        def attackUsed(self, attacker, defender):
+
+            self.setInstanceInfo(attacker, defender)
 
 ### (Defined in script.rpy) ###

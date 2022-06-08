@@ -28,6 +28,12 @@ init -30 python:
             self.element = None
             self.type = None
 
+            # Instance info - Info of a spell when it is used.
+            # The Character that began the spell.
+            self.attacker = None 
+            # The Character that is under spell.
+            self.defender = None
+
         # Returns damage dealt, calculated from this spell's stats.
         def getDamage(self):
 
@@ -36,5 +42,14 @@ init -30 python:
         # Return the spell's AnimationChain.
         def getChain(self):
             return self.animationChain
+
+        def setInstanceInfo(self, attacker, defender):
+
+            self.attacker = attacker
+            self.defender = defender
+
+        def spellUsed(self, attacker, defender):
+
+            self.setInstanceInfo(attacker, defender)
 
 ### (Defined in script.rpy) ###

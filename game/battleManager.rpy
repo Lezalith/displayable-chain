@@ -16,12 +16,6 @@ init -10 python:
             self.allyCharacter = ally
             self.enemyCharacter = enemy
 
-            # attacking is the BattleCharacter currently attacking.
-            # attacked is the BattleCharacter currently *being* attacked.
-            # TODO: Make these into lists, for AoE attacks!
-            self.attacking = None
-            self.attacked = None
-
             # Attack that's currently in play.
             self.currentAttack = None
 
@@ -83,21 +77,19 @@ init -10 python:
             if type == "ally":
 
                 # Instigate allyCharacter to attack. 
-                self.allyCharacter.attack( attack, self.noticeManager )
+                attack.attackUsed(self.allyCharacter, self.enemyCharacter)
 
-                # Set attacking character and attacked character.
-                self.attacking = self.allyCharacter
-                self.attacked = self.enemyCharacter
+                # Set info about the attack inside the attack object.
+                self.allyCharacter.attack( attack, self.noticeManager )
 
             # Enemy is attacking:
             elif type == "enemy":
 
+                # Set info about the attack inside the attack object.
+                attack.attackUsed(self.enemyCharacter, self.allyCharacter)
+
                 # Instigate enemyCharacter to attack. 
                 self.enemyCharacter.attack( attack, self.noticeManager )
-
-                # Set attacking character and attacked character.
-                self.attacking = self.enemyCharacter
-                self.attacked = self.allyCharacter
 
             # Set the current attack in play.
             self.currentAttack = attack
@@ -115,6 +107,9 @@ init -10 python:
             # Ally is casting the spell:
             if type == "ally":
 
+                # Instigate allyCharacter to attack. 
+                spell.spellUsed(self.allyCharacter, self.enemyCharacter)
+
                 # Instigate allyCharacter to cast the spell.
                 self.allyCharacter.spellCast( spell, self.noticeManager )
 
@@ -122,12 +117,11 @@ init -10 python:
                 # TODO: This is currently a stupid makeshift way of testing a single spell.
                 self.spellChildren = [spell]
 
-                # Set attacking character and attacked character.
-                self.attacking = self.allyCharacter
-                self.attacked = self.enemyCharacter
-
             # Ally is casting the spell. Currently, there are no enemy spells.
             elif type == "enemy":
+
+                # Instigate allyCharacter to attack. 
+                spell.spellUsed(self.enemyCharacter, self.allyCharacter)
 
                 # Instigate enemyCharacter to cast the spell.
                 self.enemyCharacter.spellCast( spell, self.noticeManager )
@@ -136,10 +130,6 @@ init -10 python:
                 # TODO: This is currently a stupid makeshift way of testing a single spell.
                 self.spellChildren = [spell]
 
-                # Set attacking character and attacked character.
-                self.attacking = self.enemyCharacter
-                self.attacked = self.allyCharacter
-
             # Set the current spell in play.
             # TODO: Wait, does it actually make sense to have spellChildren if only one spell is in play..?
             self.currentAttack = spell
@@ -147,17 +137,22 @@ init -10 python:
         # Checks whether someone should get hit.
         def checkHit(self):
 
+            # print("currentAttack: {}".format(self.currentAttack))
+            # print("defender: {}".format(self.currentAttack.defender))
+            # print("getChain: {}".format(self.currentAttack.defender.getChain()))
+            # print("checkTrigger: {}".format(self.currentAttack.defender.getChain().checkTrigger()))
+
             # Check whether the current Animation of attacking Character has a trigger and whether it's gone off.
-            if self.attacking.getChain().checkTrigger():
+            if self.currentAttack.attacker.getChain().checkTrigger():
+
+                print("triggered trigger of defender")
 
                 # Instigate the attacked Character to get hit.
-                self.attacked.hit( self.currentAttack, self.noticeManager, self.attacking.name )
+                self.currentAttack.defender.hit( self.currentAttack, self.noticeManager, self.currentAttack.defender.name )
 
                 # Reset info about an attack.
                 # TODO: This will be done elsewhere, once the Battle has been split into phases.
                 # TODO: Currently only gets overwritten by a new attack, but that's not a problem. Not reseting it here allows for attacks that hit multiple times.
-                # self.attacking = None
-                # self.attacked = None
                 # self.currentAttack = None
 
         # Check whether someone has died, i.e. someone has HP below 0.
@@ -203,7 +198,7 @@ init -10 python:
                 self.controlsShown = True
 
             # Check if someone is attacking. If so, check if someone got hit.
-            if self.attacking is not None:
+            if self.currentAttack is not None:
                 self.checkHit()
 
             # Checks if AnimationChains of both Characters have finished. This is used to determine whether the state should be set to "idle".
@@ -263,8 +258,6 @@ init -10 python:
 
                 # Reset all the info related to attacking.
                 self.currentAttack = None
-                self.attacking = None
-                self.attacked = None
 
         # Checks if AnimationChains of both Characters have finished.
         # This is used to determine whether the state should be set to "idle".
