@@ -3,6 +3,7 @@ init -20 python:
     # A chain of Animations.
     #
     # Arguments are Animations in the order they should be chained together.
+    # Currently, all Keyword Arguments are passed to parent class.
 
     class AnimationChain(renpy.Displayable):
 
@@ -26,11 +27,11 @@ init -20 python:
             # None if self.pointer is -1.
             self.currentAnimation = None
 
-            # Rendered child of this Displayable.
+            # Rendered child of this Displayable, either self.defaultChild or an Animation from self.animations.
             self.currentChild = self.defaultChild
 
             # Monitors st and resets it whenever an Animation used is changed.
-            # This is how the chaining works - reset of st makes the next transition think it was just shown.
+            # This is how the chaining works - reset of st makes the next Animation think it was just shown.
             self.st = 0.0
             self.stOffset = 0.0
 
@@ -38,14 +39,14 @@ init -20 python:
             # (Explained near beginChain below)
             self.setToBegin = False
 
-            # When chain finishes, True makes it stay on the last animation, and False puts it back on self.defaultChild.
-            # TODO: How does return None in render function fit into this? 
+            # Set to True when a chain finishes, and is reset to False when it begins anew.
             self.finished = False
 
         # Makes chain start on next render call.
         # If we were to trigger it right away (run triggerChain instead), self.stOffset would not update correctly.
         def beginChain(self):
 
+            # Makes self.triggerChain in the next self.render.
             self.setToBegin = True
 
             self.finished = False
@@ -55,16 +56,16 @@ init -20 python:
         # Actually starts the chain.
         def triggerChain(self):
 
-            self.getChainDuration()
+            # Why did I... Did I make a... Did I make a function just for a print statement???
+            # self.getChainDuration()
 
-            # Simulates st starting from 0.
+            # In every render call, self.stOffset is subtracted from st.
+            # This makes it look like it resets with every new Animation. 
             self.stOffset = self.st
 
             # print("chain reset at st of {}".format(self.st))
 
-            self.finished = False
-
-            # Point at the first Animation in self.animations and updates self.currentChild.
+            # Point at the first Animation in self.animations and update self.
             self.pointer = 0
             self.updateAnimation()
 
@@ -81,6 +82,7 @@ init -20 python:
             # Could be used to update stats on screen.
             # renpy.restart_interaction()
 
+        # Returns the duration of this chain.
         def getChainDuration(self):
 
             duration = sum([animation.duration for animation in self.animations])
@@ -88,9 +90,6 @@ init -20 python:
             print("Duration of current chain: {}".format(duration))
 
             return duration
-
-
-
 
         # Advances the Chain to the next Animation on the self.animations list.
         def advance(self):
@@ -106,39 +105,41 @@ init -20 python:
                 # Advance the pointer...
                 self.pointer += 1
 
-                # ...and update the animation used.
+                # ...and update self.
                 self.updateAnimation()
 
             # This was the last Animation in the list.
             else:
                 self.finished = True
 
-        # Checks for a trigger inside of self.currentAnimation.
+        # Checks for triggers inside of self.currentAnimation.
         def checkTrigger(self):
 
             # If there is a currentAnimation (None if the Chain is not active):
             if self.currentAnimation is not None:
 
-                print("Animation is not None")
+                # print("Animation is not None")
 
                 # If that Animation has a trigger:
                 if self.currentAnimation.trigger:
 
-                    print("Animation has a trigger.")
+                    # print("Animation has a trigger.")
 
                     # If the Animation has any more triggers remaining:
                     if self.currentAnimation.canAdvance():
 
-                        print("The animation can advance.")
+                        # print("The animation can advance.")
 
                         # If our st has gone past the delay of the current trigger:
                         if self.st - self.stOffset > self.currentAnimation.getCurrentDelay():
 
                             print("Triggering a hit at {}.".format(self.st))
 
+                            # Advance the pointer to the next trigger.
+                            # TODO: Maybe put this outside of here? Slightly off to have this in a check function.
                             self.currentAnimation.advancePointer()
 
-                            # Triggers the thing.
+                            # Something triggers.
                             return True
 
             # Nothing triggers.
@@ -160,18 +161,19 @@ init -20 python:
             # but that causes self.st to update one frame too late.
             renpy.redraw(self, 0)
 
-            # Triggers the chain if it is set to begin..
+            # Triggers the chain if it is set to begin.
             if self.setToBegin is True:
 
                 self.setToBegin = False
                 self.triggerChain()
 
-            # Use self.defaultChild when the chain has not started (or was reset).
+            # Use self.defaultChild if the chain has not started (or was reset).
             if self.pointer == -1:
 
                 # print("placing def child")
 
                 # Add the defaultChild inside the render and return it.
+                # No point in more code if the chain is not running.
                 t = self.defaultChild
                 render.place(t)
                 return render
@@ -200,6 +202,10 @@ init -20 python:
 
         # Honestly not sure what this does, but it needs to return all displayables rendered.
         def visit(self):
+
+            if self.pointer == -1:
+                return [ self.defaultChild ]
+                
             return [ self.currentChild ]
 
 # Chains used by Ally Character.
