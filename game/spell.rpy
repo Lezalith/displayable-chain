@@ -32,5 +32,9 @@ init -30 python:
         def getDamage(self):
 
             return randrange( self.damage[0], self.damage[1] )
-            
+
+        # Return the spell's AnimationChain.
+        def getChain(self):
+            return self.animationChain
+
 ### (Defined in script.rpy) ###

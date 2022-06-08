@@ -204,9 +204,6 @@ init -10 python:
                 # Show the controls on the screen.
                 self.controlsShown = True
 
-                # TODO: What is this doing here, and why the hell did changing this make the enemy character darker on spell casts??? 
-                self.spellChildren = []
-
             # Check if someone is attacking. If so, check if someone got hit.
             if self.attacking is not None:
                 self.checkHit()
@@ -229,7 +226,7 @@ init -10 python:
             # Place all Spell children onto the render.
             for spellChild in self.spellChildren:
 
-                t = Transform(child = chain)
+                t = Transform(child = spellChild.animationChain)
                 render.place(t)
 
             # Returns the render.
@@ -304,11 +301,19 @@ init -10 python:
 
                     disp.event(ev, x, y, st)
 
+            for spell in self.spellChildren:
+
+                spell.getChain().event(ev, x, y, st)
+
             # TODO: spellChildren??
 
         # Honestly not sure what this does, but it needs to return all displayables rendered.
         # TODO: spellChildren??
         def visit(self):
-            return self.getChildrenChains()
+
+            allChildren = [spell.getChain() for spell in self.spellChildren]
+            allChildren.extend(self.getChildrenChains())
+
+            return allChildren
 
 # BattleManager is defined inside the battle screen.
