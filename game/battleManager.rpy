@@ -39,9 +39,9 @@ init -10 python:
             self.statePauseDuration = 1.0
 
             # Whether controls are shown on screen.
-            # Currently True only for "idle" state.
-            # TODO: Make a list of states when controls are shown, and determine it from that.
             self.controlsShown = False
+            # States in which controls are shown.
+            self.statesAllowingControls = ["idle"]
 
         # Begins the battle.
         def start(self):
@@ -190,7 +190,7 @@ init -10 python:
             # If the state is "idle":
             
             # Show the controls on the screen if in the idle state.
-            self.controlsShown = (True if self.state == "idle" else False)
+            self.controlsShown = (True if self.state in self.statesAllowingControls else False)
 
             # Check if someone is attacking. If so, check if someone got hit.
             if self.currentAttack is not None:
