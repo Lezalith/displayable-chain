@@ -1,11 +1,13 @@
 # TODO: spells.rpy
 image spellImage = At(Solid("4287f5"), Transform(xysize = (200, 500)))
 
+image modifiedSnowflake = At("snowflake", Transform(zoom = 0.5))
+
 
 # Animations of Ally Character.
 init -45 python:
 
-    spellAnimation = Animation("spellImage", spellTransform, 4.0, trigger = True, triggerDelays = [1.4, 1.7, 2.0, 2.3])
+    spellAnimation = Animation("modifiedSnowflake", snowflakeTransform, 4.0, trigger = True, triggerDelays = [0.25])
 
     enter = Animation("allyRunForward", enterTrans, 1.0)
 

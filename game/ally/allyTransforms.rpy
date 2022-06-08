@@ -61,3 +61,24 @@ init -46:
         ease 0.8 xoffset 900
         ease 0.8 xoffset 1200
         ease 0.8 xoffset 1500
+
+    transform snowflakeTransform():
+        yalign 1.0
+        function snowflakeTransformFunc
+
+init -47 python:
+
+    def snowflakeTransformFunc(trans, st, at):
+
+        # Make it faster
+        st = st * 5.5
+
+        # The swing.
+        trans.xoffset = st * 450
+        trans.yoffset = - ((1 / (st + 1.5)) * 950)
+
+        # Total duration.
+        if st / 5.5 <= 1.5:
+            return 0
+
+        return None

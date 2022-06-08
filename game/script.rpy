@@ -9,7 +9,7 @@ label start:
 
         enemyRegular = Attack("Regular Attack", enemyAttackChain, (3, 6))
 
-        allySpell = Spell("Blue Square", allySpellChain, (12, 14), mpCost = 20.0)
+        allySpell = Spell("Blue Square", allySpellChain, (24, 44), mpCost = 20.0)
 
         allyCharacter.setSpell(allySpell)
 
