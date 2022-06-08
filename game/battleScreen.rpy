@@ -54,6 +54,7 @@ screen battleScreen():
 
         text "Ally HP: [m.allyCharacter.hp]" color "000"
         text "Ally AP: [m.allyCharacter.ap]" color "000"
+        text "Ally MP: [m.allyCharacter.mp]" color "000"
 
     # Enemy Character stats
     vbox:
@@ -61,6 +62,7 @@ screen battleScreen():
 
         text "Enemy HP: [m.enemyCharacter.hp]" color "000"
         text "Enemy AP: [m.enemyCharacter.ap]" color "000"
+        text "Enemy MP: [m.enemyCharacter.mp]" color "000"
 
     # Add NoticeManager.
     add noticeManager

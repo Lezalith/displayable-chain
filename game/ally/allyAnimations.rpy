@@ -15,6 +15,11 @@ init -45 python:
 
     spellAnimation = Animation("snowflakeStorm", snowflakeTransform, 1.4, trigger = True, triggerDelays = [1.15])
 
+    slidePause = Animation("allyIdle", slidePauseTrans, 0.3)
+    slide = Animation("allySlide", slideTrans, 0.8)
+    slideFinish = Animation("allySlideFinish", slideFinishTrans, 0.1)
+    moveBackAfterSlide = Animation("allyRunBack", moveBackAfterSlideTrans, 0.5)
+
     enter = Animation("allyRunForward", enterTrans, 1.0)
 
     idle = Animation("allyIdle", idleTrans, 0)

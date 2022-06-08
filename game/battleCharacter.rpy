@@ -25,10 +25,6 @@ init -15 python:
             self.mp = 100.0
             self.ap = 100.0
 
-            # Currently equipped Spell.
-            # TODO: This was a terrible makeshift way of testing spells, I need to change this into a list.
-            self.spell = None
-
             # Current AnimationChain used.
             # This is basically the Displayable of this character.
             self.currentChain = None
@@ -68,16 +64,27 @@ init -15 python:
         # noticeManager is an injection for displaying a message.
         def spellCast(self, spell, noticeManager):
 
-            # TODO: if attack.mpCost: ...
-            # TODO: However, same thing with the TODO above self.attack.
+            # If the spell has a MP cost:
+            if spell.mpCost:
 
-            # Message about casting this Spell.
-            noticeManager.addNotice("{} cast {}!".format(self.name, spell.name), color = "000")
+                # If Character doesn't have enough AP to use the attack:
+                if self.mp < spell.mpCost:
+
+                    return renpy.notify("Not enough MP!")
+
+                # Apply AP cost.
+                self.mp -= spell.mpCost
+
+                # Message about spending MP to cast this spell.
+                noticeManager.addNotice("{} spent {} Mana to cast {}!".format(self.name, spell.mpCost, spell.name), color = "000")
+
+            else:
+
+                # Message about casting this Spell.
+                noticeManager.addNotice("{} cast {}!".format(self.name, spell.name), color = "000")
 
             self.currentChain = spell.castAnimationChain
             self.currentChain.beginChain()
-
-            # TODO: Create a chain for casting the spell.
 
         # Trigger AnimationChain representing getting hit.
         def hit(self, attack, noticeManager, attackerName):

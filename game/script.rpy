@@ -9,7 +9,7 @@ label start:
 
         enemyRegular = Attack("Regular Attack", enemyAttackChain, (3, 6))
 
-        allySpell = Spell("Snowflake Cluster", allySpellChain, allySpawnChain, (24, 44), mpCost = 20.0)
+        allySpell = Spell("Snowflake Cluster", allySpellChain, allySpellCastChain, (24, 44), mpCost = 42.0)
 
     # Black background.
     scene expression Solid("000")

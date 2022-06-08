@@ -67,6 +67,22 @@ init -46:
         pause 1.0
         function snowflakeTransformFunc
 
+    transform slidePauseTrans():
+        xalign 0.3 yalign 0.5
+        pause 0.3
+
+    transform slideTrans():
+        xalign 0.3 yalign 0.5
+        ease 0.8 xalign 0.5
+
+    transform slideFinishTrans():
+        xalign 0.5 yalign 0.5
+        pause 0.1
+
+    transform moveBackAfterSlideTrans():
+        xalign 0.5 yalign 0.5
+        linear 0.5 xalign 0.3
+
 init -47 python:
 
     def snowflakeTransformFunc(trans, st, at):

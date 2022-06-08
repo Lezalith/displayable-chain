@@ -20,7 +20,6 @@ init -10 python:
             self.currentAttack = None
 
             # List of Spells currently in play.
-            # TODO: Remake this.
             self.spellsInPlay = []
 
             # NoticeManager for displaying messages.
@@ -59,7 +58,6 @@ init -10 python:
 
         # Returns a list of all displayables held by the BattleManager.
         # Currently, it's only the two BattleCharacters.
-        # TODO: Probably should include spellChildren, too.
         def getChildrenChains(self):
 
             return [self.allyCharacter.getChain(), self.enemyCharacter.getChain()]
@@ -134,11 +132,6 @@ init -10 python:
 
         # Checks whether someone should get hit.
         def checkHit(self):
-
-            # print("currentAttack: {}".format(self.currentAttack))
-            # print("defender: {}".format(self.currentAttack.defender))
-            # print("getChain: {}".format(self.currentAttack.defender.getChain()))
-            # print("checkTrigger: {}".format(self.currentAttack.defender.getChain().checkTrigger()))
 
             # Check whether the current Animation of attacking Character has a trigger and whether it's gone off.
             if self.currentAttack.attacker.getChain().checkTrigger():
@@ -267,6 +260,11 @@ init -10 python:
         # This is used to determine whether the state should be set to "idle".
         def checkFinishedChains(self):
 
+            # Check for spells that have finished casting.
+            for spell in self.spellsInPlay:
+                if spell.getChain().finished:
+                    self.spellsInPlay.remove(spell)
+
             # If the allyCharacter has a chain:
             if self.allyCharacter.getChain() is not None:
 
@@ -304,14 +302,12 @@ init -10 python:
 
                     disp.event(ev, x, y, st)
 
+            # Pass the event to AnimationChains of all the spells in play.
             for spell in self.spellsInPlay:
 
                 spell.getChain().event(ev, x, y, st)
 
-            # TODO: spellChildren??
-
         # Honestly not sure what this does, but it needs to return all displayables rendered.
-        # TODO: spellChildren??
         def visit(self):
 
             allChildren = [spell.getChain() for spell in self.spellsInPlay]
