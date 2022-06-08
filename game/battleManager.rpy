@@ -21,7 +21,7 @@ init -10 python:
 
             # List of Spells currently in play.
             # TODO: Remake this.
-            self.spellChildren = []
+            self.spellsInPlay = []
 
             # NoticeManager for displaying messages.
             self.noticeManager = noticeManager
@@ -113,10 +113,6 @@ init -10 python:
                 # Instigate allyCharacter to cast the spell.
                 self.allyCharacter.spellCast( spell, self.noticeManager )
 
-                # Adds the Spell object to a list remembered spells in play.
-                # TODO: This is currently a stupid makeshift way of testing a single spell.
-                self.spellChildren = [spell]
-
             # Ally is casting the spell. Currently, there are no enemy spells.
             elif type == "enemy":
 
@@ -126,9 +122,11 @@ init -10 python:
                 # Instigate enemyCharacter to cast the spell.
                 self.enemyCharacter.spellCast( spell, self.noticeManager )
 
-                # Adds the Spell object to a list remembered spells in play.
-                # TODO: This is currently a stupid makeshift way of testing a single spell.
-                self.spellChildren = [spell]
+            # Begin the chain of the spell.
+            spell.getChain().beginChain()
+
+            # Adds the Spell object to a list remembering spells in play.
+            self.spellsInPlay.append(spell)
 
             # Set the current spell in play.
             # TODO: Wait, does it actually make sense to have spellChildren if only one spell is in play..?
@@ -145,15 +143,20 @@ init -10 python:
             # Check whether the current Animation of attacking Character has a trigger and whether it's gone off.
             if self.currentAttack.attacker.getChain().checkTrigger():
 
-                print("triggered trigger of defender")
+                print("triggered trigger of defender from an attack.")
 
                 # Instigate the attacked Character to get hit.
                 self.currentAttack.defender.hit( self.currentAttack, self.noticeManager, self.currentAttack.defender.name )
 
-                # Reset info about an attack.
-                # TODO: This will be done elsewhere, once the Battle has been split into phases.
-                # TODO: Currently only gets overwritten by a new attack, but that's not a problem. Not reseting it here allows for attacks that hit multiple times.
-                # self.currentAttack = None
+            # Check for hits from spells in play.
+            for spell in self.spellsInPlay:
+
+                if spell.getChain().checkTrigger():
+
+                    print("triggered trigger of defender from a spell")
+
+                    # Instigate the attacked Character to get hit.
+                    self.currentAttack.defender.hit( self.currentAttack, self.noticeManager, self.currentAttack.defender.name )
 
         # Check whether someone has died, i.e. someone has HP below 0.
         def checkDeaths(self):
@@ -192,10 +195,9 @@ init -10 python:
         def render(self, width, height, st, at):
 
             # If the state is "idle":
-            if  self.state == "idle":
-
-                # Show the controls on the screen.
-                self.controlsShown = True
+            
+            # Show the controls on the screen if in the idle state.
+            self.controlsShown = (True if self.state == "idle" else False)
 
             # Check if someone is attacking. If so, check if someone got hit.
             if self.currentAttack is not None:
@@ -217,9 +219,9 @@ init -10 python:
                 render.place(t)
 
             # Place all Spell children onto the render.
-            for spellChild in self.spellChildren:
+            for spell in self.spellsInPlay:
 
-                t = Transform(child = spellChild.animationChain)
+                t = Transform(child = spell.getChain())
                 render.place(t)
 
             # Returns the render.
@@ -250,6 +252,8 @@ init -10 python:
 
                         # TODO: Likely more stuff here once I code more on states.
 
+                    self.currentAttack = None
+
                 # Set the new state.
                 self.state = state
 
@@ -275,6 +279,14 @@ init -10 python:
                         # If it has finished:
                         if self.enemyCharacter.getChain().finished:
 
+                            # Check whether an attack is going on:
+                            if self.currentAttack is not None:
+
+                                # Check whether the AnimationChain of the attack has finished as well:
+                                if not self.currentAttack.getChain().finished:
+
+                                    return None
+
                             # If the current state is "started", i.e. characters were entering, or "attack", i.e. attack was happening:
                             if self.state == "started" or self.state == "attack":
 
@@ -292,7 +304,7 @@ init -10 python:
 
                     disp.event(ev, x, y, st)
 
-            for spell in self.spellChildren:
+            for spell in self.spellsInPlay:
 
                 spell.getChain().event(ev, x, y, st)
 
@@ -302,7 +314,7 @@ init -10 python:
         # TODO: spellChildren??
         def visit(self):
 
-            allChildren = [spell.getChain() for spell in self.spellChildren]
+            allChildren = [spell.getChain() for spell in self.spellsInPlay]
             allChildren.extend(self.getChildrenChains())
 
             return allChildren

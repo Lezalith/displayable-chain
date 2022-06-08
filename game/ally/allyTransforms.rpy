@@ -63,7 +63,8 @@ init -46:
         ease 0.8 xoffset 1500
 
     transform snowflakeTransform():
-        yalign 1.0
+        xoffset -1000 yoffset -1000 yalign 1.0
+        pause 1.0
         function snowflakeTransformFunc
 
 init -47 python:

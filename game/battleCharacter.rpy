@@ -33,11 +33,6 @@ init -15 python:
             # This is basically the Displayable of this character.
             self.currentChain = None
 
-        # TODO: Makeshift. Will be changed accordingly once self.spell is a list.
-        def setSpell(self, spell):
-
-            self.spell = spell
-
         # Trigger AnimationChain representing the entrance to the battle.
         def enter(self):
 
@@ -66,7 +61,6 @@ init -15 python:
 
             # Chain to use is taken from the Attack object.
             self.currentChain = attack.animationChain
-
             self.currentChain.beginChain()
 
         # Trigger AnimationChain representing a Spell.
@@ -80,11 +74,7 @@ init -15 python:
             # Message about casting this Spell.
             noticeManager.addNotice("{} cast {}!".format(self.name, spell.name), color = "000")
 
-            # TODO: Spells will work differently because they will show stuff on separate layer.
-            # TODO: EITHER make currentChain into currentChains so it can show more children,
-            # TODO: OR make another list of Chains added onto the render in the same way currentChain is.
-            self.currentChain = spell.animationChain
-            self.currentChain.beginChain()
+            # TODO: Create a chain for casting the spell.
 
         # Trigger AnimationChain representing getting hit.
         def hit(self, attack, noticeManager, attackerName):

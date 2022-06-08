@@ -39,6 +39,10 @@ init -30 python:
 
             return randrange( self.damage[0], self.damage[1] )
 
+        # Return the attack's AnimationChain.
+        def getChain(self):
+            return self.animationChain
+
         def setInstanceInfo(self, attacker, defender):
 
             self.attacker = attacker

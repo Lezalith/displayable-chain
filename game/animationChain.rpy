@@ -205,7 +205,7 @@ init -20 python:
 
             if self.pointer == -1:
                 return [ self.defaultChild ]
-                
+
             return [ self.currentChild ]
 
 # Chains used by Ally Character.
@@ -218,7 +218,7 @@ default allyAttackFastChain = AnimationChain( moveForward, attackFast, moveBack,
 
 default allyDeathChain = AnimationChain( death )
 
-default allySpellChain = AnimationChain( death, spellAnimation, enter, idle )
+default allySpellChain = AnimationChain( spellAnimation )
 
 
 # Chains used by Enemy Character.

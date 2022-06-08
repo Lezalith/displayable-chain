@@ -11,8 +11,6 @@ label start:
 
         allySpell = Spell("Snowflake Cluster", allySpellChain, (24, 44), mpCost = 20.0)
 
-        allyCharacter.setSpell(allySpell)
-
     # Black background.
     scene expression Solid("000")
 
