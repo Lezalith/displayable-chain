@@ -17,6 +17,6 @@ label start:
     scene expression Solid("000")
 
     # Jump right to the testing screen.
-    call screen chainScreen
+    call screen battleScreen
 
     return

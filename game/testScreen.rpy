@@ -1,32 +1,44 @@
-# Testing screen.
+# Screen of the battle.
+
+# Makes sure screen is rendered every frame, not every interaction.
+# This is currently used for on-screen info, and will be removed once there's a CDD to contain the info.
 init python:
-    config.per_frame_screens.append("chainScreen")
+    config.per_frame_screens.append("battleScreen")
 
-style chainScreenStyles_button_text:
+# Default black color of the text, since BG is white.
+style battleScreenStyles_button_text:
     color "000"
-style chainScreenStyles_text:
+style battleScreennStyles_text:
     color "000"
 
-screen chainScreen():
 
-    style_prefix "chainScreenStyles"
+screen battleScreen():
 
+    # Use styles.
+    style_prefix "battleScreenStyles"
+
+    # White background.
     add Solid("fff")
 
+    # Define a Notice Manager.
+    # Arg is a float of for how long the messages stay on screen.
     default noticeManager = NoticeManager(4.0)
 
+    # Define a Battle Manager.
+    # This is a CDD that controls the entire battle.
     default m = BattleManager( ally = allyCharacter, enemy = enemyCharacter, noticeManager = noticeManager )
 
-
+    # Makeshift controls.
     vbox:
 
         textbutton "Spawn" action Function(m.start)
 
         spacing 20
 
+        # Controls are hidden during Enters, Attacks or Spells.
         showif m.controlsShown:
 
-            # Buttons
+            # Action buttons
             vbox:
                 spacing -8
 
@@ -36,41 +48,22 @@ screen chainScreen():
                 textbutton "Ally Spell" action Function(m.spell, "ally", allySpell)
                 textbutton "Enemy Regular Attack" action Function(m.attack, "enemy", enemyRegular)
 
-            vbox:
-                spacing -8
-
-                textbutton "Enemy has fancy dodge" action SetField(m.enemyCharacter, "hitChain", enemyHitFancyChain)
-                textbutton "Enemy has regular dodge" action SetField(m.enemyCharacter, "hitChain", enemyHitChain)
-
-                # textbutton "Begin Spawn Chain" action Function(allySpawnChain.beginChain)
-                # textbutton "Begin Attack Chain" action Function(allyAttackChain.beginChain)
-                # textbutton "Begin Hit Chain" action Function(allyHitChain.beginChain)
-
-                # textbutton "Ally Hit" action Function(m.allyChain.gotHit)
-                # textbutton "Enemy Hit" action Function(m.enemyChain.gotHit)
-
-        # Characte stats
+    # Ally Character stats
     vbox:
         align (0.0, 0.8)
 
         text "Ally HP: [m.allyCharacter.hp]"
         text "Ally AP: [m.allyCharacter.ap]"
 
+    # Enemy Character stats
     vbox:
         align (1.0, 0.8)
 
         text "Enemy HP: [m.enemyCharacter.hp]"
         text "Enemy AP: [m.enemyCharacter.ap]"
 
-
-    vbox:
-
-        align (1.0, 1.0)
-
-        text "Manager State: {}".format(m.state)
-        textbutton "Notice 1" action Function(noticeManager.addNotice, text = "First notice.", color = "ff0")
-        textbutton "Notice 2" action Function(noticeManager.addNotice, text = "Slightly longer and larger second notice.", color = "000", size = 32)
-
+    # Add NoticeManager.
     add noticeManager
 
+    # Add BattleManager.
     add m
