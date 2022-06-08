@@ -77,8 +77,7 @@ init -10 python:
         def attack(self, type, attack):
 
             # Update the state.
-            # TODO: Shouldn't this be self.setState("attack") ??
-            self.state = "attack"
+            self.setState("attack")
 
             # Ally is attacking:
             if type == "ally":
@@ -110,9 +109,8 @@ init -10 python:
         def spell(self, type, spell):
 
             # Update the state.
-            # TODO: Shouldn't this be self.setState("attack") ??
             # I don't think it differs enough from the attack to warrant a separate state at this point.
-            self.state = "attack"
+            self.setState("attack")
 
             # Ally is casting the spell:
             if type == "ally":
