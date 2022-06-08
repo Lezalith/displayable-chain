@@ -1,0 +1,21 @@
+-99:
+Spell Class
+
+-50:
+Enemy Transforms
+
+-30:
+Ally Transforms
+Animation Class
+Áttack Class
+
+-25:
+Ally Animations
+Enemy Animations
+
+-20:
+AnimationChain Class
+
+-15:
+BattleCharacter Class
+NoticeManager Class
