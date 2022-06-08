@@ -34,18 +34,20 @@ init -30 python:
         # Returns the Animation, self.image at self.transform.
         def getChild(self):
 
-            print("Getting pointer, now at: {}".format(self.delayPointer))
+            # print("Getting pointer, now at: {}".format(self.delayPointer))
 
             return At( self.image, self.transform )
 
         # Reset of triggers.
         def reset(self):
 
-            print("Animation got reset.")
+            # print("Animation got reset.")
 
             self.delayPointer = 0
 
         # If the pointer can advance.
+        # False if it would go outside of the triggerDelays list.
+        # This is also used to check if Animation has gone past all the triggers.
         def canAdvance(self):
 
             return self.delayPointer < len(self.triggerDelays)
@@ -55,7 +57,7 @@ init -30 python:
 
             self.delayPointer += 1
 
-            print("Advancing the pointer to {}".format(self.delayPointer))
+            # print("Advancing the pointer to {}".format(self.delayPointer))
 
         # Delay that is coming up next.
         def getCurrentDelay(self):
