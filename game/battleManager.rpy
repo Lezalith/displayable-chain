@@ -29,7 +29,7 @@ init -10 python:
             # - notStarted -- Before the battle begins.
             # - started ----- Battle started, characters entering.
             # - attack ------ In the middle of an Attack or Spell.
-            # - idle -------- Inbetween turns.
+            # - playerTurn -------- Inbetween turns.
             # - finished ---- When one Character is defeated.
             self.state = "notStarted"
 
@@ -40,7 +40,7 @@ init -10 python:
             # Whether controls are shown on screen.
             self.controlsShown = False
             # States in which controls are shown.
-            self.statesAllowingControls = ["idle"]
+            self.statesAllowingControls = ["playerTurn"]
 
         # Begins the battle.
         def start(self):
@@ -174,17 +174,15 @@ init -10 python:
 
         # Renders all displayables held. Called with every renpy.redraw.
         def render(self, width, height, st, at):
-
-            # If the state is "idle":
             
-            # Show the controls on the screen if in the idle state.
+            # Show the controls on the screen if in the "playerTurn" state.
             self.controlsShown = (True if self.state in self.statesAllowingControls else False)
 
             # Check if someone is attacking. If so, check if someone got hit.
             if self.currentAttack is not None:
                 self.checkHit()
 
-            # Checks if AnimationChains of both Characters have finished. This is used to determine whether the state should be set to "idle".
+            # Checks if AnimationChains of both Characters have finished. This is used to determine whether the state should be set to "playerTurn".
             # Currently used to pass between states.
             self.checkFinishedChains()
 
@@ -215,8 +213,8 @@ init -10 python:
             if self.state == "finished":
                 return None
 
-            # If we're setting it to "idle":
-            if state == "idle":
+            # If we're setting it to "playerTurn":
+            if state == "playerTurn":
 
                 # Next if branch checks what the original state was.
 
@@ -243,7 +241,7 @@ init -10 python:
                 self.state = state
 
         # Checks if AnimationChains of both Characters have finished.
-        # This is used to determine whether the state should be set to "idle".
+        # This is used to determine whether the state should be set to "playerTurn".
         def checkFinishedChains(self):
 
             # Check for spells that have finished casting.
@@ -275,8 +273,8 @@ init -10 python:
                             # BUT the game hasn't finished yet.
                             if (self.state == "started" or self.state == "attack"):
 
-                                # Set the state to "idle".
-                                self.setState("idle" )
+                                # Set the state to "playerTurn".
+                                self.setState("playerTurn" )
 
         # Triggered when an event happens - mouse movement, key press...
         def event(self, ev, x, y, st):

@@ -31,7 +31,8 @@ screen battleScreen():
     # Makeshift controls.
     vbox:
 
-        textbutton "Spawn" action Function(m.start)
+        if m.state == "notStarted":
+            textbutton "Spawn" action Function(m.start)
 
         spacing 20
 
