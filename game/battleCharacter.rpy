@@ -6,19 +6,15 @@ init -15 python:
     class BattleCharacter():
 
         # name is a string.
-        # enterChain is a AnimationChain.
-        # hitChain is a AnimationChain.
-        # deathChain is a AnimationChain.
+        # dictOfChains is a dictionary. Keys are keywords, values are chains.
+        # Valid keywords are: "enter", "hit", "death"
         # hp is the starting health of the Character.
-        def __init__(self, name, enterChain, hitChain, deathChain, hp):
+        def __init__(self, name, dictOfChains, hp):
 
             # Name of the Character.
             self.name = name
 
-            # Chains used by the Character.
-            self.enterChain = enterChain
-            self.hitChain = hitChain
-            self.deathChain = deathChain
+            self.chains = dictOfChains
 
             # Stats
             self.hp = hp
@@ -52,7 +48,7 @@ init -15 python:
         # Trigger AnimationChain representing the entrance to the battle.
         def enter(self):
 
-            self.setChain(self.enterChain)
+            self.setChain(self.chains["enter"])
 
         # Returns False if not enough AP or MP to use, and True otherwise.
         # action is a BattleAction.
@@ -149,17 +145,21 @@ init -15 python:
             # Message about hitting the enemy, and for how much damage.
             noticeManager.addNotice( "{} hit {} for {} damage!".format(attackerName, self.name, damageDealt), color = "000" )
                 
-            self.setChain(self.hitChain)
+            self.setChain(self.chains["hit"])
 
         # Trigger AnimationChain representing dying/leaving.
         def died(self):
 
-            self.setChain(self.deathChain)
+            self.setChain(self.chains["death"])
 
         # Get self.currentChain.
         def getChain(self):
             return self.currentChain
 
+        # How enemy acts during turns. Only in EnemyCharacter subclass.
+        def enemyTurnAI(self):
+            pass 
+
 # Characters defined.
-default playerCharacter = BattleCharacter( "Player Character", allySpawnChain, allyHitChain, allyDeathChain, 100.0 )
-default enemyCharacter = BattleCharacter( "Enemy Character", enemySpawnChain, enemyHitFancyChain, enemyDeathChain, 46.0 )
+default playerCharacter = BattleCharacter( "Player Character", {"enter" : allySpawnChain, "hit" : allyHitChain, "death" : allyDeathChain}, 100.0 )
+default enemyCharacter = BattleCharacter( "Enemy Character", {"enter" : enemySpawnChain, "hit" : enemyHitFancyChain, "death" : enemyDeathChain}, 46.0 )

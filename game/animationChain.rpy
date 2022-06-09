@@ -221,6 +221,7 @@ default allyDeathChain = AnimationChain( death )
 default allySpellChain = AnimationChain( spellAnimation )
 default allySpellCastChain = AnimationChain( slidePause, slide, slideFinish, moveBackAfterSlide, idle )
 
+# TODO: Add beforeIdle Animation, which can simulate the pause inbetween state changes.
 
 # Chains used by Enemy Character.
 default enemySpawnChain = AnimationChain( enterEnemy, idleEnemy )
