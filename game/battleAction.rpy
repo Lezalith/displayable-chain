@@ -1,25 +1,22 @@
-init -30 python:
+init -40 python:
 
     # For damage and hit calculations.
     from random import randrange
 
-    # Represents an attack ability.
-    class Attack():
+    # Was supposed to be a parentclass of Attack and Spell, but ended up representing them both.
+    class BattleAction():
 
         # name is a string.
         # animationChain is AnimationChain object.
         # damage is a tuple of two ints representing the damage range: (min damage, max damage)
-        # apCost is the cost of AP to use this attack.
-        def __init__(self, name, animationChain, damage, apCost = 0):
+        # apCost is int, the cost of AP to use this attack.
+        # mpCost is int, the cost of MP to use this attack.
+        # associatedChain - castChain of Spell class
+        def __init__(self, name, animationChain, damage, apCost = 0, mpCost = 0, associatedChain = None):
 
-            # Name of the Attack.
+            # Basic info about the BattleAction.
             self.name = name
-
-            # AnimationChain of the Attack.
-            self.animationChain = animationChain
-
-            # Attack stats
-            self.damage = [ int(damage[0]), int(damage[1]) ]
+            self.mpCost = int(mpCost)
             self.apCost = int(apCost)
 
             # Yet to be implemented.
@@ -27,6 +24,14 @@ init -30 python:
             self.critChance = 0.0
             self.element = None
             self.type = None
+
+            # Attack stats
+            self.damage = [ int(damage[0]), int(damage[1]) ]
+
+            # AnimationChain of the Attack.
+            self.animationChain = animationChain
+            # AnimationChain of the spell cast.
+            self.associatedChain = associatedChain
 
             # Instance info - Info of an attack when it is used.
             # The Character that began the attack.
@@ -48,8 +53,9 @@ init -30 python:
             self.attacker = attacker
             self.defender = defender
 
-        def attackUsed(self, attacker, defender):
+        def actionUsed(self, attacker, defender):
 
             self.setInstanceInfo(attacker, defender)
 
-### (Defined in script.rpy) ###
+        def getAssociatedChain(self):
+            return self.associatedChain

@@ -83,7 +83,7 @@ init -15 python:
                 # Message about casting this Spell.
                 noticeManager.addNotice("{} cast {}!".format(self.name, spell.name), color = "000")
 
-            self.currentChain = spell.castAnimationChain
+            self.currentChain = spell.getAssociatedChain()
             self.currentChain.beginChain()
 
         # Trigger AnimationChain representing getting hit.

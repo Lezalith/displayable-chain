@@ -75,7 +75,7 @@ init -10 python:
             if type == "ally":
 
                 # Instigate allyCharacter to attack. 
-                attack.attackUsed(self.allyCharacter, self.enemyCharacter)
+                attack.actionUsed(self.allyCharacter, self.enemyCharacter)
 
                 # Set info about the attack inside the attack object.
                 self.allyCharacter.attack( attack, self.noticeManager )
@@ -84,7 +84,7 @@ init -10 python:
             elif type == "enemy":
 
                 # Set info about the attack inside the attack object.
-                attack.attackUsed(self.enemyCharacter, self.allyCharacter)
+                attack.actionUsed(self.enemyCharacter, self.allyCharacter)
 
                 # Instigate enemyCharacter to attack. 
                 self.enemyCharacter.attack( attack, self.noticeManager )
@@ -106,7 +106,7 @@ init -10 python:
             if type == "ally":
 
                 # Instigate allyCharacter to attack. 
-                spell.spellUsed(self.allyCharacter, self.enemyCharacter)
+                spell.actionUsed(self.allyCharacter, self.enemyCharacter)
 
                 # Instigate allyCharacter to cast the spell.
                 self.allyCharacter.spellCast( spell, self.noticeManager )
@@ -115,7 +115,7 @@ init -10 python:
             elif type == "enemy":
 
                 # Instigate allyCharacter to attack. 
-                spell.spellUsed(self.enemyCharacter, self.allyCharacter)
+                spell.actionUsed(self.enemyCharacter, self.allyCharacter)
 
                 # Instigate enemyCharacter to cast the spell.
                 self.enemyCharacter.spellCast( spell, self.noticeManager )

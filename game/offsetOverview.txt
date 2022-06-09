@@ -9,9 +9,8 @@ Ally Transforms
 Enemy Animations
 Ally Animations
 
--30:
-Áttack Class
-Spell Class
+-40:
+BattleAction Class
 
 -20:
 AnimationChain Class
