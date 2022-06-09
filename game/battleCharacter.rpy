@@ -29,11 +29,16 @@ init -15 python:
             # This is basically the Displayable of this character.
             self.currentChain = None
 
+
+        def setChain(self, chain):
+
+            self.currentChain = chain
+            self.currentChain.beginChain()
+
         # Trigger AnimationChain representing the entrance to the battle.
         def enter(self):
 
-            self.currentChain = self.enterChain
-            self.currentChain.beginChain()
+            self.setChain(self.enterChain)
 
         # Trigger AnimationChain representing an attack, after dealing with the Attack's cost.
         # TODO: Um... Why, exactly, am I mixing dealing with cost when this is just... Supposed to start the chain? Actually, why don't I make a universal function for starting chains??
@@ -56,8 +61,8 @@ init -15 python:
                 noticeManager.addNotice("{} spent {} Ability Points to use {}!".format(self.name, attack.apCost, attack.name), color = "000")
 
             # Chain to use is taken from the Attack object.
-            self.currentChain = attack.animationChain
-            self.currentChain.beginChain()
+
+            self.setChain(attack.animationChain)
 
         # Trigger AnimationChain representing a Spell.
         # attack is a Spell object of the spell used.
@@ -83,8 +88,7 @@ init -15 python:
                 # Message about casting this Spell.
                 noticeManager.addNotice("{} cast {}!".format(self.name, spell.name), color = "000")
 
-            self.currentChain = spell.getAssociatedChain()
-            self.currentChain.beginChain()
+            self.setChain(spell.getAssociatedChain())
 
         # Trigger AnimationChain representing getting hit.
         def hit(self, attack, noticeManager, attackerName):
@@ -97,15 +101,13 @@ init -15 python:
 
             # Message about hitting the enemy, and for how much damage.
             noticeManager.addNotice( "{} hit {} for {} damage!".format(attackerName, self.name, damageDealt), color = "000" )
-
-            self.currentChain = self.hitChain
-            self.currentChain.beginChain()
+                
+            self.setChain(self.hitChain)
 
         # Trigger AnimationChain representing dying/leaving.
         def died(self):
 
-            self.currentChain = self.deathChain
-            self.currentChain.beginChain()
+            self.setChain(self.deathChain)
 
         # Get self.currentChain.
         def getChain(self):
