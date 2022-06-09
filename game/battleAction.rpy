@@ -12,10 +12,11 @@ init -40 python:
         # apCost is int, the cost of AP to use this attack.
         # mpCost is int, the cost of MP to use this attack.
         # associatedChain - castChain of Spell class
-        def __init__(self, name, animationChain, damage, apCost = 0, mpCost = 0, associatedChain = None):
+        def __init__(self, name, animationChain, damage, type, apCost = 0, mpCost = 0, associatedChain = None):
 
             # Basic info about the BattleAction.
             self.name = name
+            self.type = type
             self.mpCost = int(mpCost)
             self.apCost = int(apCost)
 
@@ -23,7 +24,6 @@ init -40 python:
             self.hitChance = 0.0
             self.critChance = 0.0
             self.element = None
-            self.type = None
 
             # Attack stats
             self.damage = [ int(damage[0]), int(damage[1]) ]

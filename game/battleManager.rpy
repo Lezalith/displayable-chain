@@ -62,91 +62,63 @@ init -10 python:
 
             return [self.allyCharacter.getChain(), self.enemyCharacter.getChain()]
 
-        # Begins an attack.
-        # type can be "ally" for when ally character is attacking, and "enemy" for when enemy character is.
-        # TODO: This is a pretty dumb way.
-        # attack is the Attack object of the attack used.
-        def attack(self, type, attack):
+        def action(self, origin, action):
 
-            # Ally is attacking:
-            if type == "ally":
+            # Ally is using the action:
+            if origin == "ally":
 
                 # If the Ally doesn't have enough AP or MP, end the function straight away.
-                if not self.allyCharacter.checkCost(attack, self.noticeManager):
+                if not self.allyCharacter.checkCost(action, self.noticeManager):
                     return None
 
-                # Instigate allyCharacter to attack. 
-                attack.actionUsed(self.allyCharacter, self.enemyCharacter)
+                # Set info about the action inside the action object.
+                action.actionUsed(self.allyCharacter, self.enemyCharacter)
 
-                # Set info about the attack inside the attack object.
-                self.allyCharacter.attack( attack, self.noticeManager )
+                if action.type == "attack":
 
-            # Enemy is attacking:
-            elif type == "enemy":
+                    # Instigate allyCharacter to attack. 
+                    self.allyCharacter.attack( action, self.noticeManager )
 
-                # If the Enemy doesn't have enough AP or MP, end the function straight away.
+                elif action.type == "spell":
+
+                    # Instigate allyCharacter to cast the spell.
+                    self.allyCharacter.spellCast( action, self.noticeManager )
+
+            # Enemy is using the action:
+            elif origin == "enemy":
+
+                # If the Ally doesn't have enough AP or MP, end the function straight away.
                 # TODO: Not really point of this I think, since it won't be cast by the AI function in the first place.
-                if not self.enemyCharacter.checkCost(attack, self.noticeManager):
+                if not self.enemyCharacter.checkCost(action, self.noticeManager):
                     return None
 
-                # Set info about the attack inside the attack object.
-                attack.actionUsed(self.enemyCharacter, self.allyCharacter)
+                # Set info about the action inside the action object.
+                action.actionUsed(self.enemyCharacter, self.allyCharacter)
 
-                # Instigate enemyCharacter to attack. 
-                self.enemyCharacter.attack( attack, self.noticeManager )
+                if action.type == "attack":
+
+                    # Instigate enemyCharacter to attack. 
+                    self.enemyCharacter.attack( action, self.noticeManager )
+
+                elif action.type == "spell":
+
+                    # Instigate enemyCharacter to cast the spell.
+                    self.enemyCharacter.spellCast( action, self.noticeManager )
 
             # Update the state.
             self.setState("attack")
 
             # Set the current attack in play.
-            self.currentAttack = attack
+            # TODO: Rename to currentAction or actionInPlay.
+            self.currentAttack = action
 
-        # Casts a spell.
-        # type can be "ally" for when ally character is casting the spell, and "enemy" for when enemy character is.
-        # TODO: This is a pretty dumb way.
-        # spell is the Spell object of the spell cast.
-        def spell(self, type, spell):
+            if action.type == "spell":
 
-            # Ally is casting the spell:
-            if type == "ally":
+                # Begin the chain of the spell.
+                action.getChain().beginChain()
 
-                # If the Ally doesn't have enough AP or MP, end the function straight away.
-                if not self.allyCharacter.checkCost(spell, self.noticeManager):
-                    return None
-
-                # Instigate allyCharacter to attack. 
-                spell.actionUsed(self.allyCharacter, self.enemyCharacter)
-
-                # Instigate allyCharacter to cast the spell.
-                self.allyCharacter.spellCast( spell, self.noticeManager )
-
-            # Ally is casting the spell. Currently, there are no enemy spells.
-            elif type == "enemy":
-
-                # If the Enemy doesn't have enough AP or MP, end the function straight away.
-                # TODO: Not really point of this I think, since it won't be cast by the AI function in the first place.
-                if not self.enemyCharacter.checkCost(spell, self.noticeManager):
-                    return None
-
-                # Instigate allyCharacter to attack. 
-                spell.actionUsed(self.enemyCharacter, self.allyCharacter)
-
-                # Instigate enemyCharacter to cast the spell.
-                self.enemyCharacter.spellCast( spell, self.noticeManager )
-
-            # Update the state.
-            # I don't think it differs enough from the attack to warrant a separate state at this point.
-            self.setState("attack")
-
-            # Begin the chain of the spell.
-            spell.getChain().beginChain()
-
-            # Adds the Spell object to a list remembering spells in play.
-            self.spellsInPlay.append(spell)
-
-            # Set the current spell in play.
-            # TODO: Wait, does it actually make sense to have spellChildren if only one spell is in play..?
-            self.currentAttack = spell
+                # Adds the Spell object to a list remembering spells in play.
+                self.spellsInPlay.append(action)
 
         # Checks whether someone should get hit.
         def checkHit(self):

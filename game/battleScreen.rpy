@@ -42,11 +42,11 @@ screen battleScreen():
             vbox:
                 spacing -8
 
-                textbutton "Ally Regular Attack (5 - 10 damage)" action Function(m.attack, "ally", allyRegular)
-                textbutton "Ally Fast Attack (5 - 20 damage) (Costs 15 AP)" action Function(m.attack, "ally", allyFast)
-                textbutton "Ally Heavy Attack (20 - 30 damage) (Costs 35 AP)" action Function(m.attack, "ally", allyHeavy)
-                textbutton "Ally Snowflake Cluster" action Function(m.spell, "ally", allySpell)
-                textbutton "Enemy Regular Attack" action Function(m.attack, "enemy", enemyRegular)
+                textbutton "Ally Regular Attack (5 - 10 damage)" action Function(m.action, "ally", allyRegular)
+                textbutton "Ally Fast Attack (5 - 20 damage) (Costs 15 AP)" action Function(m.action, "ally", allyFast)
+                textbutton "Ally Heavy Attack (20 - 30 damage) (Costs 35 AP)" action Function(m.action, "ally", allyHeavy)
+                textbutton "Ally Snowflake Cluster" action Function(m.action, "ally", allySpell)
+                textbutton "Enemy Regular Attack" action Function(m.action, "enemy", enemyRegular)
 
     # Ally Character stats
     vbox:
