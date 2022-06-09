@@ -31,7 +31,6 @@ init -10 python:
             # - attack ------ In the middle of an Attack or Spell.
             # - idle -------- Inbetween turns.
             # - finished ---- When one Character is defeated.
-            # TODO: Currently, finished state is not working.
             self.state = "notStarted"
 
             # Time pause after a state is changed.
@@ -171,7 +170,6 @@ init -10 python:
                 # Display a message about an attack of one Character killed the other.
                 self.noticeManager.addNotice("An attack of {} has killed {}!".format(whoDied[0].name, whoDied[1].name), color = "000")
 
-                # TODO: Not working, the state stays idle.
                 self.setState("finished")
 
         # Renders all displayables held. Called with every renpy.redraw.
@@ -213,38 +211,36 @@ init -10 python:
         # Sets the state of BattleManager.
         def setState(self, state):
 
-            # If we're setting to anything but "finished":
-            if not state == "finished":
+            # If the game was already finished, ignore all this:
+            if self.state == "finished":
+                return None
 
-                # If we're setting it to "idle":
-                if state == "idle":
+            # If we're setting it to "idle":
+            if state == "idle":
 
-                    # Next if branch checks what the original state was.
+                # Next if branch checks what the original state was.
 
-                    # It was "attack":
-                    if self.state == "attack":
+                # It was "attack":
+                if self.state == "attack":
 
-                        # Check whether one of the Characters died.
-                        self.checkDeaths()
+                    # Check whether one of the Characters died.
+                    self.checkDeaths()
 
-                    # "It was started":
-                    elif self.state == "started":
+                # "It was started":
+                elif self.state == "started":
 
-                        # Message about battle starting.
-                        self.noticeManager.addNotice("Characters have entered the battle!", color = "000")
+                    # Message about battle starting.
+                    self.noticeManager.addNotice("Characters have entered the battle!", color = "000")
 
-                        # TODO: Likely more stuff here once I code more on states.
+                    # TODO: Likely more stuff here once I code more on states.
 
-                    self.currentAttack = None
+            self.currentAttack = None
+
+            # Set the new state, unless it became finished somewhere along the way, like in checkDeaths().
+            if not self.state == "finished":
 
                 # Set the new state.
                 self.state = state
-
-            # If we're setting the state to "finished":
-            if state == "finished":
-
-                # Reset all the info related to attacking.
-                self.currentAttack = None
 
         # Checks if AnimationChains of both Characters have finished.
         # This is used to determine whether the state should be set to "idle".
@@ -275,8 +271,9 @@ init -10 python:
 
                                     return None
 
-                            # If the current state is "started", i.e. characters were entering, or "attack", i.e. attack was happening:
-                            if self.state == "started" or self.state == "attack":
+                            # If the current state is "started", i.e. characters were entering, or "attack", i.e. attack was happening,
+                            # BUT the game hasn't finished yet.
+                            if (self.state == "started" or self.state == "attack"):
 
                                 # Set the state to "idle".
                                 self.setState("idle" )
