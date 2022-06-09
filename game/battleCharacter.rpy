@@ -162,4 +162,4 @@ init -15 python:
 
 # Characters defined.
 default playerCharacter = BattleCharacter( "Player Character", {"enter" : allySpawnChain, "hit" : allyHitChain, "death" : allyDeathChain}, 100.0 )
-default enemyCharacter = BattleCharacter( "Enemy Character", {"enter" : enemySpawnChain, "hit" : enemyHitFancyChain, "death" : enemyDeathChain}, 46.0 )
+# default enemyCharacter = BattleCharacter( "Enemy Character", {"enter" : enemySpawnChain, "hit" : enemyHitFancyChain, "death" : enemyDeathChain}, 46.0 )
