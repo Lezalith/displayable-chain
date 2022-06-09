@@ -17,7 +17,7 @@ init -10 python:
             self.enemyCharacter = enemy
 
             # Attack that's currently in play.
-            self.currentAttack = None
+            self.actionInPlay = None
 
             # List of Spells currently in play.
             self.spellsInPlay = []
@@ -35,10 +35,6 @@ init -10 python:
             # - enemyAttack -------
             # - finished ---- When one Character is defeated.
             self.state = "notStarted"
-
-            # Time pause after a state is changed.
-            # TODO: Currently not working.
-            self.statePauseDuration = 1.0
 
             # Whether controls are shown on screen.
             self.controlsShown = False
@@ -116,9 +112,7 @@ init -10 python:
                     # Message about battle starting.
                     self.noticeManager.addNotice("Characters have entered the battle!", color = "000")
 
-                    # TODO: Likely more stuff here once I code more on states.
-
-            self.currentAttack = None
+            self.actionInPlay = None
 
             # Set the new state, unless it became finished somewhere along the way, like in checkDeaths().
             if not self.state == "finished":
@@ -134,12 +128,12 @@ init -10 python:
         def checkHit(self):
 
             # Check whether the current Animation of attacking Character has a trigger and whether it's gone off.
-            if self.currentAttack.attacker.getChain().checkTrigger():
+            if self.actionInPlay.attacker.getChain().checkTrigger():
 
                 print("triggered trigger of defender from an attack.")
 
                 # Instigate the attacked Character to get hit.
-                self.currentAttack.defender.hit( self.currentAttack, self.noticeManager, self.currentAttack.defender.name )
+                self.actionInPlay.defender.hit( self.actionInPlay, self.noticeManager, self.actionInPlay.defender.name )
 
             # Check for hits from spells in play.
             for spell in self.spellsInPlay:
@@ -149,7 +143,7 @@ init -10 python:
                     print("triggered trigger of defender from a spell")
 
                     # Instigate the attacked Character to get hit.
-                    self.currentAttack.defender.hit( self.currentAttack, self.noticeManager, self.currentAttack.defender.name )
+                    self.actionInPlay.defender.hit( self.actionInPlay, self.noticeManager, self.actionInPlay.defender.name )
 
         # Begins the battle.
         def start(self):
@@ -186,10 +180,10 @@ init -10 python:
                         if self.enemyCharacter.getChain().finished:
 
                             # Check whether an attack is going on:
-                            if self.currentAttack is not None:
+                            if self.actionInPlay is not None:
 
                                 # Check whether the AnimationChain of the attack has finished as well:
-                                if not self.currentAttack.getChain().finished:
+                                if not self.actionInPlay.getChain().finished:
 
                                     return None
 
@@ -257,7 +251,7 @@ init -10 python:
 
             # Set the current attack in play.
             # TODO: Rename to currentAction or actionInPlay.
-            self.currentAttack = action
+            self.actionInPlay = action
 
             if action.type == "spell":
 
@@ -274,7 +268,7 @@ init -10 python:
             self.controlsShown = (True if self.state in self.statesAllowingControls else False)
 
             # Check if someone is attacking. If so, check if someone got hit.
-            if self.currentAttack is not None:
+            if self.actionInPlay is not None:
                 self.checkHit()
 
             # Checks if AnimationChains of both Characters have finished. This is used to determine whether the state should be set to "playerTurn".
