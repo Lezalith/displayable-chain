@@ -254,6 +254,11 @@ init -10 python:
                 # Set the new state.
                 self.state = state
 
+            if self.state == "enemyTurn":
+
+                self.playEnemyTurn()
+
+
         # Checks if AnimationChains of both Characters have finished.
         # This is used to determine whether the state should be set to "playerTurn".
         def checkFinishedChains(self):
@@ -294,8 +299,6 @@ init -10 python:
 
                                 # Set the state to "enemyTurn".
                                 self.setState("enemyTurn" )
-
-                                self.playEnemyTurn()
 
         # Triggered when an event happens - mouse movement, key press...
         def event(self, ev, x, y, st):
