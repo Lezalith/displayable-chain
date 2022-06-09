@@ -28,11 +28,6 @@ init -15 python:
             # This is basically the Displayable of this character.
             self.currentChain = None
 
-        def setChain(self, chain):
-
-            self.currentChain = chain
-            self.currentChain.beginChain()
-
         def learnAction(self, action):
 
             if action in self.knownActions:
@@ -44,6 +39,15 @@ init -15 python:
         def getKnownActions(self, type):
 
             return [action for action in self.knownActions if action.type == type]
+
+        def setChain(self, chain):
+
+            self.currentChain = chain
+            self.currentChain.beginChain()
+
+        # Get self.currentChain.
+        def getChain(self):
+            return self.currentChain
 
         # Trigger AnimationChain representing the entrance to the battle.
         def enter(self):
@@ -61,7 +65,7 @@ init -15 python:
             # Action costs AP
             if action.apCost > 0:
 
-                # If Character doesn't have enough AP to use the attack:
+                # If Character doesn't have enough AP to use the action:
                 if self.ap < action.apCost:
 
                     noticeManager.addNotice("{} doesn't have enough AP to use {}!".format(self.name, action.name), color = "000")
@@ -70,7 +74,7 @@ init -15 python:
             # Action costs MP
             elif action.mpCost > 0:
 
-                # If Character doesn't have enough MP to use the attack:
+                # If Character doesn't have enough MP to use the action:
                 if self.mp < action.mpCost:
 
                     noticeManager.addNotice("{} doesn't have enough MP to use {}!".format(self.name, action.name), color = "000")
@@ -111,11 +115,9 @@ init -15 python:
                 # Message about using this action.
                 noticeManager.addNotice("{} used {}!".format(self.name, action.name), color = "000")
 
-            return True
 
         # Trigger AnimationChain representing an attack, after dealing with the Attack's cost.
-        # TODO: FIX ATTACK/SPELL IN ARGUMENTS
-        # attack is an Attack object of the attack used.
+        # attack is a BattleAction object of the attack used.
         # noticeManager is an injection for displaying a message.
         def attack(self, attack, noticeManager):
 
@@ -125,7 +127,7 @@ init -15 python:
             self.setChain(attack.animationChain)
 
         # Trigger AnimationChain representing a Spell.
-        # attack is a Spell object of the spell used.
+        # attack is a BattleAction object of the spell used.
         # noticeManager is an injection for displaying a message.
         def spellCast(self, spell, noticeManager):
 
@@ -134,10 +136,10 @@ init -15 python:
             self.setChain(spell.getAssociatedChain())
 
         # Trigger AnimationChain representing getting hit.
-        def hit(self, attack, noticeManager, attackerName):
+        def hit(self, action, noticeManager, attackerName):
 
-            # Calculate how much damage the attack dealt.
-            damageDealt = attack.getDamage()
+            # Calculate how much damage the action dealt.
+            damageDealt = action.getDamage()
 
             # Apply the damage to HP.
             self.hp -= damageDealt
@@ -151,10 +153,6 @@ init -15 python:
         def died(self):
 
             self.setChain(self.chains["death"])
-
-        # Get self.currentChain.
-        def getChain(self):
-            return self.currentChain
 
         # How enemy acts during turns. Only in EnemyCharacter subclass.
         def enemyTurnAI(self):
