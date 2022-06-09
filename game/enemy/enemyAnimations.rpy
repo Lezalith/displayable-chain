@@ -1,4 +1,10 @@
 # Animations of Enemy Character.
+
+init -46:
+
+    define enemyIdlePosition = Transform( align = (0.7, 0.5) )
+    define enemyAttackPosition = Transform( align = (0.4, 0.5) )
+
 init -45 python:
 
     enterEnemy = Animation("wind dervish", enterTransEnemy, 1.5)

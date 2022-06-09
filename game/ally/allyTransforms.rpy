@@ -52,16 +52,6 @@ init -46:
         xoffset 0 align (0.3, 0.5)
         linear 1.5 xoffset - 1000
 
-    # TODO: spells.rpy
-    transform spellTransform():
-
-        yalign 0.5 xoffset -510
-        ease 0.8 xoffset 300
-        ease 0.8 xoffset 600
-        ease 0.8 xoffset 900
-        ease 0.8 xoffset 1200
-        ease 0.8 xoffset 1500
-
     transform snowflakeTransform():
         xoffset -1000 yoffset -1000 yalign 1.0
         pause 1.0
@@ -82,6 +72,15 @@ init -46:
     transform moveBackAfterSlideTrans():
         xalign 0.5 yalign 0.5
         linear 0.5 xalign 0.3
+        
+    transform spellTransform():
+
+        yalign 0.5 xoffset -510
+        ease 0.8 xoffset 300
+        ease 0.8 xoffset 600
+        ease 0.8 xoffset 900
+        ease 0.8 xoffset 1200
+        ease 0.8 xoffset 1500
 
 init -47 python:
 
