@@ -26,13 +26,13 @@ screen battleScreen():
 
     # Define a Battle Manager.
     # This is a CDD that controls the entire battle.
-    default m = BattleManager( ally = allyCharacter, enemy = enemyCharacter, noticeManager = noticeManager )
+    default m = BattleManager( player = playerCharacter, enemy = enemyCharacter, noticeManager = noticeManager )
 
     # Makeshift controls.
     vbox:
 
         if m.state == "notStarted":
-            textbutton "Spawn" action Function(m.start)
+            textbutton "Begin Battle" action Function(m.start)
 
         spacing 20
 
@@ -43,30 +43,30 @@ screen battleScreen():
             vbox:
                 spacing -8
 
-                for action in m.allyCharacter.knownActions:
+                for action in m.playerCharacter.knownActions:
 
-                    textbutton "Ally [action.name] ([action.damage[0]] - [action.damage[1]] damage, costs [action.apCost] AP and [action.mpCost] MP)":
-                        action Function(m.action, "ally", action)
+                    textbutton "Player [action.name] ([action.damage[0]] - [action.damage[1]] damage, costs [action.apCost] AP and [action.mpCost] MP)":
+                        action Function(m.action, "player", action)
 
                 # TODO: Can be changed to two separate for loops:
-                # for attack in m.allyCharacter.getKnownActions(type = "attack")
-                # for spell in m.allyCharacter.getKnownActions(type = "spell")
+                # for attack in m.playerCharacter.getKnownActions(type = "attack")
+                # for spell in m.playerCharacter.getKnownActions(type = "spell")
 
-                # textbutton "Ally Regular Attack (5 - 10 damage)" action Function(m.action, "ally", allyRegular)
-                # textbutton "Ally Fast Attack (5 - 20 damage) (Costs 15 AP)" action Function(m.action, "ally", allyFast)
-                # textbutton "Ally Heavy Attack (20 - 30 damage) (Costs 35 AP)" action Function(m.action, "ally", allyHeavy)
-                # textbutton "Ally Snowflake Cluster" action Function(m.action, "ally", allySpell)
+                # textbutton "Player Regular Attack (5 - 10 damage)" action Function(m.action, "player", playerRegular)
+                # textbutton "Player Fast Attack (5 - 20 damage) (Costs 15 AP)" action Function(m.action, "player", playerFast)
+                # textbutton "Player Heavy Attack (20 - 30 damage) (Costs 35 AP)" action Function(m.action, "player", playerHeavy)
+                # textbutton "Player Snowflake Cluster" action Function(m.action, "player", playerSpell)
 
                 null height 20
                 textbutton "Enemy Regular Attack" action Function(m.action, "enemy", enemyRegular)
 
-    # Ally Character stats
+    # Player Character stats
     vbox:
         align (0.0, 0.8)
 
-        text "Ally HP: [m.allyCharacter.hp]" color "000"
-        text "Ally AP: [m.allyCharacter.ap]" color "000"
-        text "Ally MP: [m.allyCharacter.mp]" color "000"
+        text "Player HP: [m.playerCharacter.hp]" color "000"
+        text "Player AP: [m.playerCharacter.ap]" color "000"
+        text "Player MP: [m.playerCharacter.mp]" color "000"
 
     # Enemy Character stats
     vbox:

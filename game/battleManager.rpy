@@ -7,13 +7,13 @@ init -10 python:
         # enemy is BattleCharacter, the opponent
         # TODO: Make these into lists for multiple participants in a battle!
         # noticeManager is an injection for displaying messages.
-        def __init__(self, ally, enemy, noticeManager, **kwargs):
+        def __init__(self, player, enemy, noticeManager, **kwargs):
 
             # Pass additional properties on to the renpy.Displayable constructor.
             super(BattleManager, self).__init__(**kwargs)
 
             # Participants of the battle.
-            self.allyCharacter = ally
+            self.playerCharacter = player
             self.enemyCharacter = enemy
 
             # Attack that's currently in play.
@@ -30,6 +30,9 @@ init -10 python:
             # - started ----- Battle started, characters entering.
             # - attack ------ In the middle of an Attack or Spell.
             # - playerTurn -------- Inbetween turns.
+            # - playerAttack ------ 
+            # - enemyTurn ---------
+            # - enemyAttack -------
             # - finished ---- When one Character is defeated.
             self.state = "notStarted"
 
@@ -49,7 +52,7 @@ init -10 python:
             self.setState("started")
 
             # Make both Characters enter.
-            self.allyCharacter.enter()
+            self.playerCharacter.enter()
             self.enemyCharacter.enter()
 
             # Trigger self.render, setting the battle into motion.
@@ -59,29 +62,29 @@ init -10 python:
         # Currently, it's only the two BattleCharacters.
         def getChildrenChains(self):
 
-            return [self.allyCharacter.getChain(), self.enemyCharacter.getChain()]
+            return [self.playerCharacter.getChain(), self.enemyCharacter.getChain()]
 
         def action(self, origin, action):
 
             # Ally is using the action:
-            if origin == "ally":
+            if origin == "player":
 
                 # If the Ally doesn't have enough AP or MP, end the function straight away.
-                if not self.allyCharacter.checkCost(action, self.noticeManager):
+                if not self.playerCharacter.checkCost(action, self.noticeManager):
                     return None
 
                 # Set info about the action inside the action object.
-                action.actionUsed(self.allyCharacter, self.enemyCharacter)
+                action.actionUsed(self.playerCharacter, self.enemyCharacter)
 
                 if action.type == "attack":
 
-                    # Instigate allyCharacter to attack. 
-                    self.allyCharacter.attack( action, self.noticeManager )
+                    # Instigate playerCharacter to attack. 
+                    self.playerCharacter.attack( action, self.noticeManager )
 
                 elif action.type == "spell":
 
-                    # Instigate allyCharacter to cast the spell.
-                    self.allyCharacter.spellCast( action, self.noticeManager )
+                    # Instigate playerCharacter to cast the spell.
+                    self.playerCharacter.spellCast( action, self.noticeManager )
 
                 # Update the state.
                 self.setState("playerAttack")
@@ -95,7 +98,7 @@ init -10 python:
                     return None
 
                 # Set info about the action inside the action object.
-                action.actionUsed(self.enemyCharacter, self.allyCharacter)
+                action.actionUsed(self.enemyCharacter, self.playerCharacter)
 
                 if action.type == "attack":
 
@@ -152,17 +155,17 @@ init -10 python:
             whoDied = None
 
             # If it's the Ally with HP below 0.
-            if self.allyCharacter.hp <= 0:
+            if self.playerCharacter.hp <= 0:
 
-                whoDied = (self.enemyCharacter, self.allyCharacter)
+                whoDied = (self.enemyCharacter, self.playerCharacter)
 
                 # Tell the Ally Character to die.
-                self.allyCharacter.died()
+                self.playerCharacter.died()
 
             # If it's the Enemy with HP below 0.
             elif self.enemyCharacter.hp <= 0:
 
-                whoDied = (self.allyCharacter, self.enemyCharacter)
+                whoDied = (self.playerCharacter, self.enemyCharacter)
 
                 # Tell the Enemy Character to die.
                 self.enemyCharacter.died()
@@ -254,11 +257,11 @@ init -10 python:
                 if spell.getChain().finished:
                     self.spellsInPlay.remove(spell)
 
-            # If the allyCharacter has a chain:
-            if self.allyCharacter.getChain() is not None:
+            # If the playerCharacter has a chain:
+            if self.playerCharacter.getChain() is not None:
 
                 # If it has finished:
-                if self.allyCharacter.getChain().finished:
+                if self.playerCharacter.getChain().finished:
 
                     # If the enemyCharacter has a chain:
                     if self.enemyCharacter.getChain() is not None:

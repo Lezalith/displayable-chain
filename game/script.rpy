@@ -11,7 +11,7 @@ label start:
         a = [allyRegular, allyFast, allyHeavy, allySpell]
 
         for action in a:
-            store.allyCharacter.learnAction(action)
+            store.playerCharacter.learnAction(action)
 
         enemyRegular = BattleAction("Regular Attack", enemyAttackChain, (3, 6), "attack")
 

@@ -161,5 +161,5 @@ init -15 python:
             return self.currentChain
 
 # Characters defined.
-default allyCharacter = BattleCharacter( "Ally Character", allySpawnChain, allyHitChain, allyDeathChain, 100.0 )
+default playerCharacter = BattleCharacter( "Player Character", allySpawnChain, allyHitChain, allyDeathChain, 100.0 )
 default enemyCharacter = BattleCharacter( "Enemy Character", enemySpawnChain, enemyHitFancyChain, enemyDeathChain, 46.0 )
