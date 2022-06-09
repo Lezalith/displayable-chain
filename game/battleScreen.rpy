@@ -47,6 +47,10 @@ screen battleScreen():
                     textbutton "Ally [action.name] ([action.damage[0]] - [action.damage[1]] damage, costs [action.apCost] AP and [action.mpCost] MP)":
                         action Function(m.action, "ally", action)
 
+                # TODO: Can be changed to two separate for loops:
+                # for attack in m.allyCharacter.getKnownActions(type = "attack")
+                # for spell in m.allyCharacter.getKnownActions(type = "spell")
+
                 # textbutton "Ally Regular Attack (5 - 10 damage)" action Function(m.action, "ally", allyRegular)
                 # textbutton "Ally Fast Attack (5 - 20 damage) (Costs 15 AP)" action Function(m.action, "ally", allyFast)
                 # textbutton "Ally Heavy Attack (20 - 30 damage) (Costs 35 AP)" action Function(m.action, "ally", allyHeavy)

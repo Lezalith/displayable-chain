@@ -44,6 +44,11 @@ init -15 python:
 
             self.knownActions.append(action)
 
+        # Return a list of known Actions with the given type.
+        def getKnownActions(self, type):
+
+            return [action for action in self.knownActions if action.type == type]
+
         # Trigger AnimationChain representing the entrance to the battle.
         def enter(self):
 
