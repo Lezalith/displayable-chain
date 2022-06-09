@@ -40,28 +40,66 @@ init -15 python:
 
             self.setChain(self.enterChain)
 
+        # Checks whether the Character can afford a BattleAction.
+        # If they can, the cost is applied and True is returned.
+        # If not, False is returned.
+        # Message is displayed in both cases.
+        #
+        # action is a BattleAction.
+        # noticeManager is an injection for displaying a message.
+        def checkCost(self, action, noticeManager):
+
+            # TODO: hpCost could be easily made!
+            # TODO: So could be actions with BOTH apCost and mpCost.
+
+            # Action costs AP
+            if action.apCost > 0:
+
+                # If Character doesn't have enough AP to use the attack:
+                if self.ap < action.apCost:
+
+                    renpy.notify("Not enough AP!")
+                    return False
+
+                # Apply AP cost.
+                self.ap -= action.apCost
+
+                # Message about spending MP to use this Action.
+                noticeManager.addNotice("{} spent {} AP to use {}!".format(self.name, action.apCost, action.name), color = "000")
+
+            # Action costs MP
+            elif action.mpCost > 0:
+
+                # If Character doesn't have enough AP to use the attack:
+                if self.mp < action.mpCost:
+
+                    renpy.notify("Not enough MP!")
+                    return False
+
+                # Apply AP cost.
+                self.mp -= action.mpCost
+
+                # Message about spending MP to use this Action.
+                noticeManager.addNotice("{} spent {} Mana to use {}!".format(self.name, action.mpCost, action.name), color = "000")
+
+            # Action doesn't cost either.
+            else:
+
+                # Message about using this action.
+                noticeManager.addNotice("{} used {}!".format(self.name, action.name), color = "000")
+
+            return True
+
         # Trigger AnimationChain representing an attack, after dealing with the Attack's cost.
-        # TODO: Um... Why, exactly, am I mixing dealing with cost when this is just... Supposed to start the chain? Actually, why don't I make a universal function for starting chains??
+        # TODO: FIX ATTACK/SPELL IN ARGUMENTS
         # attack is an Attack object of the attack used.
         # noticeManager is an injection for displaying a message.
         def attack(self, attack, noticeManager):
 
-            # If the attack has an AP cost:
-            if attack.apCost:
-
-                # If Character doesn't have enough AP to use the attack:
-                if self.ap < attack.apCost:
-
-                    return renpy.notify("Not enough AP!")
-
-                # Apply AP cost.
-                self.ap -= attack.apCost
-
-                # Message about spending SP to use this Attack.
-                noticeManager.addNotice("{} spent {} Ability Points to use {}!".format(self.name, attack.apCost, attack.name), color = "000")
+            if not self.checkCost(attack, noticeManager):
+                return None
 
             # Chain to use is taken from the Attack object.
-
             self.setChain(attack.animationChain)
 
         # Trigger AnimationChain representing a Spell.
@@ -69,24 +107,8 @@ init -15 python:
         # noticeManager is an injection for displaying a message.
         def spellCast(self, spell, noticeManager):
 
-            # If the spell has a MP cost:
-            if spell.mpCost:
-
-                # If Character doesn't have enough AP to use the attack:
-                if self.mp < spell.mpCost:
-
-                    return renpy.notify("Not enough MP!")
-
-                # Apply AP cost.
-                self.mp -= spell.mpCost
-
-                # Message about spending MP to cast this spell.
-                noticeManager.addNotice("{} spent {} Mana to cast {}!".format(self.name, spell.mpCost, spell.name), color = "000")
-
-            else:
-
-                # Message about casting this Spell.
-                noticeManager.addNotice("{} cast {}!".format(self.name, spell.name), color = "000")
+            if not self.checkCost(spell, noticeManager):
+                return None
 
             self.setChain(spell.getAssociatedChain())
 
