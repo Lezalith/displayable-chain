@@ -59,8 +59,7 @@ init -15 python:
         # noticeManager is an injection for displaying a message.
         def checkCost(self, action, noticeManager):
 
-            # TODO: hpCost could be easily made!
-            # TODO: So could be actions with BOTH apCost and mpCost.
+            # TODO: Maybe actions with BOTH apCost and mpCost?
 
             # Action costs AP
             if action.apCost > 0:
@@ -80,6 +79,14 @@ init -15 python:
                     noticeManager.addNotice("{} doesn't have enough MP to use {}!".format(self.name, action.name), color = "000")
                     return False 
 
+            elif action.hpCost > 0:
+
+                # If Character doesn't have enough MP to use the action:
+                if self.hp < action.hpCost:
+
+                    noticeManager.addNotice("Casting {} would reduce {}'s HP below 0!".format(action.name, self.name), color = "000")
+                    return False 
+
             return True
 
         # Applies the AP or MP cost and displays a message about using the action.
@@ -88,8 +95,7 @@ init -15 python:
         # noticeManager is an injection for displaying a message.
         def applyCost(self, action, noticeManager):
 
-            # TODO: hpCost could be easily made!
-            # TODO: So could be actions with BOTH apCost and mpCost.
+            # TODO: Maybe actions with BOTH apCost and mpCost?
 
             # Action costs AP
             if action.apCost > 0:
@@ -108,6 +114,15 @@ init -15 python:
 
                 # Message about spending MP to use this Action.
                 noticeManager.addNotice("{} spent {} Mana to use {}!".format(self.name, action.mpCost, action.name), color = "000")
+
+            # Action costs HP
+            elif action.hpCost > 0:
+
+                # Apply AP cost.
+                self.hp -= action.hpCost
+
+                # Message about spending MP to use this Action.
+                noticeManager.addNotice("{} sacrificed {} HP to use {}!".format(self.name, action.hpCost, action.name), color = "000")
 
             # Action doesn't cost either.
             else:
