@@ -136,7 +136,6 @@ init -20 python:
                             print("Triggering a hit at {}.".format(self.st))
 
                             # Advance the pointer to the next trigger.
-                            # TODO: Maybe put this outside of here? Slightly off to have this in a check function.
                             self.currentAnimation.advancePointer()
 
                             # Something triggers.

@@ -128,7 +128,7 @@ init -10 python:
         def checkHit(self):
 
             # Check whether the current Animation of attacking Character has a trigger and whether it's gone off.
-            if self.actionInPlay.attacker.getChain().checkTrigger():
+            if self.actionInPlay.attacker.getChain().tryForTrigger():
 
                 print("triggered trigger of defender from an attack.")
 
@@ -138,7 +138,7 @@ init -10 python:
             # Check for hits from spells in play.
             for spell in self.spellsInPlay:
 
-                if spell.getChain().checkTrigger():
+                if spell.getChain().tryForTrigger():
 
                     print("triggered trigger of defender from a spell")
 
