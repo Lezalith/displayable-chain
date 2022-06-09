@@ -40,7 +40,7 @@ init -10 python:
             # Whether controls are shown on screen.
             self.controlsShown = False
             # States in which controls are shown.
-            self.statesAllowingControls = ["playerTurn"]
+            self.statesAllowingControls = ["playerTurn", "enemyTurn"]
 
         # Begins the battle.
         def start(self):
@@ -83,6 +83,9 @@ init -10 python:
                     # Instigate allyCharacter to cast the spell.
                     self.allyCharacter.spellCast( action, self.noticeManager )
 
+                # Update the state.
+                self.setState("playerAttack")
+
             # Enemy is using the action:
             elif origin == "enemy":
 
@@ -104,8 +107,8 @@ init -10 python:
                     # Instigate enemyCharacter to cast the spell.
                     self.enemyCharacter.spellCast( action, self.noticeManager )
 
-            # Update the state.
-            self.setState("attack")
+                # Update the state.
+                self.setState("enemyAttack")
 
             # Set the current attack in play.
             # TODO: Rename to currentAction or actionInPlay.
@@ -214,12 +217,14 @@ init -10 python:
                 return None
 
             # If we're setting it to "playerTurn":
-            if state == "playerTurn":
+            if state in ["playerTurn", "enemyTurn"]:
 
                 # Next if branch checks what the original state was.
 
                 # It was "attack":
-                if self.state == "attack":
+                if self.state in ["playerAttack", "enemyAttack"]:
+
+                    print("Checking deaths.")
 
                     # Check whether one of the Characters died.
                     self.checkDeaths()
@@ -271,10 +276,15 @@ init -10 python:
 
                             # If the current state is "started", i.e. characters were entering, or "attack", i.e. attack was happening,
                             # BUT the game hasn't finished yet.
-                            if (self.state == "started" or self.state == "attack"):
+                            if (self.state == "started" or self.state == "enemyAttack"):
 
                                 # Set the state to "playerTurn".
                                 self.setState("playerTurn" )
+
+                            elif self.state == "playerAttack":
+
+                                # Set the state to "enemyTurn".
+                                self.setState("enemyTurn" )
 
         # Triggered when an event happens - mouse movement, key press...
         def event(self, ev, x, y, st):
