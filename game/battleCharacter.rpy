@@ -25,15 +25,24 @@ init -15 python:
             self.mp = 100.0
             self.ap = 100.0
 
+            # Attacks the Character can use.
+            self.knownActions = []
+
             # Current AnimationChain used.
             # This is basically the Displayable of this character.
             self.currentChain = None
-
 
         def setChain(self, chain):
 
             self.currentChain = chain
             self.currentChain.beginChain()
+
+        def learnAction(self, action):
+
+            if action in self.knownActions:
+                return renpy.notify("{} already knows how to use {}.".format(self.name, action.name))
+
+            self.knownActions.append(action)
 
         # Trigger AnimationChain representing the entrance to the battle.
         def enter(self):
