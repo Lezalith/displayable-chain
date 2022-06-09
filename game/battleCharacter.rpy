@@ -40,11 +40,7 @@ init -15 python:
 
             self.setChain(self.enterChain)
 
-        # Checks whether the Character can afford a BattleAction.
-        # If they can, the cost is applied and True is returned.
-        # If not, False is returned.
-        # Message is displayed in both cases.
-        #
+        # Returns False if not enough AP or MP to use, and True otherwise.
         # action is a BattleAction.
         # noticeManager is an injection for displaying a message.
         def checkCost(self, action, noticeManager):
@@ -58,8 +54,31 @@ init -15 python:
                 # If Character doesn't have enough AP to use the attack:
                 if self.ap < action.apCost:
 
-                    renpy.notify("Not enough AP!")
+                    noticeManager.addNotice("{} doesn't have enough AP to use {}!".format(self.name, action.name), color = "000")
                     return False
+
+            # Action costs MP
+            elif action.mpCost > 0:
+
+                # If Character doesn't have enough MP to use the attack:
+                if self.mp < action.mpCost:
+
+                    noticeManager.addNotice("{} doesn't have enough MP to use {}!".format(self.name, action.name), color = "000")
+                    return False 
+
+            return True
+
+        # Applies the AP or MP cost and displays a message about using the action.
+        # Should always be under an if of self.checkCost()
+        # action is a BattleAction.
+        # noticeManager is an injection for displaying a message.
+        def applyCost(self, action, noticeManager):
+
+            # TODO: hpCost could be easily made!
+            # TODO: So could be actions with BOTH apCost and mpCost.
+
+            # Action costs AP
+            if action.apCost > 0:
 
                 # Apply AP cost.
                 self.ap -= action.apCost
@@ -69,12 +88,6 @@ init -15 python:
 
             # Action costs MP
             elif action.mpCost > 0:
-
-                # If Character doesn't have enough AP to use the attack:
-                if self.mp < action.mpCost:
-
-                    renpy.notify("Not enough MP!")
-                    return False
 
                 # Apply AP cost.
                 self.mp -= action.mpCost
@@ -96,8 +109,7 @@ init -15 python:
         # noticeManager is an injection for displaying a message.
         def attack(self, attack, noticeManager):
 
-            if not self.checkCost(attack, noticeManager):
-                return None
+            self.applyCost(attack, noticeManager)
 
             # Chain to use is taken from the Attack object.
             self.setChain(attack.animationChain)
@@ -107,8 +119,7 @@ init -15 python:
         # noticeManager is an injection for displaying a message.
         def spellCast(self, spell, noticeManager):
 
-            if not self.checkCost(spell, noticeManager):
-                return None
+            self.applyCost(spell, noticeManager)
 
             self.setChain(spell.getAssociatedChain())
 
