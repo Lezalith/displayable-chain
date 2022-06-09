@@ -64,6 +64,12 @@ init -10 python:
 
             return [self.playerCharacter.getChain(), self.enemyCharacter.getChain()]
 
+        def playEnemyTurn(self):
+
+            ai = self.enemyCharacter.enemyTurnAI()
+
+            self.action(origin = "enemy", action = ai)
+
         def action(self, origin, action):
 
             # Ally is using the action:
@@ -288,6 +294,8 @@ init -10 python:
 
                                 # Set the state to "enemyTurn".
                                 self.setState("enemyTurn" )
+
+                                self.playEnemyTurn()
 
         # Triggered when an event happens - mouse movement, key press...
         def event(self, ev, x, y, st):
