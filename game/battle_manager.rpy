@@ -3,9 +3,10 @@ init -10 python:
     # Controls the entire Battle.
     class BattleManager(renpy.Displayable):
 
-        # ally is BattleCharacter, the player
-        # enemy is BattleCharacter, the opponent
-        # TODO: Make these into lists for multiple participants in a battle!
+        # TODO: Make player and enemy into lists for multiple participants in a battle!
+
+        # player is a BattleCharacter, the player
+        # enemy is a BattleCharacter, the opponent
         # noticeManager is an injection for displaying messages.
         def __init__(self, player, enemy, noticeManager, **kwargs):
 
@@ -25,14 +26,17 @@ init -10 python:
             # NoticeManager for displaying messages.
             self.noticeManager = noticeManager
 
+            # TODO: Rename states:
+            # - "playerAttack" to "playerAction"
+            # - "enemyAttack" to "enemyAction"
+
             # Current state of the BattleManager. Current states include:
             # - notStarted -- Before the battle begins.
             # - started ----- Battle started, characters entering.
-            # - attack ------ In the middle of an Attack or Spell.
-            # - playerTurn -------- Inbetween turns.
-            # - playerAttack ------ 
-            # - enemyTurn ---------
-            # - enemyAttack -------
+            # - playerTurn -------- Player's interaction.
+            # - playerAttack ------ Player's Action playing out.
+            # - enemyTurn --------- Enemy's moment when their Action is chosen.
+            # - enemyAttack ------- Enemy's Action playing out.
             # - finished ---- When one Character is defeated.
             self.state = "notStarted"
 
@@ -314,7 +318,10 @@ init -10 python:
         # Honestly not sure what this does, but it needs to return all displayables rendered.
         def visit(self):
 
+            # Spell Chains 
             allChildren = [spell.getChain() for spell in self.spellsInPlay]
+
+            # Player and Enemy Chains
             allChildren.extend(self.getChildrenChains())
 
             return allChildren

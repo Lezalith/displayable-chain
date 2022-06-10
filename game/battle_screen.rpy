@@ -11,7 +11,6 @@ style battleScreenStyles_button_text:
 style battleScreennStyles_text:
     color "000"
 
-
 screen battleScreen():
 
     # Use styles.
@@ -30,11 +29,11 @@ screen battleScreen():
 
     # Makeshift controls.
     vbox:
+        spacing 20
 
+        # Button to start a battle, only if not already started.
         if m.state == "notStarted":
             textbutton "Begin Battle" action Function(m.start)
-
-        spacing 20
 
         # Controls are hidden during Enters, Attacks or Spells.
         showif m.controlsShown:
@@ -43,6 +42,7 @@ screen battleScreen():
             vbox:
                 spacing -8
 
+                # Loop showing all usable Actions on player's turn.
                 for action in m.playerCharacter.knownActions:
 
                     textbutton "Player [action.name] ([action.damage[0]] - [action.damage[1]] damage, costs [action.apCost] AP and [action.mpCost] MP)":
@@ -51,11 +51,6 @@ screen battleScreen():
                 # TODO: Can be changed to two separate for loops:
                 # for attack in m.playerCharacter.getKnownActions(type = "attack")
                 # for spell in m.playerCharacter.getKnownActions(type = "spell")
-
-                # textbutton "Player Regular Attack (5 - 10 damage)" action Function(m.action, "player", playerRegular)
-                # textbutton "Player Fast Attack (5 - 20 damage) (Costs 15 AP)" action Function(m.action, "player", playerFast)
-                # textbutton "Player Heavy Attack (20 - 30 damage) (Costs 35 AP)" action Function(m.action, "player", playerHeavy)
-                # textbutton "Player Snowflake Cluster" action Function(m.action, "player", playerSpell)
 
                 null height 20
                 textbutton "Enemy Regular Attack" action Function(m.action, "enemy", enemyRegular)
@@ -79,6 +74,7 @@ screen battleScreen():
     # Add NoticeManager.
     add noticeManager
 
+    # Debug - Text of BattleManager.state.
     text "[m.state]" align (1.0, 1.0) color "000"
 
     # Add BattleManager.

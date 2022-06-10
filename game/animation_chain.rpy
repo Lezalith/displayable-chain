@@ -113,7 +113,11 @@ init -20 python:
                 self.finished = True
 
         # Checks for triggers inside of self.currentAnimation.
-        def checkTrigger(self):
+        # Returns True if:
+        # - The Animation has a trigger, and has at least one more remaining
+        # - The st has gone past the trigger time.
+        # If True, also advances the pointer to triggers in the Animation.
+        def tryForTrigger(self):
 
             # If there is a currentAnimation (None if the Chain is not active):
             if self.currentAnimation is not None:

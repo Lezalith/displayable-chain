@@ -6,14 +6,17 @@ init -15 python:
     class BattleCharacter():
 
         # name is a string.
-        # dictOfChains is a dictionary. Keys are keywords, values are chains.
-        # Valid keywords are: "enter", "hit", "death"
+        # dictOfChains is a dictionary. Keys are keywords, values are AnimationChains. Valid keywords are:
+        # - "enter" - Chain used for entering the battle.
+        # - "hit" - Chain used for getting hit.
+        # - "death" - Chain used for death/exiting the battle.
         # hp is the starting health of the Character.
         def __init__(self, name, dictOfChains, hp):
 
             # Name of the Character.
             self.name = name
 
+            # Chains the Character uses.
             self.chains = dictOfChains
 
             # Stats
@@ -21,31 +24,36 @@ init -15 python:
             self.mp = 100.0
             self.ap = 100.0
 
-            # Attacks the Character can use.
+            # BattleActions the Character can use.
+            # None by default, all have to be added with learnAction().
             self.knownActions = []
 
             # Current AnimationChain used.
-            # This is basically the Displayable of this character.
+            # This is basically the Displayable representing this character.
             self.currentChain = None
 
+        # Adds a BattleAction to knownActions so that it can be used. 
         def learnAction(self, action):
 
+            # If the Action is already present. Currently has a notify, might be ignored later.
             if action in self.knownActions:
                 return renpy.notify("{} already knows how to use {}.".format(self.name, action.name))
 
             self.knownActions.append(action)
 
         # Return a list of known Actions with the given type.
+        # Types listed in battle_actions.rpy.
         def getKnownActions(self, type):
 
             return [action for action in self.knownActions if action.type == type]
 
+        # Sets the currentChain to chain and begins it.
         def setChain(self, chain):
 
             self.currentChain = chain
             self.currentChain.beginChain()
 
-        # Get self.currentChain.
+        # Get the currentChain.
         def getChain(self):
             return self.currentChain
 
@@ -54,12 +62,14 @@ init -15 python:
 
             self.setChain(self.chains["enter"])
 
-        # Returns False if not enough AP or MP to use, and True otherwise.
+        # Returns False if not enough AP, MP or HP to use, and True otherwise.
         # action is a BattleAction.
         # noticeManager is an injection for displaying a message.
         def checkCost(self, action, noticeManager):
 
             # TODO: Maybe actions with BOTH apCost and mpCost?
+
+            # TODO: addNotice("Character is missing {} AP/MP to use {}!")
 
             # Action costs AP
             if action.apCost > 0:
@@ -79,17 +89,19 @@ init -15 python:
                     noticeManager.addNotice("{} doesn't have enough MP to use {}!".format(self.name, action.name), color = "000")
                     return False 
 
+            # Action costs HP
             elif action.hpCost > 0:
 
-                # If Character doesn't have enough MP to use the action:
+                # If Character's would go below 0 upon using the action:
                 if self.hp < action.hpCost:
 
                     noticeManager.addNotice("Casting {} would reduce {}'s HP below 0!".format(action.name, self.name), color = "000")
                     return False 
 
+            # The Character has everything they need to use this Action.
             return True
 
-        # Applies the AP or MP cost and displays a message about using the action.
+        # Applies the AP, MP or HP cost and displays a message about using the action.
         # Should always be under an if of self.checkCost()
         # action is a BattleAction.
         # noticeManager is an injection for displaying a message.
@@ -121,7 +133,7 @@ init -15 python:
                 # Apply AP cost.
                 self.hp -= action.hpCost
 
-                # Message about spending MP to use this Action.
+                # Message about sacrificing HP to use this Action.
                 noticeManager.addNotice("{} sacrificed {} HP to use {}!".format(self.name, action.hpCost, action.name), color = "000")
 
             # Action doesn't cost either.
@@ -129,7 +141,6 @@ init -15 python:
 
                 # Message about using this action.
                 noticeManager.addNotice("{} used {}!".format(self.name, action.name), color = "000")
-
 
         # Trigger AnimationChain representing an attack, after dealing with the Attack's cost.
         # attack is a BattleAction object of the attack used.
@@ -169,7 +180,7 @@ init -15 python:
 
             self.setChain(self.chains["death"])
 
-        # How enemy acts during turns. Only in EnemyCharacter subclass.
+        # How enemy acts during turns. Overwritten by EnemyCharacter subclass.
         def enemyTurnAI(self):
             pass 
 
