@@ -12,7 +12,7 @@ init -50 python:
     # trigger is False by default. True marks it for Manager to trigger an action.
     # triggerDelays is a list of delays of triggering trigger action.
 
-    class Animation():
+    class BattleAnimation():
 
         def __init__(self, image, transform, duration, trigger = False, triggerDelays = []):
 

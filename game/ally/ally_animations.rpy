@@ -17,24 +17,24 @@ init -46:
 # Animations of Player Character.
 init -45 python:
 
-    spellAnimation = Animation("snowflakeStorm", snowflakeTransform, 1.4, trigger = True, triggerDelays = [1.15])
+    spellAnimation = BattleAnimation("snowflakeStorm", snowflakeTransform, 1.4, trigger = True, triggerDelays = [1.15])
 
-    slidePause = Animation("allyIdle", slidePauseTrans, 0.3)
-    slide = Animation("allySlide", slideTrans, 0.8)
-    slideFinish = Animation("allySlideFinish", slideFinishTrans, 0.1)
-    moveBackAfterSlide = Animation("allyRunBack", moveBackAfterSlideTrans, 0.5)
+    slidePause = BattleAnimation("allyIdle", slidePauseTrans, 0.3)
+    slide = BattleAnimation("allySlide", slideTrans, 0.8)
+    slideFinish = BattleAnimation("allySlideFinish", slideFinishTrans, 0.1)
+    moveBackAfterSlide = BattleAnimation("allyRunBack", moveBackAfterSlideTrans, 0.5)
 
-    enter = Animation("allyRunForward", enterTrans, 1.0)
+    enter = BattleAnimation("allyRunForward", enterTrans, 1.0)
 
-    idle = Animation("allyIdle", idleTrans, 0)
+    idle = BattleAnimation("allyIdle", idleTrans, 0)
 
-    moveForward = Animation("allyRunForward", moveForwardTrans, 1.0)
-    moveBack = Animation("allyRunBack", moveBackTrans, 1.0)
+    moveForward = BattleAnimation("allyRunForward", moveForwardTrans, 1.0)
+    moveBack = BattleAnimation("allyRunBack", moveBackTrans, 1.0)
 
-    attack = Animation("allyAttackMedium", playerAttackPosition, 0.6, trigger = True, triggerDelays = [0.2])
-    attackFast = Animation("allyAttackQuick", playerAttackPosition, 0.4, trigger = True, triggerDelays = [0.1])
-    attackHeavy = Animation("allyAttackHeavy", playerAttackPosition, 1.0, trigger = True, triggerDelays = [0.18, 0.6])
+    attack = BattleAnimation("allyAttackMedium", playerAttackPosition, 0.6, trigger = True, triggerDelays = [0.2])
+    attackFast = BattleAnimation("allyAttackQuick", playerAttackPosition, 0.4, trigger = True, triggerDelays = [0.1])
+    attackHeavy = BattleAnimation("allyAttackHeavy", playerAttackPosition, 1.0, trigger = True, triggerDelays = [0.18, 0.6])
 
-    hit = Animation("allyHit", playerIdlePosition, 0.1)
+    hit = BattleAnimation("allyHit", playerIdlePosition, 0.1)
 
-    death = Animation("allyRunBack", deathTrans, 1.5)
+    death = BattleAnimation("allyRunBack", deathTrans, 1.5)
