@@ -14,7 +14,7 @@ init -50 python:
 
     class BattleAnimation():
 
-        def __init__(self, image, transform, duration, trigger = False, triggerDelays = []):
+        def __init__(self, image, transform, duration, trigger = False, triggerDelays = [], filmstrip = False):
 
             # Info about the Animation
             self.image = image
@@ -25,11 +25,19 @@ init -50 python:
             self.trigger = trigger
             self.triggerDelays = triggerDelays
 
+            # TODO: Filmstrip.
+            self.filmstrip = filmstrip
+            # If True, "image" should be a file, and putTogetherStrip is used at getChild. (???)
+
             if len(self.triggerDelays) == 0 and self.trigger:
                 raise Exception("Animation has a trigger but no trigger delays.")
 
             # Pointing at the current delay from self.triggerDelays.
             self.delayPointer = 0
+
+        def putTogetherStrip(self):
+
+            return anim.Filmstrip(self.image, framesize = (120, 80), gridsize = (6, 1), delay = 0.1, loop = False)
 
         # Returns the Animation, self.image at self.transform.
         def getChild(self):
@@ -44,6 +52,9 @@ init -50 python:
             # print("Animation got reset.")
 
             self.delayPointer = 0
+
+            if self.filmstrip:
+                self.image = self.putTogetherStrip()
 
         # If the pointer can advance.
         # False if it would go outside of the triggerDelays list.

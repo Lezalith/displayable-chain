@@ -16,9 +16,9 @@ init -46:
 
     define sizeTrans = Transform( xysize = (200, 200) )
 
-    # image allyAttackMedium = At( anim.Filmstrip("images/allyAttackMedium.png", framesize = (120, 80), gridsize = (6, 1), delay = 0.1), sizeTrans) 
-    image allyAttackQuick = At( anim.Filmstrip("images/allyAttackQuick.png", framesize = (120, 80), gridsize = (4, 1), delay = 0.1), sizeTrans) 
-    image allyAttackHeavy = At( anim.Filmstrip("images/allyAttackHeavy.png", framesize = (120, 80), gridsize = (10, 1), delay = 0.1), sizeTrans) 
+    # image allyAttackMedium = At( anim.Filmstrip("images/allyAttackMedium.png", framesize = (120, 80), gridsize = (6, 1), delay = 0.1, loop = False), sizeTrans) 
+    image allyAttackQuick = At( anim.Filmstrip("images/allyAttackQuick.png", framesize = (120, 80), gridsize = (4, 1), delay = 0.1, loop = False), sizeTrans) 
+    image allyAttackHeavy = At( anim.Filmstrip("images/allyAttackHeavy.png", framesize = (120, 80), gridsize = (10, 1), delay = 0.1, loop = False), sizeTrans) 
 
 # Animations of Player Character.
 init -45 python:
@@ -37,7 +37,7 @@ init -45 python:
     moveForward = BattleAnimation("allyRunForward", moveForwardTrans, 1.0)
     moveBack = BattleAnimation("allyRunBack", moveBackTrans, 1.0)
 
-    attack = BattleAnimation("allyAttackMedium", playerAttackPosition, 0.6, trigger = True, triggerDelays = [0.4])
+    attack = BattleAnimation("images/allyAttackMedium.png", playerAttackPosition, 0.6, trigger = True, triggerDelays = [0.4], filmstrip = True)
     attackFast = BattleAnimation("allyAttackQuick", playerAttackPosition, 0.4, trigger = True, triggerDelays = [0.2])
     attackHeavy = BattleAnimation("allyAttackHeavy", playerAttackPosition, 1.0, trigger = True, triggerDelays = [0.18, 0.6])
 
