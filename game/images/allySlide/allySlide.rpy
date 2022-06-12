@@ -4,7 +4,3 @@ image allySlide:
     pause 0.1
     "images/allySlide/allySlide1.png"
     pause 0.1
-    "images/allySlide/allySlide2.png"
-    pause 0.1
-    "images/allySlide/allySlide3.png"
-    pause 0.1

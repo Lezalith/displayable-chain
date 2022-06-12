@@ -20,3 +20,4 @@ image allyRunForward:
     pause 0.1
     "images/allyRun/allyRun9.png"
     pause 0.1
+    repeat

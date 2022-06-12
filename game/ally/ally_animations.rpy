@@ -37,8 +37,8 @@ init -45 python:
     moveForward = BattleAnimation("allyRunForward", moveForwardTrans, 1.0)
     moveBack = BattleAnimation("allyRunBack", moveBackTrans, 1.0)
 
-    attack = BattleAnimation("allyAttackMedium", playerAttackPosition, 0.6, trigger = True, triggerDelays = [0.4])
-    attackFast = BattleAnimation("allyAttackQuick", playerAttackPosition, 0.4, trigger = True, triggerDelays = [0.2])
+    attack = BattleAnimation("allyAttackMedium", playerAttackPosition, 0.6, trigger = True, triggerDelays = [0.3])
+    attackFast = BattleAnimation("allyAttackQuick", playerAttackPosition, 0.4, trigger = True, triggerDelays = [0.1])
     attackHeavy = BattleAnimation("allyAttackHeavy", playerAttackPosition, 1.0, trigger = True, triggerDelays = [0.18, 0.6])
 
     hit = BattleAnimation("allyHit", playerIdlePosition, 0.1)
